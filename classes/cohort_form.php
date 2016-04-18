@@ -41,7 +41,7 @@ class cohort_form extends \moodleform {
         $mform = $this->_form;
         $cohorts = $this->_customdata['cohorts'];
 
-        $mform->addElement('html', \html_writer::tag('p', get_string('cohortsintro', 'local_profilecohort')));
+        $mform->addElement('html', \html_writer::tag('div', get_string('cohortsintro', 'local_profilecohort'), array('id' => 'intro', 'class' => 'box generalbox')));
 
         if (!$cohorts) {
             $cohorturl = new \moodle_url('/cohort/index.php');
