@@ -31,13 +31,16 @@ require_once($CFG->libdir.'/adminlib.php');
 $url = new moodle_url('/local/profilecohort/cohorts.php');
 admin_externalpage_setup('local_profilecohort', '', null, $url);
 
-$title = get_string('selectcohorts', 'local_profilecohort');
-$PAGE->set_title($title);
-$PAGE->set_heading($title);
+$title = get_string('pluginname', 'local_profilecohort');
+$page = get_string('selectcohorts', 'local_profilecohort');
+$PAGE->set_title($title.' - '.$page);
+$PAGE->set_heading($title.' - '.$page);
 
 $manager = new profilecohort();
 $manager->process_cohort_form();
 
 echo $OUTPUT->header();
+echo $OUTPUT->heading($title);
+echo $OUTPUT->heading($page, 3);
 echo $manager->output_cohort_form();
 echo $OUTPUT->footer();
