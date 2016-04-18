@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Language strings
+ * Local plugin "Profile field based cohort membership" - Language pack
  *
  * @package   local_profilecohort
- * @copyright 2016 Davo Smith, Synergy Learning
+ * @copyright 2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -37,7 +37,7 @@ $string['matchtype'] = 'Match type';
 $string['matchvalue'] = 'Match value';
 $string['nocohorts'] = 'There are no cohorts available for use by this plugin - please visit {$a} to create some cohorts';
 $string['nofields'] = 'No custom profile fields have been defined';
-$string['pluginname'] = 'Profile cohort';
+$string['pluginname'] = 'Profile field based cohort membership';
 $string['selectcohorts'] = 'Select cohorts for this plugin to manage';
 $string['selectvalue'] = 'the user will be added to cohort';
 $string['updatecohorts'] = 'Update cohorts from profile fields';

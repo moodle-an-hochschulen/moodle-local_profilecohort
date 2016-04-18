@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form to edit the profile field rules
+ * Local plugin "Profile field based cohort membership" - Form to edit the profile field rules
  *
  * @package   local_profilecohort
- * @copyright 2016 Davo Smith, Synergy Learning
+ * @copyright 2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
