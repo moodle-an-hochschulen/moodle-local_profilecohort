@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016022402;
-$plugin->requires  = 2015051100; // Moodle 2.9+.
 $plugin->component = 'local_profilecohort';
-$plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '2.9+ (Build: 2016022402)';
+$plugin->version = 2016041800;
+$plugin->release = 'v3.0-r1';
+$plugin->requires = 2015111600;
+$plugin->maturity = MATURITY_STABLE;
