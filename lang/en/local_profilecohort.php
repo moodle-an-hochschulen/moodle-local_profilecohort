@@ -40,6 +40,7 @@ $string['matchvalue'] = 'Match value';
 $string['nocohorts'] = 'There are no cohorts available for use by this plugin - please visit {$a} to create some cohorts';
 $string['nofields'] = 'No custom profile fields have been defined';
 $string['pluginname'] = 'Profile field based cohort membership';
+$string['reselectcohorts'] = 'Re-select / change cohorts to be managed by this plugin';
 $string['selectcohorts'] = 'Select cohorts to be managed by this plugin';
 $string['selectvalue'] = 'the user will be added to cohort';
 $string['updatecohorts'] = 'Update cohorts from custom profile fields';

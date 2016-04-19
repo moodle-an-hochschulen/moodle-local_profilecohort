@@ -68,7 +68,7 @@ class profilecohort extends profilefields {
     public function output_cohort_link() {
         $out = '';
         $cohorturl = new \moodle_url('/local/profilecohort/cohorts.php');
-        $out .= html_writer::link($cohorturl, get_string('selectcohorts', 'local_profilecohort'));
+        $out .= html_writer::link($cohorturl, get_string('reselectcohorts', 'local_profilecohort'));
         return $out;
     }
 
