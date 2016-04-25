@@ -78,7 +78,8 @@ class profilecohort extends profilefields {
      * @param $userid (optional) mostly used by testing
      */
     public static function set_cohorts_from_profile(\core\event\base $event = null, $userid = null) {
-        global $USER, $DB;
+        global $USER, $DB, $CFG;
+        require_once($CFG->dirroot.'/cohort/lib.php');
 
         if ($event) {
             $userid = $event->userid;
