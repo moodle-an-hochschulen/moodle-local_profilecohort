@@ -54,16 +54,23 @@ class fields_form extends moodleform {
      * Form definition. Abstract method - always override!
      */
     protected function definition() {
+        global $PAGE;
+
         $mform = $this->_form;
 
         $mform->addElement('hidden', 'add', null);
         $mform->setType('add', PARAM_INT);
+        $mform->addElement('hidden', 'action', null);
+        $mform->setType('action', PARAM_ALPHA);
 
         $values = [null => get_string('choosedots')] + $this->get_values();
-        foreach ($this->get_rules() as $rule) {
-            $rule->add_form_field($mform, $values);
+        $rules = $this->get_rules();
+        foreach ($rules as $rule) {
+            $rule->add_form_field($mform, $values, count($rules));
         }
         $this->add_action_buttons();
+
+        $PAGE->requires->js_call_amd('local_profilecohort/reorder', 'init');
     }
 
     /**

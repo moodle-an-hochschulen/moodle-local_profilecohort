@@ -1,0 +1,22 @@
+.localprofile-rule-actions {
+    color: #888;
+}
+
+.localprofile-flash {
+    animation-duration: 3s;
+    animation-name: localprofile-flash;
+}
+@keyframes localprofile-flash {
+    from {
+        background-color: inherit;
+    }
+    5% {
+        background-color: #afa;
+    }
+    75% {
+        background-color: #afa;
+    }
+    to {
+        background-color: inherit;
+    }
+}

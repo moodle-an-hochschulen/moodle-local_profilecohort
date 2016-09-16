@@ -9,7 +9,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="fieldid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user profile field this matches with"/>
         <FIELD NAME="matchtype" TYPE="char" LENGTH="15" NOTNULL="false" SEQUENCE="false" COMMENT="Where relevant, determines the type of match being done"/>
-        <FIELD NAME="matchvalue" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="The value to match against"/>
+        <FIELD NAME="matchvalue" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The value to match against"/>
         <FIELD NAME="value" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The value to return if there is a match (theme name, in this case)"/>
         <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
       </FIELDS>

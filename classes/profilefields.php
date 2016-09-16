@@ -43,14 +43,26 @@ abstract class profilefields {
     protected $possiblevalues = null;
     /** @var moodleform */
     protected $form = null;
+    /** @var string */
+    protected $action = 'view';
+
+    protected static $actions = ['view', 'add'];
 
     /**
      * profilefields constructor.
      */
     public function __construct() {
+        global $PAGE;
+
         if (!static::$tablename) {
             throw new \coding_exception('Must set $tablename in derived classes');
         }
+        $this->action = optional_param('action', null, PARAM_ALPHA);
+        if (!in_array($this->action, static::$actions)) {
+            $this->action = 'view';
+        }
+        $url = new \moodle_url($PAGE->url, ['action' => $this->action]);
+        $PAGE->set_url($url);
     }
 
     // ------------------------------------------
@@ -62,13 +74,28 @@ abstract class profilefields {
      */
     public function process_form() {
         global $DB, $PAGE;
-        $rules = $this->get_rules();
 
-        // Add a new, empty, rule to the end of the list, if requested.
-        if ($addid = optional_param('add', null, PARAM_INT)) {
-            $field = $DB->get_record('user_info_field', array('id' => $addid), 'id AS fieldid, name, datatype, param1', MUST_EXIST);
-            if ($rule = field_base::make_instance($field)) {
-                $rules[] = $rule;
+        $rules = [];
+        if ($this->action == 'view') {
+            $rules = $this->get_rules();
+            if (!$rules) {
+                $this->action = 'add';
+            } else {
+                $i = 1;
+                foreach ($rules as $rule) {
+                    $rule->set_form_position($i++);
+                }
+            }
+        }
+
+        $addid = null;
+        if ($this->action == 'add') {
+            // Add a new, empty, rule to the end of the list, if requested.
+            if ($addid = optional_param('add', null, PARAM_INT)) {
+                $field = $DB->get_record('user_info_field', array('id' => $addid), 'id AS fieldid, name, datatype, param1', MUST_EXIST);
+                if ($rule = field_base::make_instance($field)) {
+                    $rules[] = $rule;
+                }
             }
         }
 
@@ -78,24 +105,77 @@ abstract class profilefields {
             'values' => $this->get_possible_values()
         ];
         $this->form = new fields_form(null, $custom);
+        $toform = ['action' => $this->action];
         if ($addid) {
-            $this->form->set_data(['add' => $addid]);
+            $toform['add'] = $addid;
         }
+        $this->form->set_data($toform);
 
         // Process the form data.
         if ($this->form->is_cancelled()) {
             redirect($PAGE->url);
         }
         if ($formdata = $this->form->get_data()) {
-            $changed = false;
+            $changed = $this->figure_out_sortorder($rules, $formdata);
             foreach ($rules as $idx => $rule) {
                 $changed = $rule->update_from_form_data(static::$tablename, $formdata) || $changed;
             }
             if ($changed) {
                 $this->apply_all_rules();
             }
-            redirect($PAGE->url);
+            // Always return to the 'view rules' tab when a rule has been saved successfully.
+            redirect(new \moodle_url($PAGE->url, ['action' => 'view']));
         }
+    }
+
+    /**
+     * Look to see if any of the rules have moved up or down, then rewrite the sort order, as needed.
+     * New sortorder is stored in the $formdata, to be applied by $rule->update_from_form_data()
+     *
+     * @param field_base[] $rules
+     * @param $formdata
+     * @return bool true if there were any changes made
+     */
+    protected function figure_out_sortorder($rules, $formdata) {
+        // Get list of rules that have moved up / down / stayed put.
+        $positions = range(1, count($rules));
+        $unchanged = array_fill_keys($positions, []);
+        $movedup = array_fill_keys($positions, []);
+        $moveddown = array_fill_keys($positions, []);
+
+        $changed = false;
+        foreach ($rules as $rule) {
+            list($dir, $position) = $rule->get_new_position($formdata);
+            if ($dir == 0) {
+                $unchanged[$position][] = $rule;
+            } else if ($dir < 0) {
+                $movedup[$position][] = $rule;
+                $changed = true;
+            } else {
+                $moveddown[$position][] = $rule;
+                $changed = true;
+            }
+        }
+        if (!$changed) {
+            return false;
+        }
+
+        $sortorder = 1;
+        $formdata->sortorder = [];
+        for ($i = 1; $i <= count($rules); $i++) {
+            // If there is more than one entry in any given position, order them by:
+            // those that have moved up, then those that are unchanged, then those that have moved down.
+            foreach ($movedup[$i] as $rule) {
+                $formdata->sortorder[$rule->id] = $sortorder++;
+            }
+            foreach ($unchanged[$i] as $rule) {
+                $formdata->sortorder[$rule->id] = $sortorder++;
+            }
+            foreach ($moveddown[$i] as $rule) {
+                $formdata->sortorder[$rule->id] = $sortorder++;
+            }
+        }
+        return true;
     }
 
     /**
@@ -103,14 +183,39 @@ abstract class profilefields {
      * @return string
      */
     public function output_form() {
+        global $OUTPUT;
         $out = '';
 
         if (!$this->get_possible_fields()) {
             return get_string('nofields', 'local_profilecohort');
         }
+
+        $tabs = $this->get_tabs();
+        $out .= $OUTPUT->render($tabs);
+
+        if ($this->action == 'add') {
+            $out .= $this->output_add_select();
+        }
         $out .= $this->output_rules();
-        $out .= $this->output_add_select();
         return $out;
+    }
+
+    /**
+     * Generate tabs for the display
+     * @return \tabtree
+     */
+    protected function get_tabs() {
+        global $PAGE;
+
+        $tabs = [];
+        $tabs[] = new \tabobject('view', new \moodle_url($PAGE->url, ['action' => 'view']),
+                                 get_string('viewrules', 'local_profilecohort'));
+        $tabs[] = new \tabobject('add', new \moodle_url($PAGE->url, ['action' => 'add']),
+                                 get_string('addrules', 'local_profilecohort'));
+
+        $tabtree = new \tabtree($tabs, $this->action);
+
+        return $tabtree;
     }
 
     /**
@@ -160,9 +265,7 @@ abstract class profilefields {
         if (!$rules = self::load_rules()) {
             return $ret;
         }
-        if (!$fields = self::load_profile_fields($rules, $userid)) {
-            return $ret;
-        }
+        $fields = self::load_profile_fields($rules, $userid);
 
         // Check the user profile fields against each of the rules.
         foreach ($rules as $rule) {

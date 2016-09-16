@@ -47,6 +47,11 @@ class field_menu extends field_base {
             $this->opts = array_filter(array_map('trim', $this->opts));
             $this->opts = array_combine($this->opts, $this->opts);
         }
+        $definedopts = [
+            self::MATCH_ISDEFINED => get_string('match_defined', 'local_profilecohort'),
+            self::MATCH_NOTDEFINED => get_string('match_notdefined', 'local_profilecohort'),
+        ];
+        $this->opts = array_merge($this->opts, $definedopts);
     }
 
     /**
@@ -55,11 +60,17 @@ class field_menu extends field_base {
      * @return \HTML_QuickForm_element[]
      */
     protected function add_form_field_internal(MoodleQuickForm $mform, $id) {
+        // Override the matchvalue with the matchtype, if the match type is one of the 'defined' ones.
+        $matchvalue = $this->matchvalue;
+        if (in_array($this->matchtype, [self::MATCH_NOTDEFINED, self::MATCH_ISDEFINED])) {
+            $matchvalue = $this->matchtype;
+        }
+
         $label = $mform->createElement('static', "matchlabel[$id]", '', get_string('match_exact', 'local_profilecohort'));
         $opts = [null => get_string('choosedots')] + $this->opts;
         $sel = $mform->createElement('select', "matchvalue[$id]", get_string('matchvalue', 'local_profilecohort'), $opts);
         $mform->setType("matchvalue[$id]", PARAM_TEXT);
-        $mform->setDefault("matchvalue[$id]", $this->matchvalue);
+        $mform->setDefault("matchvalue[$id]", $matchvalue);
         return [$label, $sel];
     }
 
@@ -75,5 +86,18 @@ class field_menu extends field_base {
             $errors["matchvalue[$id]"] = get_string('required');
         }
         return $errors;
+    }
+
+    public function update_from_form_data($tablename, $formdata) {
+        // Extract the 'defined/not defined' type from the values select.
+        $id = $this->get_form_id();
+        if (in_array($formdata->matchvalue[$id], [self::MATCH_NOTDEFINED, self::MATCH_ISDEFINED])) {
+            $formdata->matchtype[$id] = $formdata->matchvalue[$id];
+            $formdata->matchvalue[$id] = null;
+        } else {
+            $formdata->matchtype[$id] = null;
+        }
+
+        return parent::update_from_form_data($tablename, $formdata);
     }
 }

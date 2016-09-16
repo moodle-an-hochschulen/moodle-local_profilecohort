@@ -15,17 +15,31 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local plugin "Profile field based cohort membership" - Version information
+ * DB upgrade steps
  *
  * @package   local_profilecohort
- * @copyright 2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
+ * @copyright 2016 Davo Smith, Synergy Learning
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_profilecohort';
-$plugin->version = 2016091600;
-$plugin->release = 'v3.0-r1';
-$plugin->requires = 2015111600;
-$plugin->maturity = MATURITY_STABLE;
+function xmldb_local_profilecohort_upgrade($oldversion = 0) {
+    global $DB;
+
+    $dbman = $DB->get_manager();
+
+    if ($oldversion < 2016071200) {
+        // Changing nullability of field matchvalue on table local_profilecohort to null.
+        $table = new xmldb_table('local_profilecohort');
+        $field = new xmldb_field('matchvalue', XMLDB_TYPE_TEXT, null, null, null, null, null, 'matchtype');
+
+        // Launch change of nullability for field matchvalue.
+        $dbman->change_field_notnull($table, $field);
+
+        // Profilecohort savepoint reached.
+        upgrade_plugin_savepoint(true, 2016071200, 'local', 'profilecohort');
+    }
+
+    return true;
+}
