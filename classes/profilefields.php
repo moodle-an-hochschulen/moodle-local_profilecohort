@@ -61,8 +61,10 @@ abstract class profilefields {
         if (!in_array($this->action, static::$actions)) {
             $this->action = 'view';
         }
-        $url = new \moodle_url($PAGE->url, ['action' => $this->action]);
-        $PAGE->set_url($url);
+        if (!PHPUNIT_TEST) {
+            $url = new \moodle_url($PAGE->url, ['action' => $this->action]);
+            $PAGE->set_url($url);
+        }
     }
 
     // ------------------------------------------

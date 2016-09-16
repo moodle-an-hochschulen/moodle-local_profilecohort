@@ -189,7 +189,8 @@ abstract class field_base {
             $DB->update_record($tablename, $ins);
         } else {
             unset($ins->id);
-            $ins->sortorder = intval($DB->get_field($tablename, 'MAX(sortorder)', [])) + 1;
+            $this->sortorder = intval($DB->get_field($tablename, 'MAX(sortorder)', [])) + 1;
+            $ins->sortorder = $this->sortorder;
             $this->id = $DB->insert_record($tablename, $ins);
         }
     }
