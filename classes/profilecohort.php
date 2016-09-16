@@ -38,6 +38,8 @@ defined('MOODLE_INTERNAL') || die();
 class profilecohort extends profilefields {
     protected static $tablename = 'local_profilecohort';
 
+    protected static $actions = ['view', 'add', 'members'];
+
     /**
      * Process the submitted rule editing form.
      */
@@ -56,8 +58,71 @@ class profilecohort extends profilefields {
      */
     public function output_form() {
         $out = '';
-        $out .= html_writer::tag('div', get_string('intro', 'local_profilecohort'), array('id' => 'intro', 'class' => 'box generalbox'));
-        $out .= parent::output_form();
+        $out .= html_writer::tag('div', get_string('intro', 'local_profilecohort'),
+                                 array('id' => 'intro', 'class' => 'box generalbox'));
+
+        if ($this->action == 'members') {
+            $out .= $this->output_members();
+        } else {
+            $out .= parent::output_form();
+        }
+
+        return $out;
+    }
+
+    /**
+     * Allow subclasses to define extra tabs to be included at the top of the page.
+     * @return \tabobject[]
+     */
+    protected function extra_tabs() {
+        return [
+            new \tabobject('members', new \moodle_url('/local/profilecohort/index.php', ['action' => 'members']),
+                           get_string('members', 'local_profilecohort')),
+        ];
+    }
+
+    protected function output_members() {
+        global $OUTPUT, $DB;
+        $out = '';
+
+        $tabs = $this->get_tabs();
+        $out .= $OUTPUT->render($tabs);
+
+        $namefields = get_all_user_name_fields(true, 'u');
+        $sql = "
+          SELECT c.id AS cohortid, c.name AS cohortname, u.id, {$namefields}
+            FROM {cohort} c
+            LEFT JOIN {cohort_members} cm ON cm.cohortid = c.id
+            LEFT JOIN {user} u ON u.id = cm.userid
+           WHERE c.visible = 1 AND c.component = 'local_profilecohort'
+           ORDER BY c.name, c.id, u.lastname, u.firstname
+        ";
+        $users = $DB->get_recordset_sql($sql);
+
+        $lastcohortid = null;
+        $list = '';
+        $cohortlist = '';
+        foreach ($users as $user) {
+            if ($user->cohortid != $lastcohortid) {
+                $lastcohortid = $user->cohortid;
+                if ($cohortlist) {
+                    $list .= html_writer::tag('ul', $cohortlist, ['class' => 'profilecohort-users']);
+                    $cohortlist = '';
+                }
+                $list .= html_writer::tag('li', format_string($user->cohortname), ['class' => 'profilecohort-cohortname']);
+            }
+            if ($user->id) {
+                $userurl = new \moodle_url('/user/view.php', ['id' => $user->id]);
+                $username = html_writer::link($userurl, fullname($user));
+                $cohortlist .= html_writer::tag('li', $username);
+            }
+        }
+        if ($cohortlist) {
+            $list .= html_writer::tag('ul', $cohortlist, ['class' => 'profilecohort-users']);
+        }
+
+        $out .= html_writer::nonempty_tag('ul', $list);
+
         return $out;
     }
 

@@ -42,6 +42,7 @@ $string['match_notdefined'] = 'Is not defined';
 $string['match_notexact'] = 'Does not match';
 $string['matchtype'] = 'Match type';
 $string['matchvalue'] = 'Match value';
+$string['members'] = 'Cohort members';
 $string['moveto'] = 'Move to position';
 $string['nocohorts'] = 'There are no cohorts available for use by this plugin - please visit {$a} to create some cohorts';
 $string['nofields'] = 'No custom profile fields have been defined';

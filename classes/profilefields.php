@@ -61,7 +61,7 @@ abstract class profilefields {
         if (!in_array($this->action, static::$actions)) {
             $this->action = 'view';
         }
-        if (!PHPUNIT_TEST) {
+        if (!PHPUNIT_TEST && !CLI_SCRIPT) {
             $url = new \moodle_url($PAGE->url, ['action' => $this->action]);
             $PAGE->set_url($url);
         }
@@ -203,6 +203,14 @@ abstract class profilefields {
     }
 
     /**
+     * Allow subclasses to define extra tabs to be included at the top of the page.
+     * @return \tabobject[]
+     */
+    protected function extra_tabs() {
+        return [];
+    }
+
+    /**
      * Generate tabs for the display
      * @return \tabtree
      */
@@ -214,6 +222,7 @@ abstract class profilefields {
                                  get_string('viewrules', 'local_profilecohort'));
         $tabs[] = new \tabobject('add', new \moodle_url($PAGE->url, ['action' => 'add']),
                                  get_string('addrules', 'local_profilecohort'));
+        $tabs = array_merge($tabs, $this->extra_tabs());
 
         $tabtree = new \tabtree($tabs, $this->action);
 
