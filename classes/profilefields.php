@@ -279,14 +279,40 @@ abstract class profilefields {
         $fields = self::load_profile_fields($rules, $userid);
 
         // Check the user profile fields against each of the rules.
-        foreach ($rules as $rule) {
-            if ($value = $rule->get_value($fields)) {
+        return self::get_value_from_rules($rules, $fields, $matchall);
+    }
+
+    /**
+     * Apply the rules to the fields to get the value(s).
+     * Takes into account 'andnextvalue' settings.
+     *
+     * @param field_base[] $rules
+     * @param string[] $fields fieldid => fieldvalue
+     * @param bool $matchall (optional) set to true to return all matching values
+     * @return array|null|string - array if $matchall is true, null (or empty array) if no match found
+     */
+    protected static function get_value_from_rules($rules, $fields, $matchall = false) {
+        $ret = $matchall ? [] : null;
+        $rule = reset($rules);
+        while ($rule) {
+            $value = $rule->get_value($fields);
+            while ($rule && $rule->should_and_next_field()) {
+                $rule = next($rules);
+                if (!$rule) {
+                    return $ret;
+                }
+                if ($value && !$rule->matches($fields)) {
+                    $value = null;
+                }
+            }
+            if ($value) {
                 if ($matchall) {
                     $ret[] = $value;
                 } else {
                     return $value;
                 }
             }
+            $rule = next($rules);
         }
         return $ret;
     }

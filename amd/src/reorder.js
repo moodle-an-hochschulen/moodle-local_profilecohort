@@ -26,6 +26,9 @@ define(['jquery'], function($) {
             return;
         }
 
+        // Now we know we are moving elements, remove all 'combine with next rule' divs.
+        removeCombinedDivs();
+
         // Put the moved item before, or after the 'displace' item, depending on whether we are moving up or down.
         var $moveItem = $target.closest('.fitem');
         if (newPosition < lastPosition) {
@@ -46,6 +49,59 @@ define(['jquery'], function($) {
 
         // Flash the moved element.
         $moveItem.removeClass('localprofile-flash').addClass('localprofile-flash');
+
+        // Replace the 'combine with next rule' divs.
+        addCombinedDivs();
+    }
+
+    function removeCombinedDivs() {
+        var $form = $('#region-main form');
+        $form.find('.fitem_fgroup').each(function() {
+            var $this = $(this);
+            if ($this.closest('.localprofile-combined').length) {
+                $this.unwrap();
+            }
+        });
+    }
+
+    function addCombinedDivs() {
+        var $collection = null;
+        var $form = $('#region-main form');
+        $form.find('.fitem_fgroup').each(function() {
+            var $this = $(this);
+            var $andnextrule = $this.find('.andnextrule');
+            if (!$andnextrule.length) {
+                return;
+            }
+            if ($andnextrule.prop('checked')) {
+                if ($collection) {
+                    $collection = $collection.add($this);
+                } else {
+                    $collection = $this;
+                }
+            } else {
+                if ($collection) {
+                    $collection = $collection.add($this);
+                    $collection.wrapAll('<div class="localprofile-combined" />');
+                    $collection = null;
+                }
+            }
+        });
+        if ($collection) {
+            $collection.wrapAll('<div class="localprofile-combined" />');
+            $collection = null;
+        }
+        showHideAndNextCheckbox();
+    }
+
+    function showHideAndNextCheckbox() {
+        var $andNextRule = $('#region-main form .andnextrule');
+        $andNextRule.closest('span').removeClass('hidden').last().addClass('hidden');
+    }
+
+    function updateCombinedDivs() {
+        removeCombinedDivs();
+        addCombinedDivs();
     }
 
     return {
@@ -56,6 +112,8 @@ define(['jquery'], function($) {
                 $this.data('lastPosition', $this.val());
             });
             $form.on('change', 'select.moveto', checkReorderItems);
+            $form.on('change', 'input.andnextrule', updateCombinedDivs);
+            addCombinedDivs();
         }
     };
 });

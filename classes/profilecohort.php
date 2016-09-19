@@ -24,10 +24,7 @@
 
 namespace local_profilecohort;
 
-use core_component;
-use Exception;
 use html_writer;
-use theme_config;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -49,7 +46,9 @@ class profilecohort extends profilefields {
             $cohorturl = new \moodle_url('/local/profilecohort/cohorts.php');
             redirect($cohorturl);
         }
-        parent::process_form();
+        if ($this->action != 'members') {
+            parent::process_form();
+        }
     }
 
     /**
@@ -247,12 +246,7 @@ class profilecohort extends profilefields {
                 $fieldname = "field_{$fieldid}";
                 $fields[$fieldid] = $userrec->$fieldname;
             }
-            $newcohortids = [];
-            foreach ($rules as $rule) {
-                if ($value = $rule->get_value($fields)) {
-                    $newcohortids[] = $value;
-                }
-            }
+            $newcohortids = self::get_value_from_rules($rules, $fields, true);
 
             // See if the cohorts list has changed for this user and apply the additions / removals, as needed.
             $newcohortids = array_unique($newcohortids);

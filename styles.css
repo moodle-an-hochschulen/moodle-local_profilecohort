@@ -20,3 +20,14 @@
         background-color: inherit;
     }
 }
+
+.localprofile-combined {
+    border: 1px solid #ccc;
+    margin: 5px;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.localprofile-combined .fitem_fgroup + .fitem_fgroup .localprofile-value {
+    display: none;
+}
