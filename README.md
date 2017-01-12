@@ -10,12 +10,6 @@ Requirements
 This plugin requires Moodle 3.0+
 
 
-Changes
--------
-
-* 2016-04-18 - Initial version
-
-
 Installation
 ------------
 
