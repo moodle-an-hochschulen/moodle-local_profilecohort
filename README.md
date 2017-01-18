@@ -7,7 +7,7 @@ Moodle plugin which lets admins manage cohort memberships based on users' profil
 Requirements
 ------------
 
-This plugin requires Moodle 3.0+
+This plugin requires Moodle 3.2+
 
 
 Installation
