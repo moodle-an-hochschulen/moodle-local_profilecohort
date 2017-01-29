@@ -3,18 +3,18 @@
 }
 
 .localprofile-flash {
-    animation-duration: 3s;
+    animation-duration: 1s;
     animation-name: localprofile-flash;
 }
 @keyframes localprofile-flash {
     from {
         background-color: inherit;
     }
-    5% {
-        background-color: #afa;
+    25% {
+        background-color: #468847;
     }
-    75% {
-        background-color: #afa;
+    50% {
+        background-color: #468847;
     }
     to {
         background-color: inherit;
