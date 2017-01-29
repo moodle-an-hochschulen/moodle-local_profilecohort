@@ -1,4 +1,14 @@
-/*global define*/
+/**
+ * Local plugin "Profile field based cohort membership" - JS code for reordering rules
+ *
+ * @package   local_profilecohort
+ * @copyright 2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+/* This comment is just there to keep grunt satisfied and won't be processed at runtime */
+/* global define */
+
 define(['jquery'], function($) {
     "use strict";
 

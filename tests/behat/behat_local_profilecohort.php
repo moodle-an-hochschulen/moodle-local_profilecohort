@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local plugin "Profile field based cohort membership" - Define custom rules
+ * Local plugin "Profile field based cohort membership" - Define custom behat rules
  *
  * @package   local_profilecohort
  * @copyright 2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
