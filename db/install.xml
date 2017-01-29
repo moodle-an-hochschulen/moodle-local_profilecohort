@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/profilecohort/db" VERSION="20160217" COMMENT="XMLDB file for Moodle local/profilecohort"
+<XMLDB PATH="local/profilecohort/db" VERSION="20160916" COMMENT="XMLDB file for Moodle local/profilecohort"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -9,9 +9,10 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="fieldid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user profile field this matches with"/>
         <FIELD NAME="matchtype" TYPE="char" LENGTH="15" NOTNULL="false" SEQUENCE="false" COMMENT="Where relevant, determines the type of match being done"/>
-        <FIELD NAME="matchvalue" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="The value to match against"/>
+        <FIELD NAME="matchvalue" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The value to match against"/>
         <FIELD NAME="value" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The value to return if there is a match (theme name, in this case)"/>
         <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="andnextrule" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Set to 1, if the next rule must also be true to get this value"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
