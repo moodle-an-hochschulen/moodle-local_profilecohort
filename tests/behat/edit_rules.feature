@@ -16,7 +16,7 @@ Feature: Edit rules based on profile fields
       | Cohort 2            | c02      |
       | Cohort 3            | c03      |
       | Cohort not included | cnot     |
-    And I navigate to "Profile cohort" node in "Site administration > Users > Accounts"
+    And I navigate to "Profile field based cohort membership" node in "Site administration > Users > Accounts"
     And I set the following fields to these values:
       | Cohort 1            | 1 |
       | Cohort 2            | 1 |
@@ -33,7 +33,7 @@ Feature: Edit rules based on profile fields
       | Match value                      | Yes      |
       | the user will be added to cohort | Cohort 1 |
     And I press "Save changes"
-    And I navigate to "Profile cohort" node in "Site administration > Users > Accounts"
+    And I navigate to "Profile field based cohort membership" node in "Site administration > Users > Accounts"
     Then the following fields match these values:
       | Match value                      | Yes      |
       | the user will be added to cohort | Cohort 1 |
@@ -41,7 +41,7 @@ Feature: Edit rules based on profile fields
       | Match value                      | No       |
       | the user will be added to cohort | Cohort 2 |
     And I press "Save changes"
-    And I navigate to "Profile cohort" node in "Site administration > Users > Accounts"
+    And I navigate to "Profile field based cohort membership" node in "Site administration > Users > Accounts"
     And the following fields match these values:
       | Match value                      | No       |
       | the user will be added to cohort | Cohort 2 |
@@ -56,7 +56,7 @@ Feature: Edit rules based on profile fields
       | Match value                      | Opt2     |
       | the user will be added to cohort | Cohort 1 |
     And I press "Save changes"
-    And I navigate to "Profile cohort" node in "Site administration > Users > Accounts"
+    And I navigate to "Profile field based cohort membership" node in "Site administration > Users > Accounts"
     Then "Menu field" "text" should exist in the "form.mform" "css_element"
     And the following fields match these values:
       | Match value                      | Opt2     |
@@ -65,7 +65,7 @@ Feature: Edit rules based on profile fields
       | Match value                      | Opt3     |
       | the user will be added to cohort | Cohort 2 |
     And I press "Save changes"
-    And I navigate to "Profile cohort" node in "Site administration > Users > Accounts"
+    And I navigate to "Profile field based cohort membership" node in "Site administration > Users > Accounts"
     And the following fields match these values:
       | Match value                      | Opt3     |
       | the user will be added to cohort | Cohort 2 |
@@ -81,7 +81,7 @@ Feature: Edit rules based on profile fields
       | Match type                       | Matches  |
       | the user will be added to cohort | Cohort 1 |
     And I press "Save changes"
-    And I navigate to "Profile cohort" node in "Site administration > Users > Accounts"
+    And I navigate to "Profile field based cohort membership" node in "Site administration > Users > Accounts"
     Then "Text field" "text" should exist in the "form.mform" "css_element"
     And the following fields match these values:
       | Match value                      | testing  |
@@ -92,7 +92,7 @@ Feature: Edit rules based on profile fields
       | Match type                       | Contains      |
       | the user will be added to cohort | Cohort 2      |
     And I press "Save changes"
-    And I navigate to "Profile cohort" node in "Site administration > Users > Accounts"
+    And I navigate to "Profile field based cohort membership" node in "Site administration > Users > Accounts"
     And the following fields match these values:
       | Match value                      | testing again |
       | Match type                       | Contains      |

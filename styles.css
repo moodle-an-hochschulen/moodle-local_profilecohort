@@ -1,0 +1,33 @@
+.localprofile-rule-actions {
+    color: #888;
+}
+
+.localprofile-flash {
+    animation-duration: 3s;
+    animation-name: localprofile-flash;
+}
+@keyframes localprofile-flash {
+    from {
+        background-color: inherit;
+    }
+    5% {
+        background-color: #afa;
+    }
+    75% {
+        background-color: #afa;
+    }
+    to {
+        background-color: inherit;
+    }
+}
+
+.localprofile-combined {
+    border: 1px solid #ccc;
+    margin: 5px;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.localprofile-combined .fitem_fgroup + .fitem_fgroup .localprofile-value {
+    display: none;
+}

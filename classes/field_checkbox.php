@@ -39,10 +39,34 @@ class field_checkbox extends field_base {
      * @return \HTML_QuickForm_element[]
      */
     protected function add_form_field_internal(MoodleQuickForm $mform, $id) {
+        // Override the matchvalue with the matchtype, if the match type is one of the 'defined' ones.
+        $matchvalue = $this->matchvalue;
+        if (in_array($this->matchtype, [self::MATCH_NOTDEFINED, self::MATCH_ISDEFINED])) {
+            $matchvalue = $this->matchtype;
+        }
+        $opts = [
+            1 => get_string('yes'),
+            0 => get_string('no'),
+            self::MATCH_ISDEFINED => get_string('match_defined', 'local_profilecohort'),
+            self::MATCH_NOTDEFINED => get_string('match_notdefined', 'local_profilecohort'),
+        ];
+
         $label = $mform->createElement('static', "matchlabel[$id]", '', get_string('match_exact', 'local_profilecohort'));
-        $sel = $mform->createElement('selectyesno', "matchvalue[$id]", get_string('matchvalue', 'local_profilecohort'));
-        $mform->setType("matchvalue[$id]", PARAM_INT);
-        $mform->setDefault("matchvalue[$id]", $this->matchvalue);
+        $sel = $mform->createElement('select', "matchvalue[$id]", get_string('matchvalue', 'local_profilecohort'), $opts);
+        $mform->setDefault("matchvalue[$id]", $matchvalue);
         return [$label, $sel];
+    }
+
+    public function update_from_form_data($tablename, $formdata) {
+        // Extract the 'defined/not defined' type from the values select.
+        $id = $this->get_form_id();
+        if (in_array($formdata->matchvalue[$id], [self::MATCH_NOTDEFINED, self::MATCH_ISDEFINED])) {
+            $formdata->matchtype[$id] = $formdata->matchvalue[$id];
+            $formdata->matchvalue[$id] = null;
+        } else {
+            $formdata->matchtype[$id] = null;
+        }
+
+        return parent::update_from_form_data($tablename, $formdata);
     }
 }

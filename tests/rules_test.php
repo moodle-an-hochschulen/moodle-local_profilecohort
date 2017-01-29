@@ -572,4 +572,104 @@ class local_profilecohort_testcase extends advanced_testcase {
         $this->assertTrue(cohort_is_member($incohort->id, $user1->id));
         $this->assertFalse(cohort_is_member($notincohort->id, $user1->id));
     }
+
+    /**
+     * Test combining rules together using 'and'
+     */
+    public function test_and_rules() {
+        global $DB;
+
+        // Set up a user with 'menufield' set to 'Opt 1', 'checkboxfield' set to 'No', 'textfield' set to 'Fred'.
+        $user1 = $this->getDataGenerator()->create_user();
+        $ins = (object)['userid' => $user1->id, 'fieldid' => $this->fieldids['menufield'], 'data' => 'Opt 1'];
+        $DB->insert_record('user_info_data', $ins);
+        $ins = (object)['userid' => $user1->id, 'fieldid' => $this->fieldids['checkboxfield'], 'data' => '0'];
+        $DB->insert_record('user_info_data', $ins);
+        $ins = (object)['userid' => $user1->id, 'fieldid' => $this->fieldids['textfield'], 'data' => 'Fred'];
+        $DB->insert_record('user_info_data', $ins);
+
+        // Set up a user with 'menufield' set to 'Opt 1', 'checkboxfield' set to 'No', 'textfield' set to 'George'.
+        $user2 = $this->getDataGenerator()->create_user();
+        $ins = (object)['userid' => $user2->id, 'fieldid' => $this->fieldids['menufield'], 'data' => 'Opt 1'];
+        $DB->insert_record('user_info_data', $ins);
+        $ins = (object)['userid' => $user2->id, 'fieldid' => $this->fieldids['checkboxfield'], 'data' => '0'];
+        $DB->insert_record('user_info_data', $ins);
+        $ins = (object)['userid' => $user2->id, 'fieldid' => $this->fieldids['textfield'], 'data' => 'George'];
+        $DB->insert_record('user_info_data', $ins);
+
+        // Set up a user with 'menufield' set to 'Opt 2', 'checkboxfield' set to 'No', 'textfield' set to 'Fred'.
+        $user3 = $this->getDataGenerator()->create_user();
+        $ins = (object)['userid' => $user3->id, 'fieldid' => $this->fieldids['menufield'], 'data' => 'Opt 2'];
+        $DB->insert_record('user_info_data', $ins);
+        $ins = (object)['userid' => $user3->id, 'fieldid' => $this->fieldids['checkboxfield'], 'data' => '0'];
+        $DB->insert_record('user_info_data', $ins);
+        $ins = (object)['userid' => $user3->id, 'fieldid' => $this->fieldids['textfield'], 'data' => 'Fred'];
+        $DB->insert_record('user_info_data', $ins);
+
+        // Create 4 rules - note cohort values for rule 2 + 3 (cohort 1 + 2) should never be used,
+        // as they are additional rules to the rules above them.
+
+        // 'menufield' ==  'Opt 1' => cohort 0 AND next rule must match.
+        $ruledata1 = (object)[
+            'fieldid' => $this->fieldids['menufield'], 'datatype' => 'menu',
+            'matchvalue' => 'Opt 1', 'value' => $this->cohortids[0], 'andnextrule' => 1
+        ];
+        $rule1 = field_base::make_instance($ruledata1);
+        $rule1->save(self::TABLENAME);
+        // 'checkboxfield' == 0 => cohort 1 AND next rule must match.
+        $ruledata2 = (object)[
+            'fieldid' => $this->fieldids['checkboxfield'], 'datatype' => 'checkbox',
+            'matchvalue' => '0', 'value' => $this->cohortids[1], 'andnextrule' => 1
+        ];
+        $rule2 = field_base::make_instance($ruledata2);
+        $rule2->save(self::TABLENAME);
+        // 'textfield' == 'Fred' => cohort 2.
+        $ruledata3 = (object)[
+            'fieldid' => $this->fieldids['textfield'], 'datatype' => 'text',
+            'matchvalue' => 'Fred', 'value' => $this->cohortids[2], 'andnextrule' => 0
+        ];
+        $rule3 = field_base::make_instance($ruledata3);
+        $rule3->save(self::TABLENAME);
+        // 'textfield' == 'Fred' => cohort 3 - this rule should match on its own.
+        $ruledata4 = (object)[
+            'fieldid' => $this->fieldids['textfield'], 'datatype' => 'text',
+            'matchvalue' => 'Fred', 'value' => $this->cohortids[3], 'andnextrule' => 0
+        ];
+        $rule4 = field_base::make_instance($ruledata4);
+        $rule4->save(self::TABLENAME);
+
+        // Process the rules to get the new cohortids.
+        $user1cohortids = \local_profilecohort\profilecohort::get_mapped_value($user1->id, true);
+        $user2cohortids = \local_profilecohort\profilecohort::get_mapped_value($user2->id, true);
+        $user3cohortids = \local_profilecohort\profilecohort::get_mapped_value($user3->id, true);
+
+        // User1 should match rule 1, 2 + 3 (cohort 0) and rule 4 (cohort 3) - but not cohort 1 or 2 (from rules 2 + 3).
+        $this->assertEquals([$this->cohortids[0], $this->cohortids[3]], $user1cohortids);
+
+        // User2 does not match rule 3 (so, not cohort 0) or rule 4 (so, not cohort 3).
+        $this->assertEquals([], $user2cohortids);
+
+        // User3 does not match rule 1 (so, not cohort 0), but does match rule 4 (cohort 3).
+        $this->assertEquals([$this->cohortids[3]], $user3cohortids);
+
+        // Execute all rules, to check cohort membership is updated correctly.
+        $manager = new \local_profilecohort\profilecohort();
+        $manager->update_all_cohorts_from_rules();
+
+        // Check the cohorts have been updated, as expected.
+        $this->assertTrue(cohort_is_member($this->cohortids[0], $user1->id));
+        $this->assertFalse(cohort_is_member($this->cohortids[1], $user1->id));
+        $this->assertFalse(cohort_is_member($this->cohortids[2], $user1->id));
+        $this->assertTrue(cohort_is_member($this->cohortids[3], $user1->id));
+
+        $this->assertFalse(cohort_is_member($this->cohortids[0], $user2->id));
+        $this->assertFalse(cohort_is_member($this->cohortids[1], $user2->id));
+        $this->assertFalse(cohort_is_member($this->cohortids[2], $user2->id));
+        $this->assertFalse(cohort_is_member($this->cohortids[3], $user2->id));
+
+        $this->assertFalse(cohort_is_member($this->cohortids[0], $user3->id));
+        $this->assertFalse(cohort_is_member($this->cohortids[1], $user3->id));
+        $this->assertFalse(cohort_is_member($this->cohortids[2], $user3->id));
+        $this->assertTrue(cohort_is_member($this->cohortids[3], $user3->id));
+    }
 }
