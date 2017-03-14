@@ -71,7 +71,7 @@ define(['jquery'], function($) {
 
     function removeCombinedDivs() {
         var $form = $('#region-main form');
-        $form.find(SELECTORS.FIELDWRAPPER).each(function() {
+        $form.find(SELECTORS.FIELDWRAPPER).removeClass('localprofile-flash').each(function() {
             var $this = $(this);
             if ($this.closest('.localprofile-combined').length) {
                 $this.unwrap();
