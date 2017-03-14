@@ -31,3 +31,22 @@
 .localprofile-combined .fitem_fgroup + .fitem_fgroup .localprofile-value {
     display: none;
 }
+
+.profilecohort-userlist.ui-accordion .ui-accordion-header {
+    list-style: none;
+    background-image: url([[pix:core|t/collapsed]]);
+    padding-left: 18px;
+    background-repeat: no-repeat;
+    background-position: 0 2px;
+    cursor: pointer;
+}
+.profilecohort-userlist.ui-accordion .ui-accordion-header.ui-state-active {
+    background-image: url([[pix:core|t/expanded]]);
+}
+.jsenabled .profilecohort-users {
+    display: none;
+}
+.jsenabled .profilecohort-users.ui-accordion-content {
+    margin-left: 15px;
+    display: block;
+}

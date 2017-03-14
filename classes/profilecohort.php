@@ -81,9 +81,10 @@ class profilecohort extends profilefields {
     }
 
     protected function output_members() {
-        global $OUTPUT, $DB;
+        global $OUTPUT, $DB, $PAGE;
         $out = '';
 
+        $PAGE->requires->js_call_amd('local_profilecohort/accordion', 'init');
         $tabs = $this->get_tabs();
         $out .= $OUTPUT->render($tabs);
 
@@ -120,7 +121,7 @@ class profilecohort extends profilefields {
             $list .= html_writer::tag('ul', $cohortlist, ['class' => 'profilecohort-users']);
         }
 
-        $out .= html_writer::nonempty_tag('ul', $list);
+        $out .= html_writer::nonempty_tag('ul', $list, ['class' => 'profilecohort-userlist']);
 
         return $out;
     }
