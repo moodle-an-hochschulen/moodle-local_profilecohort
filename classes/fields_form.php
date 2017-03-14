@@ -62,6 +62,7 @@ class fields_form extends moodleform {
         $mform->setType('add', PARAM_INT);
         $mform->addElement('hidden', 'action', null);
         $mform->setType('action', PARAM_ALPHA);
+        $mform->addElement('header', 'hiddenheading');
 
         $values = [null => get_string('choosedots')] + $this->get_values();
         $rules = $this->get_rules();
