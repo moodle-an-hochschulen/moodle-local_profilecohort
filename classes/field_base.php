@@ -319,7 +319,9 @@ abstract class field_base {
         }
 
         $name = $prefix.get_string('iffield', 'local_profilecohort', format_string($this->name));
+        $mform->addElement('html', '<div class="localprofile-fieldwrapper">');
         $mform->addGroup($group, "group-$id", $name, ' ', false);
+        $mform->addElement('html', '</div>');
     }
 
     /**

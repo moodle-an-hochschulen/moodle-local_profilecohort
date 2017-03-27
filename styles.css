@@ -28,6 +28,10 @@
     background-color: #f9f9f9;
 }
 
-.localprofile-combined .fitem_fgroup + .fitem_fgroup .localprofile-value {
+.localprofile-combined .localprofile-fieldwrapper + .localprofile-fieldwrapper .localprofile-value {
+    display: none;
+}
+
+form #id_hiddenheading legend {
     display: none;
 }
