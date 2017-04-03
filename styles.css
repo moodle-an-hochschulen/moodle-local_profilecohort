@@ -35,3 +35,14 @@
 form #id_hiddenheading legend {
     display: none;
 }
+
+.localprofile-fieldwrapper.todelete,
+.localprofile-fieldwrapper.todelete span,
+.localprofile-fieldwrapper.todelete div,
+.localprofile-fieldwrapper.todelete fieldset,
+.localprofile-fieldwrapper.todelete label,
+.localprofile-fieldwrapper.todelete select,
+.localprofile-fieldwrapper.todelete input {
+    color: #c38a8a;
+    text-decoration: line-through solid currentcolor;
+}
