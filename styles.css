@@ -46,3 +46,7 @@ form #id_hiddenheading legend {
     color: #c38a8a;
     text-decoration: line-through solid currentcolor;
 }
+.localprofile-fieldwrapper.todelete label.deleterule {
+    color: #888;
+    text-decoration: none;
+}

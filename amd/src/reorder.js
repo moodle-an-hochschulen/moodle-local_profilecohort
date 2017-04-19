@@ -131,8 +131,10 @@ define(['jquery'], function($) {
             var $container = $this.closest('.localprofile-fieldwrapper');
             if ($this.prop('checked')) {
                 $container.addClass('todelete');
+                $container.find(':input:not(.deleterule)').prop('disabled', true);
             } else {
                 $container.removeClass('todelete');
+                $container.find(':input').prop('disabled', false);
             }
         });
     }
