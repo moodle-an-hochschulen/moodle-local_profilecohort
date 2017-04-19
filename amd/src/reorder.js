@@ -124,6 +124,19 @@ define(['jquery'], function($) {
         addCombinedDivs();
     }
 
+    function showRulesToBeDeleted() {
+        var $deleteRule = $('#region-main form input.deleterule');
+        $deleteRule.each(function() {
+            var $this = $(this);
+            var $container = $this.closest('.localprofile-fieldwrapper');
+            if ($this.prop('checked')) {
+                $container.addClass('todelete');
+            } else {
+                $container.removeClass('todelete');
+            }
+        });
+    }
+
     return {
         init: function() {
             var $form = $('#region-main form');
@@ -133,6 +146,7 @@ define(['jquery'], function($) {
             });
             $form.on('change', SELECTORS.MOVETO, checkReorderItems);
             $form.on('change', 'input.andnextrule', updateCombinedDivs);
+            $form.on('change', 'input.deleterule', showRulesToBeDeleted);
             addCombinedDivs();
         }
     };
