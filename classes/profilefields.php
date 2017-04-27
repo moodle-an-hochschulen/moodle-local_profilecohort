@@ -67,6 +67,11 @@ abstract class profilefields {
         }
     }
 
+    protected function get_index_url() {
+        global $PAGE;
+        return $PAGE->url;
+    }
+
     // ------------------------------------------
     // Admin form for editing mappings
     // ------------------------------------------
@@ -215,12 +220,10 @@ abstract class profilefields {
      * @return \tabtree
      */
     protected function get_tabs() {
-        global $PAGE;
-
         $tabs = [];
-        $tabs[] = new \tabobject('view', new \moodle_url($PAGE->url, ['action' => 'view']),
+        $tabs[] = new \tabobject('view', new \moodle_url($this->get_index_url(), ['action' => 'view']),
                                  get_string('viewrules', 'local_profilecohort'));
-        $tabs[] = new \tabobject('add', new \moodle_url($PAGE->url, ['action' => 'add']),
+        $tabs[] = new \tabobject('add', new \moodle_url($this->get_index_url(), ['action' => 'add']),
                                  get_string('addrules', 'local_profilecohort'));
         $tabs = array_merge($tabs, $this->extra_tabs());
 

@@ -37,6 +37,10 @@ class profilecohort extends profilefields {
 
     protected static $actions = ['view', 'add', 'members'];
 
+    protected function get_index_url() {
+        return new \moodle_url('/local/profilecohort/index.php');
+    }
+
     /**
      * Process the submitted rule editing form.
      */
@@ -75,8 +79,10 @@ class profilecohort extends profilefields {
      */
     protected function extra_tabs() {
         return [
-            new \tabobject('members', new \moodle_url('/local/profilecohort/index.php', ['action' => 'members']),
+            new \tabobject('members', new \moodle_url($this->get_index_url(), ['action' => 'members']),
                            get_string('members', 'local_profilecohort')),
+            new \tabobject('cohorts', new \moodle_url('/local/profilecohort/cohorts.php'),
+                           get_string('reselectcohorts', 'local_profilecohort'))
         ];
     }
 
@@ -122,17 +128,6 @@ class profilecohort extends profilefields {
 
         $out .= html_writer::nonempty_tag('ul', $list);
 
-        return $out;
-    }
-
-    /**
-     * Output a link to edit the list of cohorts associated with this pluign
-     * @return string
-     */
-    public function output_cohort_link() {
-        $out = '';
-        $cohorturl = new \moodle_url('/local/profilecohort/cohorts.php');
-        $out .= html_writer::link($cohorturl, get_string('reselectcohorts', 'local_profilecohort'));
         return $out;
     }
 
@@ -271,6 +266,8 @@ class profilecohort extends profilefields {
     public function process_cohort_form() {
         global $DB;
 
+        $this->action = 'cohorts';
+
         $select = "(component = '' OR component = 'local_profilecohort') AND visible = 1";
         $allcohorts = $DB->get_records_select('cohort', $select, [], 'name', 'id, name, component');
 
@@ -310,7 +307,13 @@ class profilecohort extends profilefields {
      * @return string
      */
     public function output_cohort_form() {
+        global $OUTPUT;
+
         $out = '';
+
+        $tabs = $this->get_tabs();
+        $out .= $OUTPUT->render($tabs);
+
         $out .= $this->form->render();
         return $out;
     }
