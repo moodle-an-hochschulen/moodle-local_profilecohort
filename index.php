@@ -39,6 +39,5 @@ $manager->process_form();
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
-echo $manager->output_cohort_link();
 echo $manager->output_form();
 echo $OUTPUT->footer();
