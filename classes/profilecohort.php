@@ -82,7 +82,7 @@ class profilecohort extends profilefields {
             new \tabobject('members', new \moodle_url($this->get_index_url(), ['action' => 'members']),
                            get_string('members', 'local_profilecohort')),
             new \tabobject('cohorts', new \moodle_url('/local/profilecohort/cohorts.php'),
-                           get_string('reselectcohorts', 'local_profilecohort'))
+                           get_string('selectcohorts', 'local_profilecohort'))
         ];
     }
 
