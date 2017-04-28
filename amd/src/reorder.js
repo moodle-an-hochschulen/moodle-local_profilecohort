@@ -9,6 +9,8 @@
 /* This comment is just there to keep grunt satisfied and won't be processed at runtime */
 /* global define */
 
+/* The @this comments throughout this file are also just there to keep grunt satisfied */
+
 define(['jquery'], function($) {
     "use strict";
     var SELECTORS = {
@@ -28,7 +30,7 @@ define(['jquery'], function($) {
         // Find the item being displaced (i.e. the one that already has the 'position' we are moving to).
         var $displace = null;
         var $moveSelects = $(SELECTORS.MOVETO);
-        $moveSelects.each(function() {
+        $moveSelects.each(/* @this */function() {
             var $this = $(this);
             if ($this.attr('id') !== $target.attr('id')) {
                 if (parseInt($this.val(), 10) === newPosition) {
@@ -54,7 +56,7 @@ define(['jquery'], function($) {
 
         // Update all the 'moveTo' selects.
         $moveSelects = $(SELECTORS.MOVETO); // Reload the list of 'moveto' selects, in the new order.
-        $moveSelects.each(function(idx) {
+        $moveSelects.each(/* @this */function(idx) {
             var $this = $(this);
             var position = idx + 1;
             $this.data('lastPosition', position);
@@ -71,7 +73,7 @@ define(['jquery'], function($) {
 
     function removeCombinedDivs() {
         var $form = $('#region-main form');
-        $form.find(SELECTORS.FIELDWRAPPER).removeClass('localprofile-flash').each(function() {
+        $form.find(SELECTORS.FIELDWRAPPER).removeClass('localprofile-flash').each(/* @this */function() {
             var $this = $(this);
             if ($this.closest('.localprofile-combined').length) {
                 $this.unwrap();
@@ -82,7 +84,7 @@ define(['jquery'], function($) {
     function addCombinedDivs() {
         var $collection = null;
         var $form = $('#region-main form');
-        $form.find(SELECTORS.FIELDWRAPPER).each(function() {
+        $form.find(SELECTORS.FIELDWRAPPER).each(/* @this */function() {
             var $this = $(this);
             var $andnextrule = $this.find('input.andnextrule');
             if (!$andnextrule.length) {
@@ -126,7 +128,7 @@ define(['jquery'], function($) {
 
     function showRulesToBeDeleted() {
         var $deleteRule = $('#region-main form input.deleterule');
-        $deleteRule.each(function() {
+        $deleteRule.each(/* @this */function() {
             var $this = $(this);
             var $container = $this.closest('.localprofile-fieldwrapper');
             if ($this.prop('checked')) {
@@ -142,7 +144,7 @@ define(['jquery'], function($) {
     return {
         init: function() {
             var $form = $('#region-main form');
-            $form.find(SELECTORS.MOVETO).each(function() {
+            $form.find(SELECTORS.MOVETO).each(/* @this */function() {
                 var $this = $(this);
                 $this.data('lastPosition', $this.val());
             });
