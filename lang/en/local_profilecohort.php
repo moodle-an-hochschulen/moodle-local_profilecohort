@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['addintro'] = 'Use this form to add mappings between user custom profile fields and the cohorts the user will be added to.';
 $string['addrule'] = 'Add rule for custom profile field ...';
 $string['addrules'] = 'Add new rule';
 $string['andnextrule'] = 'The next rule must also match, to join this cohort.';
@@ -32,7 +33,7 @@ $string['cohortsintro'] = 'Please select the cohorts you want this plugin to man
 Once selected, you will not be able to manually update the members of these cohorts anymore. Furthermore, any users who are currently a member of these cohorts will be removed from the cohorts and the cohorts are then filled from scratch with the users matching the rule(s) you create with this plugin.<br>
 If you decide to stop managing a cohort with this plugin and deselect it here, all users who are currently a member of this cohort will keep being a member. Additionally, you will be able to manually update the members of this cohort again.';
 $string['iffield'] = 'If {$a}';
-$string['intro'] = 'Use this form to define mappings between user custom profile fields and the cohorts the user will be added to.<br>
+$string['viewintro'] = 'Use this form to define mappings between user custom profile fields and the cohorts the user will be added to.<br>
 Rules are processed in the order that they are displayed. However, a user matching multiple rules will be added to all the relevant cohorts.<br>
 Please note: When rules are changed, a background task will be scheduled to update all affected users - there will be a short delay (a few minutes depending on the configuration of the Moodle server) before all user memberships in the cohorts are updated. Nevertheless, any user who logs in before the background task is finished will be updated immediately.';
 $string['match_contains'] = 'Contains';
@@ -44,6 +45,7 @@ $string['match_notexact'] = 'Does not match';
 $string['matchtype'] = 'Match type';
 $string['matchvalue'] = 'Match value';
 $string['members'] = 'Cohort members';
+$string['membersintro'] = 'Here you can see the user who are currently members of the cohorts which are managed by this plugin.';
 $string['moveto'] = 'Move to position';
 $string['nocohorts'] = 'There are no cohorts available for use by this plugin - please visit {$a} to create some cohorts';
 $string['nofields'] = 'No custom profile fields have been defined';

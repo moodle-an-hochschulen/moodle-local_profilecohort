@@ -61,8 +61,6 @@ class profilecohort extends profilefields {
      */
     public function output_form() {
         $out = '';
-        $out .= html_writer::tag('div', get_string('intro', 'local_profilecohort'),
-                                 array('id' => 'intro', 'class' => 'box generalbox'));
 
         if ($this->action == 'members') {
             $out .= $this->output_members();
@@ -92,6 +90,9 @@ class profilecohort extends profilefields {
 
         $tabs = $this->get_tabs();
         $out .= $OUTPUT->render($tabs);
+
+        $out .= \html_writer::tag('div', get_string('membersintro', 'local_profilecohort'),
+                                 array('id' => 'intro', 'class' => 'box generalbox'));
 
         $namefields = get_all_user_name_fields(true, 'u');
         $sql = "
