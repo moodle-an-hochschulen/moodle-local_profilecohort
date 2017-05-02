@@ -1,7 +1,7 @@
+/* Style the rules and actions on the view/edit rules page. */
 .localprofile-rule-actions {
     color: #888;
 }
-
 .localprofile-flash {
     animation-duration: 1s;
     animation-name: localprofile-flash;
@@ -20,22 +20,15 @@
         background-color: inherit;
     }
 }
-
 .localprofile-combined {
     border: 1px solid #ccc;
     margin: 5px;
     padding: 20px;
     background-color: #f9f9f9;
 }
-
 .localprofile-combined .localprofile-fieldwrapper + .localprofile-fieldwrapper .localprofile-value {
     display: none;
 }
-
-form #id_hiddenheading legend {
-    display: none;
-}
-
 .localprofile-fieldwrapper.todelete,
 .localprofile-fieldwrapper.todelete span,
 .localprofile-fieldwrapper.todelete div,
@@ -49,4 +42,9 @@ form #id_hiddenheading legend {
 .localprofile-fieldwrapper.todelete label.deleterule {
     color: #888;
     text-decoration: none;
+}
+
+/* Style the rules and actions on the view/edit rules page. */
+form #id_hiddenheading legend {
+    display: none;
 }
