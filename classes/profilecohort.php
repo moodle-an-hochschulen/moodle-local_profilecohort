@@ -84,6 +84,10 @@ class profilecohort extends profilefields {
         ];
     }
 
+    /**
+     * Output the cohort members list.
+     * @return string
+     */
     protected function output_members() {
         global $OUTPUT, $DB;
         $out = '';
@@ -107,29 +111,61 @@ class profilecohort extends profilefields {
 
         $lastcohortid = null;
         $list = '';
-        $cohortlist = '';
+        $cohortmembers = [];
         foreach ($users as $user) {
             if ($user->cohortid != $lastcohortid) {
-                $lastcohortid = $user->cohortid;
-                if ($cohortlist) {
-                    $list .= html_writer::tag('ul', $cohortlist, ['class' => 'profilecohort-users']);
-                    $cohortlist = '';
+                if ($lastcohortid) {
+                    $list .= $this->output_members_entry($user->cohortname, $cohortmembers);
                 }
-                $list .= html_writer::tag('li', format_string($user->cohortname), ['class' => 'profilecohort-cohortname']);
+                $lastcohortid = $user->cohortid;
             }
             if ($user->id) {
                 $userurl = new \moodle_url('/user/view.php', ['id' => $user->id]);
-                $username = html_writer::link($userurl, fullname($user));
-                $cohortlist .= html_writer::tag('li', $username);
+                $cohortmembers[] = html_writer::link($userurl, fullname($user));
             }
         }
-        if ($cohortlist) {
-            $list .= html_writer::tag('ul', $cohortlist, ['class' => 'profilecohort-users']);
+        if ($cohortmembers && isset($user)) {
+            $list .= $this->output_members_entry($user->cohortname, $cohortmembers);
         }
 
-        $out .= html_writer::nonempty_tag('ul', $list);
+        $out .= html_writer::div($list, '', ['id' => 'profilecohort-cohortlist', 'role' => 'tablist', 'aria-multiselectable' => 'true']);
 
         return $out;
+    }
+
+    /**
+     * Render a cohortlist entry for output_members().
+     * @param $cohortname
+     * @param $cohortmembers
+     * @return string
+     */
+    private function output_members_entry($cohortname, $cohortmembers) {
+        $out = '';
+
+        // Create HTML element ID from cohortname.
+        $id = 'profilecohort-cohortlist-'.preg_replace('/\W+/', '', strtolower($cohortname));
+
+        // Bootstrap collapse header.
+        $out .= html_writer::start_div('card-header', ['id' => $id.'-heading', 'role' => 'tab']);
+        $out .= html_writer::link('#'.$id, format_string($cohortname),
+                ['class' => 'collapsed', 'data-toggle' => 'collapse', 'data-parent' => '#profilecohort-cohortlist', 'aria-expanded' => 'false', 'aria-controls' => $id]);
+        $out .= html_writer::end_div();
+
+        // Bootstrap collapse content.
+        if ($cohortmembers) {
+            $content = '';
+            foreach ($cohortmembers as $cohortmember) {
+                $content .= html_writer::tag('li', $cohortmember);
+            }
+            $content = html_writer::tag('ul', $content);
+        } else {
+            $content = get_string('nousers', 'local_profilecohort');
+        }
+        $out .= html_writer::start_div('collapse', ['id' => $id, 'role' => 'tabpanel', 'aria-labelledby' => $id.'-heading']);
+        $out .= html_writer::div($content, 'card-block');
+        $out .= html_writer::end_div();
+
+        return html_writer::div($out, 'card');
     }
 
     /**

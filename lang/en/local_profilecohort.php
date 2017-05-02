@@ -46,6 +46,7 @@ $string['membersintro'] = 'Here you can see the user who are currently members o
 $string['moveto'] = 'Move to position';
 $string['nocohorts'] = 'There are no cohorts available for use by this plugin - please visit {$a} to create some cohorts';
 $string['nofields'] = 'No custom profile fields have been defined';
+$string['nousers'] = 'This cohort does not, currently, contain any users';
 $string['pluginname'] = 'Profile field based cohort membership';
 $string['selectcohorts'] = 'Select cohorts to be managed';
 $string['selectvalue'] = 'the user will be added to cohort';

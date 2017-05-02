@@ -53,3 +53,15 @@ form #id_hiddenheading legend {
 .path-admin-local-profilecohort #intro {
     margin-bottom: 1rem;
 }
+
+/* Style the Bootstrap collapse header on the cohort members page. */
+#profilecohort-cohortlist .card-header a {
+    padding-left: 20px;
+    background-repeat: no-repeat;
+}
+#profilecohort-cohortlist .card-header a.collapsed {
+    background-image: url([[pix:core|t/collapsed]]);
+}
+#profilecohort-cohortlist .card-header a:not(.collapsed) {
+    background-image: url([[pix:core|t/expanded]]);
+}
