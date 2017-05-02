@@ -48,3 +48,8 @@
 form #id_hiddenheading legend {
     display: none;
 }
+
+/* Add some space to the admin page intro */
+.path-admin-local-profilecohort #intro {
+    margin-bottom: 1rem;
+}
