@@ -110,23 +110,25 @@ class profilecohort extends profilefields {
         $users = $DB->get_recordset_sql($sql);
 
         $lastcohortid = null;
+        $lastcohortname = null;
         $list = '';
         $cohortmembers = [];
         foreach ($users as $user) {
             if ($user->cohortid != $lastcohortid) {
                 if ($lastcohortid) {
-                    $list .= $this->output_members_entry($user->cohortname, $cohortmembers);
+                    $list .= $this->output_members_entry($lastcohortname, $cohortmembers);
                 }
-                $lastcohortid = $user->cohortid;
                 $cohortmembers = [];
+                $lastcohortid = $user->cohortid;
+                $lastcohortname = $user->cohortname;
             }
             if ($user->id) {
                 $userurl = new \moodle_url('/user/view.php', ['id' => $user->id]);
                 $cohortmembers[] = html_writer::link($userurl, fullname($user));
             }
         }
-        if ($cohortmembers && isset($user)) {
-            $list .= $this->output_members_entry($user->cohortname, $cohortmembers);
+        if ($lastcohortid) {
+            $list .= $this->output_members_entry($lastcohortname, $cohortmembers);
         }
 
         $out .= html_writer::div($list, '', ['id' => 'profilecohort-cohortlist', 'role' => 'tablist', 'aria-multiselectable' => 'true']);
