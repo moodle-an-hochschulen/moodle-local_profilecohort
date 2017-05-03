@@ -118,6 +118,7 @@ class profilecohort extends profilefields {
                     $list .= $this->output_members_entry($user->cohortname, $cohortmembers);
                 }
                 $lastcohortid = $user->cohortid;
+                $cohortmembers = [];
             }
             if ($user->id) {
                 $userurl = new \moodle_url('/user/view.php', ['id' => $user->id]);
