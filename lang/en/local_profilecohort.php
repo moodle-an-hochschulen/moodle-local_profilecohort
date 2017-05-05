@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['addintro'] = 'Use this form to add mappings between user custom profile fields and the cohorts the user will be added to.';
-$string['addrule'] = 'Add rule for custom profile field ...';
+$string['addintro'] = 'Use this form to add mappings between custom user profile fields and the cohorts the user will be added to.';
+$string['addrule'] = 'Add rule for custom user profile field ...';
 $string['addrules'] = 'Add new rule';
 $string['andnextrule'] = 'The next rule must also match, to join this cohort.';
 $string['delete'] = 'Delete this rule';
@@ -45,13 +45,13 @@ $string['members'] = 'Cohort members';
 $string['membersintro'] = 'Here you can see the user who are currently members of the cohorts which are managed by this plugin.';
 $string['moveto'] = 'Move to position';
 $string['nocohorts'] = 'There are no cohorts available for use by this plugin - please visit {$a} to create some cohorts';
-$string['nofields'] = 'No custom profile fields have been defined';
+$string['nofields'] = 'No custom user profile fields have been defined.<br>You need to <a href="/user/profile/index.php">define custom user profile fields</a> before you can add rules here.';
 $string['nousers'] = 'This cohort does not, currently, contain any users';
 $string['pluginname'] = 'Profile field based cohort membership';
 $string['selectcohorts'] = 'Select cohorts to be managed';
 $string['selectvalue'] = 'the user will be added to cohort';
-$string['updatecohorts'] = 'Update cohorts from custom profile fields';
-$string['viewintro'] = 'Use this form to define mappings between user custom profile fields and the cohorts the user will be added to.<br>
+$string['updatecohorts'] = 'Update cohorts from custom user profile fields';
+$string['viewintro'] = 'Use this form to define mappings between custom user profile fields and the cohorts the user will be added to.<br>
 Rules are processed in the order that they are displayed. However, a user matching multiple rules will be added to all the relevant cohorts.<br>
 Please note: When rules are changed, a background task will be scheduled to update all affected users - there will be a short delay (a few minutes depending on the configuration of the Moodle server) before all user memberships in the cohorts are updated. Nevertheless, any user who logs in before the background task is finished will be updated immediately.';
 $string['viewrules'] = 'View / edit rules';
