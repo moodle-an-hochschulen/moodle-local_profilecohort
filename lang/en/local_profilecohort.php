@@ -42,7 +42,7 @@ $string['match_notexact'] = 'Does not match';
 $string['matchtype'] = 'Match type';
 $string['matchvalue'] = 'Match value';
 $string['members'] = 'Cohort members';
-$string['membersintro'] = 'Here you can see the user who are currently members of the cohorts which are managed by this plugin.';
+$string['membersintro'] = 'On this tab, you can see the user who are currently members of the cohorts which are managed by this plugin.';
 $string['moveto'] = 'Move to position';
 $string['nocohorts'] = 'There are no cohorts available for use by this plugin - please visit {$a} to create some cohorts';
 $string['nofields'] = 'No custom user profile fields have been defined.<br>You need to <a href="/user/profile/index.php">define custom user profile fields</a> before you can add rules here.';
