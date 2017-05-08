@@ -13,7 +13,11 @@ This plugin requires Moodle 3.2+
 Motivation for this plugin
 --------------------------
 
-TODO
+Moodle core provides a mechanim to manually fill cohorts with users (on Site administration -> Users -> Accounts -> Cohorts). This is fine for small Moodle installations where the cohort members don't change too often and where the Moodle admin has plenty of time to update the cohorts.
+
+Now, larger or fragmented Moodle installations may have the need to manage a large number of cohorts which have a large amount of members and which may also change quite often. Managing cohorts by hand in such scenarios is simply unprofessional overkill - even / particularly if you distribute the work among multiple Moodle admins.
+
+On the other hand these large or fragmented Moodle installations might already have some custom user profile fields which can be leveraged to decide which cohort a user should be added to. This plugin implements a simple solution to manage cohort memberships based on a users' custom profile field.
 
 
 Installation
@@ -28,13 +32,65 @@ See http://docs.moodle.org/en/Installing_plugins for details on installing Moodl
 Usage & Settings
 ----------------
 
-TODO
+After installing the plugin, it does not do anything to Moodle yet.
+
+To configure the plugin and its behaviour, please visit:
+Site administration -> Users -> Accounts -> Profile field based cohort membership.
+
+There, you find four tabs:
+
+### 1. View / edit rules
+
+On this tab, you define the rules mapping custom user profile fields to the cohorts the user will be added to.
+The defined rules are processed in the order that they are displayed. However, a user matching multiple rules will be added to all the relevant cohorts.
+
+### 2. Add new rule
+
+When you use the plugin for the first time and there are no rules yet, this is the tab you will be shown second.
+
+On this tab, you can add a new rule mapping a custom user profile field's value to a cohort the user will be added to.
+
+If no custom user profile fields have been defined in your Moodle installation yet, you need to define custom user profile fields first on /user/profile/index.php before you can add rules here.
+
+### 3. Cohort members
+
+On this tab, you can see the user who are currently members of the cohorts which are managed by this plugin.
+
+This list is just a simple fill-in for a missing cohort members list in Moodle core (see below for details), but is sufficient for checking if the cohorts are filled properly.
+
+### 4. Select cohorts to be managed
+
+When you use the plugin for the first time, this is the tab you will be shown first.
+
+On this tab, you select the cohorts you want this plugin to manage.
+
+Once selected, you will not be able to manually update the members of these cohorts anymore. Furthermore, any users who are currently a member of these cohorts will be removed from the cohorts and the cohorts are then filled from scratch with the users matching the rule(s) you create with this plugin.
+
+If you decide to stop managing a cohort with this plugin and deselect it here, all users who are currently a member of this cohort will keep being a member. Additionally, you will be able to manually update the members of this cohort again.
 
 
 How this plugin works
 ---------------------
 
-TODO
+Besides the manual management of cohorts in Moodle core, Moodle is already prepared to let cohorts be managed by plugins. This plugin just leverages this prepared mechanism and marks existing cohorts as managed by local_profilecohort.
+
+For adding members to the cohorts, this plugin simply listens for the \core\event\user_loggedin event, checks all existing rules and adds the user who has just logged in to the cohorts matching for his custom user profile field values respectively removes him from all managed cohorts which he is a member but does not match any rules anymore.
+
+Additionally, there is a scheduled task which is used to update the cohorts of all affected users as soon as you create, change or delete any rule in the plugin. Depending on the configuration of your scheduled tasks in Moodle and the cronjob on the Moodle server), there might be a short delay before all user memberships in the cohorts are updated. Nevertheless, any user who logs in before the background task is finished will be updated immediately. If you want to check the plugin's scheduled task, please visit Site Administration -> Server -> Scheduled tasks and search for the "Update cohorts from custom user profile fields" task.
+
+
+Relation to Totara audiences
+----------------------------
+
+There is a long-standing similar (and even more powerful) mechanism in Totara (https://www.totaralms.com/) called "audiences". This plugin was inspired by Totara audiences, but does neither reuse its code nor strive to fully reimplement it for Moodle.
+
+
+Companion plugin local_cohortrole
+---------------------------------
+
+This plugin provides a mapping from custom user profile fields to cohorts. If you are looking for a mapping from custom user profile fields to system roles, you might want to look at local_cohortrole as a companion plugin.
+
+local_cohortrole is maintained by Paul Holden and published on https://moodle.org/plugins/local_cohortrole. The development of this plugin and local_cohortrole is not synchronized in any way, we just want to recommend it as a solution approach as we are using both plugins in combination in production.
 
 
 Theme support
