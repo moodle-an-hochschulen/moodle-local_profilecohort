@@ -93,6 +93,16 @@ This plugin provides a mapping from custom user profile fields to cohorts. If yo
 local_cohortrole is maintained by Paul Holden and published on https://moodle.org/plugins/local_cohortrole. The development of this plugin and local_cohortrole is not related or synchronized in any way, we just want to recommend it as a solution approach as we are using both plugins in combination in production.
 
 
+Managed cohorts member list in Moodle Core
+------------------------------------------
+
+Unfortunately, Moodle core does not have a members list for managed cohorts. That's why we added this member list to this plugin as a fill-in.
+
+However, we created a Moodle tracker ticket on https://tracker.moodle.org/browse/MDL-58840 which proposes to add a managed cohorts member list to Moodle core.
+
+Please vote for this ticket if you want to have this realized.
+
+
 Theme support
 -------------
 
