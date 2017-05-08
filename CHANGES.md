@@ -4,7 +4,7 @@ moodle-local_profilecohort
 Changes
 -------
 
-### Unreleased
+### v3.2-r1
 
 * 2017-05-05 - Improve README.md
 * 2017-01-29 - Add several features before publishing the plugin in the Moodle plugin repo
