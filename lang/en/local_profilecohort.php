@@ -29,7 +29,7 @@ $string['addrule'] = 'Add rule for custom user profile field ...';
 $string['addrules'] = 'Add new rule';
 $string['andnextrule'] = 'The next rule must also match, to join this cohort.';
 $string['delete'] = 'Delete this rule';
-$string['cohortsintro'] = 'Please select the cohorts you want this plugin to manage.<br>
+$string['cohortsintro'] = 'On this tab, you select the cohorts you want this plugin to manage.<br>
 Once selected, you will not be able to manually update the members of these cohorts anymore. Furthermore, any users who are currently a member of these cohorts will be removed from the cohorts and the cohorts are then filled from scratch with the users matching the rule(s) you create with this plugin.<br>
 If you decide to stop managing a cohort with this plugin and deselect it here, all users who are currently a member of this cohort will keep being a member. Additionally, you will be able to manually update the members of this cohort again.';
 $string['iffield'] = 'If {$a}';
