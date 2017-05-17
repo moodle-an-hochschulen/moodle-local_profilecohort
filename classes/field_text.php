@@ -31,13 +31,30 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Class field_text
  * @package local_profilecohort
+ * @copyright 2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class field_text extends field_base {
+    /**
+     * Field must match the value exactly.
+     */
     const MATCH_EXACT = 'exact';
+    /**
+     * Field must contain the value.
+     */
     const MATCH_CONTAINS = 'contains';
+    /**
+     * Field must not match the value.
+     */
     const MATCH_NOTEXACT = 'notexact';
+    /**
+     * Field must not contain the value.
+     */
     const MATCH_NOTCONTAINS = 'notcontains';
 
+    /**
+     * @var string[] list of valid match types for this field.
+     */
     protected static $matchtypes = [
         self::MATCH_EXACT, self::MATCH_CONTAINS,
         self::MATCH_NOTEXACT, self::MATCH_NOTCONTAINS,
@@ -77,6 +94,7 @@ class field_text extends field_base {
     }
 
     /**
+     * Add the fields for editing this specific field type
      * @param MoodleQuickForm $mform
      * @param string $id
      * @return \HTML_QuickForm_element[]

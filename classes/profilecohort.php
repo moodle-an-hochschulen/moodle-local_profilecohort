@@ -31,12 +31,20 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Class profilecohort
  * @package local_profilecohort
+ * @copyright 2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class profilecohort extends profilefields {
+    /** @var string the database table to use */
     protected static $tablename = 'local_profilecohort';
 
+    /** @var string[] the list of available actions */
     protected static $actions = ['view', 'add', 'members'];
 
+    /**
+     * Get the URL of the main page for this plugin.
+     * @return \moodle_url
+     */
     protected function get_index_url() {
         return new \moodle_url('/local/profilecohort/index.php');
     }
@@ -131,15 +139,16 @@ class profilecohort extends profilefields {
             $list .= $this->output_members_entry($lastcohortname, $cohortmembers);
         }
 
-        $out .= html_writer::div($list, '', ['id' => 'profilecohort-cohortlist', 'role' => 'tablist', 'aria-multiselectable' => 'true']);
+        $out .= html_writer::div($list, '', ['id' => 'profilecohort-cohortlist', 'role' => 'tablist',
+                                             'aria-multiselectable' => 'true']);
 
         return $out;
     }
 
     /**
      * Render a cohortlist entry for output_members().
-     * @param $cohortname
-     * @param $cohortmembers
+     * @param string $cohortname
+     * @param string[] $cohortmembers
      * @return string
      */
     private function output_members_entry($cohortname, $cohortmembers) {
@@ -151,7 +160,8 @@ class profilecohort extends profilefields {
         // Bootstrap collapse header.
         $out .= html_writer::start_div('card-header', ['id' => $id.'-heading', 'role' => 'tab']);
         $out .= html_writer::link('#'.$id, format_string($cohortname),
-                ['class' => 'collapsed', 'data-toggle' => 'collapse', 'data-parent' => '#profilecohort-cohortlist', 'aria-expanded' => 'false', 'aria-controls' => $id]);
+                ['class' => 'collapsed', 'data-toggle' => 'collapse', 'data-parent' => '#profilecohort-cohortlist',
+                 'aria-expanded' => 'false', 'aria-controls' => $id]);
         $out .= html_writer::end_div();
 
         // Bootstrap collapse content.
@@ -174,7 +184,7 @@ class profilecohort extends profilefields {
     /**
      * Called after the user has logged in, to apply any mappings and update their cohorts
      * @param \core\event\base|null $event (optional)
-     * @param $userid (optional) mostly used by testing
+     * @param int $userid (optional) mostly used by testing
      */
     public static function set_cohorts_from_profile(\core\event\base $event = null, $userid = null) {
         global $USER, $DB, $CFG;

@@ -6,6 +6,7 @@
     animation-duration: 1s;
     animation-name: localprofile-flash;
 }
+
 @keyframes localprofile-flash {
     from {
         background-color: inherit;

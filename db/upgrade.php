@@ -24,6 +24,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Steps to take during upgrades
+ * @param int $oldversion (optional)
+ * @return bool
+ */
 function xmldb_local_profilecohort_upgrade($oldversion = 0) {
     global $DB;
 

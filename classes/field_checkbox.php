@@ -31,9 +31,12 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Class field_checkbox
  * @package local_profilecohort
+ * @copyright 2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class field_checkbox extends field_base {
     /**
+     * Add the fields for editing this specific field type
      * @param MoodleQuickForm $mform
      * @param string $id
      * @return \HTML_QuickForm_element[]
@@ -57,6 +60,14 @@ class field_checkbox extends field_base {
         return [$label, $sel];
     }
 
+    /**
+     * Given all the data returned by the form, update this rule from the relevant fields
+     * then (if changed), save the data back into the database.
+     *
+     * @param string $tablename
+     * @param object $formdata
+     * @return bool has the rule changed?
+     */
     public function update_from_form_data($tablename, $formdata) {
         // Extract the 'defined/not defined' type from the values select.
         $id = $this->get_form_id();

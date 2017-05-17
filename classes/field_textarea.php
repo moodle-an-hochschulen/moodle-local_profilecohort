@@ -29,6 +29,8 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Class field_textarea
  * @package local_profilecohort
+ * @copyright 2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class field_textarea extends field_text {
     // For our purposes, this is identical to field_text.
