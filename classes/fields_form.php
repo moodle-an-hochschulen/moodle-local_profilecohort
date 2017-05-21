@@ -33,10 +33,13 @@ require_once($CFG->libdir.'/formslib.php');
 /**
  * Class fields_form
  * @package local_profilecohort
+ * @copyright 2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class fields_form extends moodleform {
 
     /**
+     * Return the current list of rules.
      * @return field_base[]
      */
     private function get_rules() {
@@ -44,6 +47,7 @@ class fields_form extends moodleform {
     }
 
     /**
+     * Return the possible values that could be assigned as a result of the rules matching.
      * @return string[]
      */
     private function get_values() {

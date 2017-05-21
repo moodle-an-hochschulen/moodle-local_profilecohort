@@ -28,9 +28,12 @@ require_once(__DIR__.'/../../../../lib/behat/behat_base.php');
 
 /**
  * Class behat_local_profilecohort
+ * @copyright 2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class behat_local_profilecohort extends behat_base {
     /**
+     * Create the user profile fields requested.
      * @Given /^the following custom user profile fields exist \(local_profilecohort\):$/
      * @param TableNode $table
      * @throws Exception

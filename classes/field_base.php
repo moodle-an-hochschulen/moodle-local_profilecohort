@@ -38,26 +38,71 @@ defined('MOODLE_INTERNAL') || die();
  * @property string $matchtype
  * @property string $matchvalue
  * @property string $value
+ * @copyright 2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class field_base {
     // Fields from main database table.
+    /**
+     * @var int|null the rule id
+     */
     protected $id = null;
+    /**
+     * @var int|null the profile field this rule matches
+     */
     protected $fieldid = null;
+    /**
+     * @var string|null the type of match (defined, not defined, exact, etc.)
+     */
     protected $matchtype = null;
+    /**
+     * @var string|null the value to compare with
+     */
     protected $matchvalue = null;
+    /**
+     * @var string|null the value to return if this rule matches
+     */
     protected $value = null;
+    /**
+     * @var int|null the order in which the rules should be processed
+     */
     protected $sortorder = null;
+    /**
+     * @var int should this rule be combined with the next rule?
+     */
     protected $andnextrule = 0;
+
     // Extra fields from user_info_field table.
+    /**
+     * @var string|null the name of the profile field to match against
+     */
     protected $name = null;
+    /**
+     * @var string|null the param1 data for the profile field (e.g. possible values for menu fields)
+     */
     protected $param1 = null;
 
+    /**
+     * @var int|null the order of the field when displayed on the form
+     */
     protected $formposition = null;
 
+    /**
+     * @var string[] the fields in the main database table
+     */
     protected static $fields = ['id', 'fieldid', 'matchtype', 'matchvalue', 'value', 'sortorder', 'andnextrule'];
+    /**
+     * @var string[] the fields from the user_info_field table
+     */
     protected static $extrafields = ['name', 'param1'];
 
+    /**
+     * Match if the field is defined.
+     */
     const MATCH_ISDEFINED = '!!defined!!';
+    /**
+     * Match if the field is NOT defined.
+     */
     const MATCH_NOTDEFINED = '!!notdefined!!';
 
     /**
@@ -140,8 +185,8 @@ abstract class field_base {
      * Given all the data returned by the form, update this rule from the relevant fields
      * then (if changed), save the data back into the database.
      *
-     * @param $tablename
-     * @param $formdata
+     * @param string $tablename
+     * @param object $formdata
      * @return bool has the rule changed?
      */
     public function update_from_form_data($tablename, $formdata) {
@@ -239,10 +284,19 @@ abstract class field_base {
         $this->$name = $value;
     }
 
+    /**
+     * Should this field be combined with the next field?
+     * @return bool
+     */
     public function should_and_next_field() {
         return (bool)$this->andnextrule;
     }
 
+    /**
+     * Does this field match the data provided.
+     * @param array $fields
+     * @return bool
+     */
     public function matches($fields) {
         if (isset($fields[$this->fieldid])) {
             if ($this->matchtype == self::MATCH_ISDEFINED) {
@@ -329,6 +383,7 @@ abstract class field_base {
      * Add the fields for editing this specific field type
      * @param MoodleQuickForm $mform
      * @param string $id
+     * @return \HTML_QuickForm_element[]
      */
     abstract protected function add_form_field_internal(MoodleQuickForm $mform, $id);
 

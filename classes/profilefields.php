@@ -32,8 +32,11 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Class profilefields
  * @package local_profilecohort
+ * @copyright 2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class profilefields {
+    /** @var string the name of the database table to use */
     protected static $tablename = null;
     /** @var field_base[] */
     protected $rules = null;
@@ -46,6 +49,7 @@ abstract class profilefields {
     /** @var string */
     protected $action = 'view';
 
+    /** @var string[] list of available actions */
     protected static $actions = ['view', 'add'];
 
     /**
@@ -67,6 +71,10 @@ abstract class profilefields {
         }
     }
 
+    /**
+     * Get the URL of the main page for this plugin.
+     * @return \moodle_url
+     */
     protected function get_index_url() {
         global $PAGE;
         return $PAGE->url;
@@ -99,7 +107,8 @@ abstract class profilefields {
         if ($this->action == 'add') {
             // Add a new, empty, rule to the end of the list, if requested.
             if ($addid = optional_param('add', null, PARAM_INT)) {
-                $field = $DB->get_record('user_info_field', array('id' => $addid), 'id AS fieldid, name, datatype, param1', MUST_EXIST);
+                $field = $DB->get_record('user_info_field', array('id' => $addid), 'id AS fieldid, name, datatype, param1',
+                                         MUST_EXIST);
                 if ($rule = field_base::make_instance($field)) {
                     $rules[] = $rule;
                 }
@@ -140,7 +149,7 @@ abstract class profilefields {
      * New sortorder is stored in the $formdata, to be applied by $rule->update_from_form_data()
      *
      * @param field_base[] $rules
-     * @param $formdata
+     * @param object $formdata
      * @return bool true if there were any changes made
      */
     protected function figure_out_sortorder($rules, $formdata) {
@@ -206,7 +215,8 @@ abstract class profilefields {
         }
 
         if (!$this->get_possible_fields()) {
-            $notification = new \core\output\notification(get_string('nofields', 'local_profilecohort'), \core\output\notification::NOTIFY_ERROR);
+            $notification = new \core\output\notification(get_string('nofields', 'local_profilecohort'),
+                                                          \core\output\notification::NOTIFY_ERROR);
             $notification->set_show_closebutton(false);
             $out .= $OUTPUT->render($notification);
             return $out;
@@ -280,7 +290,7 @@ abstract class profilefields {
      * For the given user, load their profile fields then match them against the
      * defined rules
      *
-     * @param $userid
+     * @param int $userid
      * @param bool $matchall (optional) set to true to get an array of all matches
      *                        false (default) to get only the first match
      * @return array|null|string - array if $matchall is true, null (or empty array) if no match found

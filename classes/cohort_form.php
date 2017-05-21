@@ -31,6 +31,8 @@ require_once($CFG->libdir.'/formslib.php');
 /**
  * Class cohort_form
  * @package local_profilecohort
+ * @copyright 2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class cohort_form extends \moodleform {
 
@@ -41,12 +43,14 @@ class cohort_form extends \moodleform {
         $mform = $this->_form;
         $cohorts = $this->_customdata['cohorts'];
 
-        $mform->addElement('html', \html_writer::tag('div', get_string('cohortsintro', 'local_profilecohort'), array('id' => 'intro', 'class' => 'box generalbox')));
+        $mform->addElement('html', \html_writer::tag('div', get_string('cohortsintro', 'local_profilecohort'),
+                                                     array('id' => 'intro', 'class' => 'box generalbox')));
 
         if (!$cohorts) {
             $cohorturl = new \moodle_url('/cohort/index.php');
             $link = \html_writer::link($cohorturl, get_string('cohorts', 'core_cohort'));
-            $mform->addElement('html', \html_writer::tag('div', get_string('nocohorts', 'local_profilecohort', $link), array('class' => 'alert alert-warning')));
+            $mform->addElement('html', \html_writer::tag('div', get_string('nocohorts', 'local_profilecohort', $link),
+                                                         array('class' => 'alert alert-warning')));
         } else {
             foreach ($cohorts as $cohort) {
                 $mform->addElement('advcheckbox', "cohort[$cohort->id]", null, format_string($cohort->name));

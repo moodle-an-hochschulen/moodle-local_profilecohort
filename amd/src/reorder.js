@@ -19,6 +19,10 @@ define(['jquery'], function($) {
         RULENUMBER: '.localprofile-number'
     };
 
+    /**
+     * Check if the item has been reordered and, if it has, insert it into the new position.
+     * @param e
+     */
     function checkReorderItems(e) {
         var $target = $(e.currentTarget);
         var lastPosition = parseInt($target.data('lastPosition'), 10);
@@ -38,6 +42,7 @@ define(['jquery'], function($) {
                     return false;
                 }
             }
+            return true;
         });
         if (!$displace) {
             return;
@@ -71,6 +76,9 @@ define(['jquery'], function($) {
         addCombinedDivs();
     }
 
+    /**
+     * Remove all the divs that were wrapping rules that are combined together.
+     */
     function removeCombinedDivs() {
         var $form = $('#region-main form');
         $form.find(SELECTORS.FIELDWRAPPER).removeClass('localprofile-flash').each(/* @this */function() {
@@ -81,6 +89,9 @@ define(['jquery'], function($) {
         });
     }
 
+    /**
+     * Find all rules that are combined together and wrap them in a div to visually indicate this.
+     */
     function addCombinedDivs() {
         var $collection = null;
         var $form = $('#region-main form');
@@ -111,6 +122,9 @@ define(['jquery'], function($) {
         showHideAndNextCheckbox();
     }
 
+    /**
+     * The last rule should not show a 'and next rule' checkbox, but all the rest of the rules should.
+     */
     function showHideAndNextCheckbox() {
         var $andNextRule = $('#region-main form input.andnextrule');
         if ($andNextRule.closest('label').length) {
@@ -121,11 +135,17 @@ define(['jquery'], function($) {
         }
     }
 
+    /**
+     * Refresh the divs that show which rules are combined together.
+     */
     function updateCombinedDivs() {
         removeCombinedDivs();
         addCombinedDivs();
     }
 
+    /**
+     * Highlight each of the rules that will be deleted when the form is next saved.
+     */
     function showRulesToBeDeleted() {
         var $deleteRule = $('#region-main form input.deleterule');
         $deleteRule.each(/* @this */function() {
