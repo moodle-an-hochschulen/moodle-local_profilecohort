@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2017-05-21 - Update code documentation - Credits to Davo Smith
+
 ### v3.2-r1
 
 * 2017-05-05 - Improve README.md
