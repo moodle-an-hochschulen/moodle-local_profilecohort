@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2017-05-22 - Make Moodle repo prechecker even happier
+
 ### v3.2-r2
 
 * 2017-05-21 - Update code documentation - Credits to Davo Smith
