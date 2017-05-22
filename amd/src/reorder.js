@@ -21,7 +21,7 @@ define(['jquery'], function($) {
 
     /**
      * Check if the item has been reordered and, if it has, insert it into the new position.
-     * @param e
+     * @param {Object} e The event object.
      */
     function checkReorderItems(e) {
         var $target = $(e.currentTarget);
