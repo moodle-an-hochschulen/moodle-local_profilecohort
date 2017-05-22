@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_profilecohort';
-$plugin->version = 2017052100;
-$plugin->release = 'v3.2-r2';
+$plugin->version = 2017052200;
+$plugin->release = 'v3.2-r3';
 $plugin->requires = 2016120500;
 $plugin->maturity = MATURITY_STABLE;
