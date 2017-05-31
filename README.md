@@ -1,6 +1,8 @@
 moodle-local_profilecohort
 ==========================
 
+[![Build Status](https://travis-ci.org/moodleuulm/moodle-local_profilecohort.svg?branch=master)](https://travis-ci.org/moodleuulm/moodle-local_profilecohort)
+
 Moodle plugin which lets admins manage cohort memberships based on users' custom profile fields
 
 
