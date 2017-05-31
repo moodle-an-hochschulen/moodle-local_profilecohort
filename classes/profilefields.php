@@ -133,7 +133,7 @@ abstract class profilefields {
         }
         if ($formdata = $this->form->get_data()) {
             $changed = $this->figure_out_sortorder($rules, $formdata);
-            foreach ($rules as $idx => $rule) {
+            foreach ($rules as $rule) {
                 $changed = $rule->update_from_form_data(static::$tablename, $formdata) || $changed;
             }
             if ($changed) {
