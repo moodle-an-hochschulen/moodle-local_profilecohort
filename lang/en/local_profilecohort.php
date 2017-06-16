@@ -45,7 +45,7 @@ $string['members'] = 'Cohort members';
 $string['membersintro'] = 'On this tab, you can see the users who are currently members of the cohorts which are managed by this plugin.';
 $string['moveto'] = 'Move to position';
 $string['nocohorts'] = 'There are no cohorts available for use by this plugin - please visit {$a} to create some cohorts';
-$string['nofields'] = 'No custom user profile fields have been defined.<br>You need to <a href="/user/profile/index.php">define custom user profile fields</a> before you can add rules here.';
+$string['nofields'] = 'No custom user profile fields have been defined.<br>You need to define custom user profile fields before you can add rules here - please visit {$a} to create at least one custom user profile field';
 $string['nousers'] = 'This cohort does not, currently, contain any users';
 $string['pluginname'] = 'Profile field based cohort membership';
 $string['selectcohorts'] = 'Select cohorts to be managed';
