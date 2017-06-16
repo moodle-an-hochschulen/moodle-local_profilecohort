@@ -6,10 +6,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/* This comment is just there to keep grunt satisfied and won't be processed at runtime */
-/* global define */
-
-/* The @this comments throughout this file are also just there to keep grunt satisfied */
+/* Note: The @this comments throughout this file are just there to keep grunt satisfied */
 
 define(['jquery'], function($) {
     "use strict";
