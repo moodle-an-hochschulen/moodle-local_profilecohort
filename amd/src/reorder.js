@@ -43,6 +43,47 @@ define(['jquery'], function($) {
     }
 
     /**
+     * Find all rules that are combined together and wrap them in a div to visually indicate this.
+     */
+    function addCombinedDivs() {
+        var $collection = null;
+        var $form = $('#region-main form');
+        $form.find(SELECTORS.FIELDWRAPPER).each(/* @this */function() {
+            var $this = $(this);
+            var $andnextrule = $this.find('input.andnextrule');
+            if (!$andnextrule.length) {
+                return;
+            }
+            if ($andnextrule.prop('checked')) {
+                if ($collection) {
+                    $collection = $collection.add($this);
+                } else {
+                    $collection = $this;
+                }
+            } else {
+                if ($collection) {
+                    $collection = $collection.add($this);
+                    $collection.wrapAll('<div class="localprofile-combined" />');
+                    $collection = null;
+                }
+            }
+        });
+        if ($collection) {
+            $collection.wrapAll('<div class="localprofile-combined" />');
+            $collection = null;
+        }
+        showHideAndNextCheckbox();
+    }
+
+    /**
+     * Refresh the divs that show which rules are combined together.
+     */
+    function updateCombinedDivs() {
+        removeCombinedDivs();
+        addCombinedDivs();
+    }
+
+    /**
      * Check if the item has been reordered and, if it has, insert it into the new position.
      * @param {Object} e The event object.
      */
@@ -96,47 +137,6 @@ define(['jquery'], function($) {
         $moveItem.removeClass('localprofile-flash').addClass('localprofile-flash');
 
         // Replace the 'combine with next rule' divs.
-        addCombinedDivs();
-    }
-
-    /**
-     * Find all rules that are combined together and wrap them in a div to visually indicate this.
-     */
-    function addCombinedDivs() {
-        var $collection = null;
-        var $form = $('#region-main form');
-        $form.find(SELECTORS.FIELDWRAPPER).each(/* @this */function() {
-            var $this = $(this);
-            var $andnextrule = $this.find('input.andnextrule');
-            if (!$andnextrule.length) {
-                return;
-            }
-            if ($andnextrule.prop('checked')) {
-                if ($collection) {
-                    $collection = $collection.add($this);
-                } else {
-                    $collection = $this;
-                }
-            } else {
-                if ($collection) {
-                    $collection = $collection.add($this);
-                    $collection.wrapAll('<div class="localprofile-combined" />');
-                    $collection = null;
-                }
-            }
-        });
-        if ($collection) {
-            $collection.wrapAll('<div class="localprofile-combined" />');
-            $collection = null;
-        }
-        showHideAndNextCheckbox();
-    }
-
-    /**
-     * Refresh the divs that show which rules are combined together.
-     */
-    function updateCombinedDivs() {
-        removeCombinedDivs();
         addCombinedDivs();
     }
 
