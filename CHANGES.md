@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2017-06-25 - Make codechecker happier
+
 ### v3.2-r4
 
 * 2017-05-19 - Bugfix: String in language pack didn't work for Moodle installed in subdirectories - Credits to David Mudrák

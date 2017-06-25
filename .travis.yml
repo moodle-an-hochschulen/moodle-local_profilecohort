@@ -38,7 +38,7 @@ script:
   - moodle-plugin-ci codechecker || true
   - moodle-plugin-ci csslint
   - moodle-plugin-ci shifter
-  - moodle-plugin-ci jshint || true
+  - moodle-plugin-ci jshint
   - moodle-plugin-ci validate
   - moodle-plugin-ci phpunit
   - moodle-plugin-ci behat
