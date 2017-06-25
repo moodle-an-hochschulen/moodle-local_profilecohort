@@ -17,6 +17,32 @@ define(['jquery'], function($) {
     };
 
     /**
+     * The last rule should not show a 'and next rule' checkbox, but all the rest of the rules should.
+     */
+    function showHideAndNextCheckbox() {
+        var $andNextRule = $('#region-main form input.andnextrule');
+        if ($andNextRule.closest('label').length) {
+            // Boost theme wraps labels around input tags, instead of spans.
+            $andNextRule.closest('label').removeClass('hidden').last().addClass('hidden');
+        } else {
+            $andNextRule.closest('span').removeClass('hidden').last().addClass('hidden');
+        }
+    }
+
+    /**
+     * Remove all the divs that were wrapping rules that are combined together.
+     */
+    function removeCombinedDivs() {
+        var $form = $('#region-main form');
+        $form.find(SELECTORS.FIELDWRAPPER).removeClass('localprofile-flash').each(/* @this */function() {
+            var $this = $(this);
+            if ($this.closest('.localprofile-combined').length) {
+                $this.unwrap();
+            }
+        });
+    }
+
+    /**
      * Check if the item has been reordered and, if it has, insert it into the new position.
      * @param {Object} e The event object.
      */
@@ -74,19 +100,6 @@ define(['jquery'], function($) {
     }
 
     /**
-     * Remove all the divs that were wrapping rules that are combined together.
-     */
-    function removeCombinedDivs() {
-        var $form = $('#region-main form');
-        $form.find(SELECTORS.FIELDWRAPPER).removeClass('localprofile-flash').each(/* @this */function() {
-            var $this = $(this);
-            if ($this.closest('.localprofile-combined').length) {
-                $this.unwrap();
-            }
-        });
-    }
-
-    /**
      * Find all rules that are combined together and wrap them in a div to visually indicate this.
      */
     function addCombinedDivs() {
@@ -117,19 +130,6 @@ define(['jquery'], function($) {
             $collection = null;
         }
         showHideAndNextCheckbox();
-    }
-
-    /**
-     * The last rule should not show a 'and next rule' checkbox, but all the rest of the rules should.
-     */
-    function showHideAndNextCheckbox() {
-        var $andNextRule = $('#region-main form input.andnextrule');
-        if ($andNextRule.closest('label').length) {
-            // Boost theme wraps labels around input tags, instead of spans.
-            $andNextRule.closest('label').removeClass('hidden').last().addClass('hidden');
-        } else {
-            $andNextRule.closest('span').removeClass('hidden').last().addClass('hidden');
-        }
     }
 
     /**
