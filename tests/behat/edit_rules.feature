@@ -1,4 +1,4 @@
-@local_profilecohort
+@local @local_profilecohort
 Feature: Edit rules based on profile fields
 
   Background:
