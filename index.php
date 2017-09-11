@@ -24,9 +24,10 @@
 
 use local_profilecohort\profilecohort;
 
-require_once(dirname(__FILE__).'/../../config.php');
-global $PAGE, $CFG, $OUTPUT;
+require(__DIR__ . '/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
+
+global $PAGE, $CFG, $OUTPUT;
 
 admin_externalpage_setup('local_profilecohort');
 
