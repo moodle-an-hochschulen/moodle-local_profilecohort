@@ -4,7 +4,7 @@ moodle-local_profilecohort
 Changes
 -------
 
-### Unreleased
+### v3.2-r6
 
 * 2017-09-25 - Add support for invisible cohorts
 
