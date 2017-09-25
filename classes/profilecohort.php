@@ -103,7 +103,8 @@ class profilecohort extends profilefields {
         $tabs = $this->get_tabs();
         $out .= $OUTPUT->render($tabs);
 
-        $out .= \html_writer::tag('div', get_string('membersintro', 'local_profilecohort'),
+        $out .= \html_writer::tag('div', get_string('membersintro', 'local_profilecohort').'<br/>'.
+                                 get_string('invisiblecohortsnote', 'local_profilecohort'),
                                  array('id' => 'intro', 'class' => 'box generalbox'));
 
         $namefields = get_all_user_name_fields(true, 'u');
@@ -112,7 +113,7 @@ class profilecohort extends profilefields {
             FROM {cohort} c
             LEFT JOIN {cohort_members} cm ON cm.cohortid = c.id
             LEFT JOIN {user} u ON u.id = cm.userid
-           WHERE c.visible = 1 AND c.component = 'local_profilecohort'
+           WHERE c.component = 'local_profilecohort'
            ORDER BY c.name, c.id, u.lastname, u.firstname
         ";
         $users = $DB->get_recordset_sql($sql);
@@ -224,7 +225,7 @@ class profilecohort extends profilefields {
      */
     protected static function load_possible_values() {
         global $DB;
-        $cohorts = $DB->get_records_menu('cohort', ['visible' => 1, 'component' => 'local_profilecohort'], 'name', 'id, name');
+        $cohorts = $DB->get_records_menu('cohort', ['component' => 'local_profilecohort'], 'name', 'id, name');
         return $cohorts;
     }
 
@@ -318,7 +319,7 @@ class profilecohort extends profilefields {
 
         $this->action = 'cohorts';
 
-        $select = "(component = '' OR component = 'local_profilecohort') AND visible = 1";
+        $select = "(component = '' OR component = 'local_profilecohort')";
         $allcohorts = $DB->get_records_select('cohort', $select, [], 'name', 'id, name, component');
 
         $custom = ['cohorts' => $allcohorts];

@@ -33,6 +33,7 @@ $string['cohortsintro'] = 'On this tab, you select the cohorts you want this plu
 Once selected, you will not be able to manually update the members of these cohorts anymore. Furthermore, any users who are currently a member of these cohorts will be removed from the cohorts and the cohorts are then filled from scratch with the users matching the rule(s) you create with this plugin.<br>
 If you decide to stop managing a cohort with this plugin and deselect it here, all users who are currently a member of this cohort will keep being a member. Additionally, you will be able to manually update the members of this cohort again.';
 $string['iffield'] = 'If {$a}';
+$string['invisiblecohortsnote'] = 'Please note: This plugin handles invisible cohorts completely equal to visible cohorts. Thus, the list of cohorts also includes cohorts which have been created as invisible.';
 $string['match_contains'] = 'Contains';
 $string['match_defined'] = 'Is defined';
 $string['match_exact'] = 'Matches';

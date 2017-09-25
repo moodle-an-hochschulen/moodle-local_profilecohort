@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2017-09-25 - Add support for invisible cohorts
+
 ### v3.2-r5
 
 * 2017-06-25 - Make codechecker happier

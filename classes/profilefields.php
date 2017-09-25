@@ -207,10 +207,12 @@ abstract class profilefields {
         $out .= $OUTPUT->render($tabs);
 
         if ($this->action == 'view') {
-            $out .= \html_writer::tag('div', get_string('viewintro', 'local_profilecohort'),
+            $out .= \html_writer::tag('div', get_string('viewintro', 'local_profilecohort').'<br />'.
+                                     get_string('invisiblecohortsnote', 'local_profilecohort'),
                                      array('id' => 'intro', 'class' => 'box generalbox'));
         } else if ($this->action == 'add') {
-            $out .= \html_writer::tag('div', get_string('addintro', 'local_profilecohort'),
+            $out .= \html_writer::tag('div', get_string('addintro', 'local_profilecohort').
+                                     '<br />'.get_string('invisiblecohortsnote', 'local_profilecohort'),
                                      array('id' => 'intro', 'class' => 'box generalbox'));
         }
 
