@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2018-05-16 - Implement Privacy API.
+
 ### v3.4-r1
 
 * 2017-12-12 - Check compatibility for Moodle 3.4, no functionality change.

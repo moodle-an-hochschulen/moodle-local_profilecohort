@@ -49,6 +49,7 @@ $string['nocohorts'] = 'There are no cohorts available for use by this plugin - 
 $string['nofields'] = 'No custom user profile fields have been defined.<br>You need to define custom user profile fields before you can add rules here - please visit {$a} to create at least one custom user profile field';
 $string['nousers'] = 'This cohort does not, currently, contain any users';
 $string['pluginname'] = 'Profile field based cohort membership';
+$string['privacy:metadata'] = 'The profile field based cohort membership plugin provides extended functionality to Moodle admins, but does not store any personal data.';
 $string['selectcohorts'] = 'Select cohorts to be managed';
 $string['selectvalue'] = 'the user will be added to cohort';
 $string['updatecohorts'] = 'Update cohorts from custom user profile fields';
