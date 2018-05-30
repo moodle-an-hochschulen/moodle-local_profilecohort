@@ -4,7 +4,7 @@ moodle-local_profilecohort
 Changes
 -------
 
-### Unreleased
+### v3.5-r1
 
 * 2018-05-30 - Minor change to the card structure due to changes in Moodle core.
 * 2018-05-30 - Check compatibility for Moodle 3.5, no functionality change.
