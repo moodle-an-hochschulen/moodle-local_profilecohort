@@ -176,7 +176,7 @@ class profilecohort extends profilefields {
             $content = get_string('nousers', 'local_profilecohort');
         }
         $out .= html_writer::start_div('collapse', ['id' => $id, 'role' => 'tabpanel', 'aria-labelledby' => $id.'-heading']);
-        $out .= html_writer::div($content, 'card-block');
+        $out .= html_writer::div($content, 'card-body');
         $out .= html_writer::end_div();
 
         return html_writer::div($out, 'card');

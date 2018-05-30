@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2018-05-30 - Minor change to the card structure due to changes in Moodle core.
 * 2018-05-30 - Check compatibility for Moodle 3.5, no functionality change.
 
 ### v3.4-r2
