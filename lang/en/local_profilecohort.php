@@ -40,6 +40,7 @@ $string['match_empty'] = 'Is empty';
 $string['match_exact'] = 'Matches';
 $string['match_notcontains'] = 'Does not contain';
 $string['match_notdefined'] = 'Is not defined';
+$string['match_notempty'] = 'Is not empty';
 $string['match_notexact'] = 'Does not match';
 $string['matchtype'] = 'Match type';
 $string['matchvalue'] = 'Match value';
