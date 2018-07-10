@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2018-07-10 - Support for testing if text fields or textareas are (not) empty.
+
 ### v3.5-r1
 
 * 2018-05-30 - Minor change to the card structure due to changes in Moodle core.
