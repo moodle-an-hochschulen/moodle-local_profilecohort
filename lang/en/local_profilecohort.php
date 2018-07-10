@@ -36,6 +36,7 @@ $string['iffield'] = 'If {$a}';
 $string['invisiblecohortsnote'] = 'Please note: This plugin handles invisible cohorts completely equal to visible cohorts. Thus, the list of cohorts also includes cohorts which have been created as invisible.';
 $string['match_contains'] = 'Contains';
 $string['match_defined'] = 'Is defined';
+$string['match_empty'] = 'Is empty';
 $string['match_exact'] = 'Matches';
 $string['match_notcontains'] = 'Does not contain';
 $string['match_notdefined'] = 'Is not defined';
