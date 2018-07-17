@@ -705,4 +705,68 @@ class local_profilecohort_testcase extends advanced_testcase {
         $this->assertFalse(cohort_is_member($this->cohortids[2], $user3->id));
         $this->assertTrue(cohort_is_member($this->cohortids[3], $user3->id));
     }
+
+    /**
+     * Test combining rules together using 'and' where the _last_ rule has the 'andnextrule' flag set
+     */
+    public function test_and_rules_ending_in_and() {
+        global $DB;
+
+        // Set up a user with 'menufield' set to 'Opt 1', 'checkboxfield' set to 'No'.
+        $user1 = $this->getDataGenerator()->create_user();
+        $ins = (object)['userid' => $user1->id, 'fieldid' => $this->fieldids['menufield'], 'data' => 'Opt 1'];
+        $DB->insert_record('user_info_data', $ins);
+        $ins = (object)['userid' => $user1->id, 'fieldid' => $this->fieldids['checkboxfield'], 'data' => '0'];
+        $DB->insert_record('user_info_data', $ins);
+
+        // Set up a user with 'menufield' set to 'Opt 1', 'checkboxfield' set to 'Yes'.
+        $user2 = $this->getDataGenerator()->create_user();
+        $ins = (object)['userid' => $user2->id, 'fieldid' => $this->fieldids['menufield'], 'data' => 'Opt 1'];
+        $DB->insert_record('user_info_data', $ins);
+        $ins = (object)['userid' => $user2->id, 'fieldid' => $this->fieldids['checkboxfield'], 'data' => '1'];
+        $DB->insert_record('user_info_data', $ins);
+
+        // Create rules - note cohort value for rule 2 (cohort 1) should never be used,
+        // as it is an additional rule to the rule above it.
+
+        // As 'menufield' ==  'Opt 1' => cohort 0 AND next rule must match.
+        $ruledata1 = (object)[
+            'fieldid' => $this->fieldids['menufield'], 'datatype' => 'menu',
+            'matchvalue' => 'Opt 1', 'value' => $this->cohortids[0], 'andnextrule' => 1
+        ];
+        $rule1 = field_base::make_instance($ruledata1);
+        $rule1->save(self::TABLENAME);
+        // As 'checkboxfield' == 0 => cohort 1 AND next rule must match.
+        $ruledata2 = (object)[
+            'fieldid' => $this->fieldids['checkboxfield'], 'datatype' => 'checkbox',
+            'matchvalue' => '0', 'value' => $this->cohortids[1], 'andnextrule' => 1
+        ];
+        $rule2 = field_base::make_instance($ruledata2);
+        $rule2->save(self::TABLENAME);
+
+        // Process the rules to get the new cohortids.
+        $user1cohortids = \local_profilecohort\profilecohort::get_mapped_value($user1->id, true);
+        $user2cohortids = \local_profilecohort\profilecohort::get_mapped_value($user2->id, true);
+
+        // User1 should match rule 1 + 2 (cohort 0).
+        $this->assertEquals([$this->cohortids[0]], $user1cohortids);
+
+        // User2 does not match rule 2 (so, not cohort 0).
+        $this->assertEquals([], $user2cohortids);
+
+        // Execute all rules, to check cohort membership is updated correctly.
+        $manager = new \local_profilecohort\profilecohort();
+        $manager->update_all_cohorts_from_rules();
+
+        // Check the cohorts have been updated, as expected.
+        $this->assertTrue(cohort_is_member($this->cohortids[0], $user1->id));
+        $this->assertFalse(cohort_is_member($this->cohortids[1], $user1->id));
+        $this->assertFalse(cohort_is_member($this->cohortids[2], $user1->id));
+        $this->assertFalse(cohort_is_member($this->cohortids[3], $user1->id));
+
+        $this->assertFalse(cohort_is_member($this->cohortids[0], $user2->id));
+        $this->assertFalse(cohort_is_member($this->cohortids[1], $user2->id));
+        $this->assertFalse(cohort_is_member($this->cohortids[2], $user2->id));
+        $this->assertFalse(cohort_is_member($this->cohortids[3], $user2->id));
+    }
 }

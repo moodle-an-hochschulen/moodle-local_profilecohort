@@ -328,10 +328,11 @@ abstract class profilefields {
             while ($rule && $rule->should_and_next_field()) {
                 $rule = next($rules);
                 if (!$rule) {
-                    return $ret;
+                    break;
                 }
                 if ($value && !$rule->matches($fields)) {
                     $value = null;
+                    // Do not exit inner loop early, because we must skip all remaining AND-combined rules.
                 }
             }
             if ($value) {
@@ -340,6 +341,9 @@ abstract class profilefields {
                 } else {
                     return $value;
                 }
+            }
+            if (!$rule) {
+                break;
             }
             $rule = next($rules);
         }

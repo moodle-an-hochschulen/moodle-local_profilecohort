@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2019-03-26 - Bugfix: rules didn't match properly if last rule had andnextrule.
+
 ### v3.6-r1
 
 * 2019-03-26 - Replaced deprecated Behat test steps.
