@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2018-07-31 - Update user’s cohorts also on login as, not only on login.
+
 ### v3.5-r2
 
 * 2018-07-10 - Support for testing if text fields or textareas are (not) empty.

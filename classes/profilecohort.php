@@ -220,6 +220,25 @@ class profilecohort extends profilefields {
     }
 
     /**
+     * Called after the user has logged in as another user, to apply any mappings and update their cohorts
+     * @param \core\event\base|null $event (optional)
+     * @param int $userid (optional) mostly used by testing; overrides possible value from event
+     */
+    public static function set_cohorts_from_profile_loginas(\core\event\base $event = null, $userid = null) {
+        global $USER;
+
+        if ($event && $event->relateduserid && !$userid) {
+            // The usual case: we have received an event, and caller has not asked for specific user id.
+            $userid = $event->relateduserid;
+            if ($USER->id && $userid != $USER->id) {
+                return; // Only update the cohorts for the user as who we are logged in.
+            }
+        }
+
+        self::set_cohorts_from_profile(null, $userid);
+    }
+
+    /**
      * Load a list of possible values that fields can be mapped onto.
      * @return string[] $value => $displayname
      */
