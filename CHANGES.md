@@ -4,7 +4,7 @@ moodle-local_profilecohort
 Changes
 -------
 
-### Unreleased
+### v3.5-r3
 
 * 2018-07-31 - Update user’s cohorts also on login as, not only on login.
 
