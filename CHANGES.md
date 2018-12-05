@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2018-12-05 - Changed travis.yml due to upstream changes.
+
 ### v3.5-r3
 
 * 2018-07-31 - Update user’s cohorts also on login as, not only on login.
