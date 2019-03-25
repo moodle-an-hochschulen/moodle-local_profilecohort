@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2019-03-25 - Add the fact that we are listening to \core\event\user_loggedinas event to README.md.
 * 2018-12-05 - Changed travis.yml due to upstream changes.
 
 ### v3.5-r3
