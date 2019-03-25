@@ -76,7 +76,7 @@ How this plugin works
 
 Besides the manual management of cohorts in Moodle core, Moodle is already prepared to let cohorts be managed by plugins. This plugin just leverages this prepared mechanism and marks existing cohorts as managed by local_profilecohort as soon as they are selected to be managed in the plugin.
 
-For adding members to the cohorts, this plugin simply listens for the \core\event\user_loggedin and \core\event\user_loggedinas events, checks all existing rules and adds the user who has just logged in to the cohorts matching for his custom user profile field values respectively removes him from all managed cohorts which he is already a member but does not match any rules anymore.
+For adding members to the cohorts, this plugin simply listens for the \core\event\user_loggedin, \core\event\user_loggedinas, \core\event\user_created and \core\event\user_updated events, checks all existing rules and adds the user to the cohorts matching for his custom user profile field values respectively removes him from all managed cohorts which he is already a member but does not match any rules anymore.
 
 Additionally, there is a scheduled task which is used to update the cohorts of all affected users as soon as you create, change or delete any rule in the plugin. Depending on the configuration of your scheduled tasks in Moodle and the cronjob on the Moodle server, there might be a short delay before all user memberships in the cohorts are updated. Nevertheless, any user who logs in before the background task is finished will be updated immediately. If you want to check the plugin's scheduled task, please visit Site Administration -> Server -> Scheduled tasks and search for the "Update cohorts from custom user profile fields" task.
 

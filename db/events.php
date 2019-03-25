@@ -32,5 +32,13 @@ $observers = [
     [
         'eventname' => '\core\event\user_loggedinas',
         'callback' => '\local_profilecohort\profilecohort::set_cohorts_from_profile_loginas'
+    ],
+    [
+        'eventname' => '\core\event\user_created',
+        'callback' => '\local_profilecohort\profilecohort::set_cohorts_from_profile_created'
+    ],
+    [
+        'eventname' => '\core\event\user_updated',
+        'callback' => '\local_profilecohort\profilecohort::set_cohorts_from_profile_updated'
     ]
 ];

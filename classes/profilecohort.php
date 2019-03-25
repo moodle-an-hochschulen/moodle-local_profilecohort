@@ -239,6 +239,34 @@ class profilecohort extends profilefields {
     }
 
     /**
+     * Called after the user has been created, to apply any mappings and update their cohorts
+     * @param \core\event\base|null $event (optional)
+     * @param int $userid (optional) mostly used by testing; overrides possible value from event
+     */
+    public static function set_cohorts_from_profile_created(\core\event\base $event = null, $userid = null) {
+        if ($event && $event->objectid && !$userid) {
+            // We have received an event, and caller has not asked for specific user id.
+            $userid = $event->objectid;
+        }
+
+        self::set_cohorts_from_profile(null, $userid);
+    }
+
+    /**
+     * Called after the user has been updated, to apply any mappings and update their cohorts
+     * @param \core\event\base|null $event (optional)
+     * @param int $userid (optional) mostly used by testing; overrides possible value from event
+     */
+    public static function set_cohorts_from_profile_updated(\core\event\base $event = null, $userid = null) {
+        if ($event && $event->objectid && !$userid) {
+            // We have received an event, and caller has not asked for specific user id.
+            $userid = $event->objectid;
+        }
+
+        self::set_cohorts_from_profile(null, $userid);
+    }
+
+    /**
      * Load a list of possible values that fields can be mapped onto.
      * @return string[] $value => $displayname
      */
