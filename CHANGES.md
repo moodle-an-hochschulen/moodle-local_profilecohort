@@ -4,7 +4,7 @@ moodle-local_profilecohort
 Changes
 -------
 
-### Unreleased
+### v3.6-r1
 
 * 2019-03-26 - Replaced deprecated Behat test steps.
 * 2019-03-26 - Check compatibility for Moodle 3.6, no functionality change.
