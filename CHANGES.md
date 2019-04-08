@@ -4,7 +4,7 @@ moodle-local_profilecohort
 Changes
 -------
 
-### Unreleased
+### v3.6-r2
 
 * 2019-03-26 - Bugfix: rules didn't match properly if last rule had andnextrule.
 
