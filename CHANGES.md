@@ -4,7 +4,7 @@ moodle-local_profilecohort
 Changes
 -------
 
-### Unreleased
+### v3.7-r1
 
 * 2019-07-02 - Make codechecker happy.
 * 2019-07-02 - Prepare compatibility for Moodle 3.7.
