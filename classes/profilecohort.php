@@ -156,7 +156,7 @@ class profilecohort extends profilefields {
         $out = '';
 
         // Create HTML element ID from cohortname.
-        $id = 'profilecohort-cohortlist-'.preg_replace('/\W+/', '', strtolower($cohortname));
+        $id = 'profilecohort-cohortlist-'.str_replace(' ', '-', strtolower($cohortname));
 
         // Bootstrap collapse header.
         $out .= html_writer::start_div('card-header', ['id' => $id.'-heading', 'role' => 'tab']);
