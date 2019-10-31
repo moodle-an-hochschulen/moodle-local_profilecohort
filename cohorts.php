@@ -27,6 +27,9 @@ use local_profilecohort\profilecohort;
 require(__DIR__ . '/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 
+$context = \context_system::instance();
+require_capability('local/profilecohort:selectcohorts', $context);
+
 global $PAGE, $CFG, $OUTPUT;
 
 $url = new moodle_url('/local/profilecohort/cohorts.php');
