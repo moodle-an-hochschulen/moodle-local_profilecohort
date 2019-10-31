@@ -105,6 +105,9 @@ abstract class profilefields {
 
         $addid = null;
         if ($this->action == 'add') {
+            $context = \context_system::instance();
+            require_capability('local/profilecohort:managerules', $context);
+
             // Add a new, empty, rule to the end of the list, if requested.
             if ($addid = optional_param('add', null, PARAM_INT)) {
                 $field = $DB->get_record('user_info_field', array('id' => $addid), 'id AS fieldid, name, datatype, param1',
@@ -247,10 +250,23 @@ abstract class profilefields {
      */
     protected function get_tabs() {
         $tabs = [];
-        $tabs[] = new \tabobject('view', new \moodle_url($this->get_index_url(), ['action' => 'view']),
-                                 get_string('viewrules', 'local_profilecohort'));
-        $tabs[] = new \tabobject('add', new \moodle_url($this->get_index_url(), ['action' => 'add']),
-                                 get_string('addrules', 'local_profilecohort'));
+        $context = \context_system::instance();
+
+        if (has_capability('local/profilecohort:viewrules', $context)) {
+            $title = get_string('viewrules', 'local_profilecohort');
+
+            if (has_capability('local/profilecohort:managerules', $context)) {
+                $title = get_string('vieweditrules', 'local_profilecohort');
+            }
+
+            $tabs[] = new \tabobject('view', new \moodle_url($this->get_index_url(), ['action' => 'view']), $title);
+        }
+
+        if (has_capability('local/profilecohort:managerules', $context)) {
+            $tabs[] = new \tabobject('add', new \moodle_url($this->get_index_url(), ['action' => 'add']),
+                                    get_string('addrules', 'local_profilecohort'));
+        }
+
         $tabs = array_merge($tabs, $this->extra_tabs());
 
         $tabtree = new \tabtree($tabs, $this->action);

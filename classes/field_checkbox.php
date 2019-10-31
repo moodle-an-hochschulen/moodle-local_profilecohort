@@ -54,8 +54,16 @@ class field_checkbox extends field_base {
             self::MATCH_NOTDEFINED => get_string('match_notdefined', 'local_profilecohort'),
         ];
 
+        $context = \context_system::instance();
+        $canmanagerules = has_capability('local/profilecohort:managerules', $context);
+        $selectattrs = [];
+
+        if (!$canmanagerules) {
+            $selectattrs[] = 'disabled';
+        }
+
         $label = $mform->createElement('static', "matchlabel[$id]", '', get_string('match_exact', 'local_profilecohort'));
-        $sel = $mform->createElement('select', "matchvalue[$id]", get_string('matchvalue', 'local_profilecohort'), $opts);
+        $sel = $mform->createElement('select', "matchvalue[$id]", get_string('matchvalue', 'local_profilecohort'), $opts, $selectattrs);
         $mform->setDefault("matchvalue[$id]", $matchvalue);
         return [$label, $sel];
     }
