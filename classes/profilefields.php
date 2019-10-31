@@ -52,6 +52,16 @@ abstract class profilefields {
     /** @var string[] list of available actions */
     protected static $actions = ['view', 'add'];
 
+    /** @var string[] list of Moodle default profile fields */
+    protected static $default_fields = [
+        1000001 => 'email',
+        1000002 => 'institution',
+        1000003 => 'department',
+        1000004 => 'address',
+        1000005 => 'city',
+        1000006 => 'country'
+    ];
+
     /**
      * profilefields constructor.
      */
@@ -107,8 +117,18 @@ abstract class profilefields {
         if ($this->action == 'add') {
             // Add a new, empty, rule to the end of the list, if requested.
             if ($addid = optional_param('add', null, PARAM_INT)) {
-                $field = $DB->get_record('user_info_field', array('id' => $addid), 'id AS fieldid, name, datatype, param1',
-                                         MUST_EXIST);
+                if (isset(static::$default_fields[$addid])) {
+                    $field = new \stdClass;
+                    $field->fieldid = (string) $addid;
+                    $field->name = static::$default_fields[$addid];
+                    $field->datatype = 'text';
+                    $field->param1 = '';
+                }
+                else {
+                    $field = $DB->get_record('user_info_field', array('id' => $addid), 'id AS fieldid, name, datatype, param1',
+                                            MUST_EXIST);
+                }
+
                 if ($rule = field_base::make_instance($field)) {
                     $rules[] = $rule;
                 }
@@ -364,10 +384,28 @@ abstract class profilefields {
         foreach ($rules as $rule) {
             $fieldids[] = $rule->fieldid;
         }
-        list($fsql, $params) = $DB->get_in_or_equal($fieldids, SQL_PARAMS_NAMED);
-        $params['userid'] = $userid;
-        $select = "fieldid $fsql AND userid = :userid";
-        return $DB->get_records_select_menu('user_info_data', $select, $params, '', 'fieldid, data');
+
+        $fields = [];
+        $default_fieldids = array_values(array_intersect($fieldids, array_keys(static::$default_fields)));
+        $custom_fieldids = array_values(array_diff($fieldids, $default_fieldids));
+
+        if (!empty($custom_fieldids)) {
+            list($fsql, $params) = $DB->get_in_or_equal($custom_fieldids, SQL_PARAMS_NAMED);
+            $params['userid'] = $userid;
+            $select = "fieldid $fsql AND userid = :userid";
+            $fields = $DB->get_records_select_menu('user_info_data', $select, $params, '', 'fieldid, data');
+        }
+
+        if (!empty($default_fieldids)) {
+            $userObj = $DB->get_record('user', array('id' => $userid));
+
+            foreach ($default_fieldids as $default_fieldid) {
+                $fieldname = static::$default_fields[$default_fieldid];
+                $fields[$default_fieldid] = $userObj->$fieldname;
+            }
+        }
+
+        return $fields;
     }
 
     // ------------------------------------------
@@ -393,6 +431,18 @@ abstract class profilefields {
         global $DB;
         $ret = [];
         $fields = $DB->get_records('user_info_field', [], 'name', 'id, name, datatype');
+
+        $default_fields_prepared = [];
+        foreach (static::$default_fields as $default_field_id => $default_field_name) {
+            $default_field = new \stdClass;
+            $default_field->id = $default_field_id;
+            $default_field->name = $default_field_name;
+            $default_field->datatype = 'text';
+
+            $default_fields_prepared[] = $default_field;
+        }
+        $fields = array_merge($fields, $default_fields_prepared);
+
         foreach ($fields as $field) {
             if (field_base::make_instance($field, IGNORE_MISSING)) {
                 $ret[$field->id] = $field->name;
@@ -446,6 +496,23 @@ abstract class profilefields {
                  ORDER BY m.sortorder";
         foreach ($DB->get_recordset_sql($sql) as $ruledata) {
             if ($rule = field_base::make_instance($ruledata, IGNORE_MISSING)) {
+                $rules[] = $rule;
+            }
+        }
+
+        $default_fields_ids = implode(',', array_keys(static::$default_fields));
+
+        $sql = "SELECT  m.*
+                  FROM {{$tablename}} m
+                  WHERE m.fieldid IN ({$default_fields_ids})
+                 ORDER BY m.sortorder";
+
+        foreach ($DB->get_recordset_sql($sql) as $default_ruledata) {
+            $default_ruledata->name = static::$default_fields[$default_ruledata->fieldid];
+            $default_ruledata->datatype = 'text';
+            $default_ruledata->param1 = '';
+
+            if ($rule = field_base::make_instance($default_ruledata, IGNORE_MISSING)) {
                 $rules[] = $rule;
             }
         }
