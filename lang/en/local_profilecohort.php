@@ -24,6 +24,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['profilecohort:viewrules'] = 'View cohort rules.';
+$string['profilecohort:managerules'] = 'Add, change and delete cohort rules.';
+$string['profilecohort:seecohortmembers'] = 'See the users who are currently members of the cohorts.';
+$string['profilecohort:selectcohorts'] = 'Select cohorts to be managed.';
+
 $string['addintro'] = 'On this tab, you can add a new rule mapping a custom user profile field\'s value to a cohort the user will be added to.';
 $string['addrule'] = 'Add rule for custom user profile field ...';
 $string['addrules'] = 'Add new rule';
