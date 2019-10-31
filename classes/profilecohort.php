@@ -71,6 +71,8 @@ class profilecohort extends profilefields {
         $out = '';
 
         if ($this->action == 'members') {
+            $context = \context_system::instance();
+            require_capability('local/profilecohort:seecohortmembers', $context);
             $out .= $this->output_members();
         } else {
             $out .= parent::output_form();
@@ -84,12 +86,20 @@ class profilecohort extends profilefields {
      * @return \tabobject[]
      */
     protected function extra_tabs() {
-        return [
-            new \tabobject('members', new \moodle_url($this->get_index_url(), ['action' => 'members']),
-                           get_string('members', 'local_profilecohort')),
-            new \tabobject('cohorts', new \moodle_url('/local/profilecohort/cohorts.php'),
-                           get_string('selectcohorts', 'local_profilecohort'))
-        ];
+        $tabs = [];
+        $context = \context_system::instance();
+
+        if (has_capability('local/profilecohort:seecohortmembers', $context)) {
+            $tabs[] = new \tabobject('members', new \moodle_url($this->get_index_url(), ['action' => 'members']),
+                                    get_string('members', 'local_profilecohort'));
+        }
+
+        if (has_capability('local/profilecohort:selectcohorts', $context)) {
+            $tabs[] = new \tabobject('cohorts', new \moodle_url('/local/profilecohort/cohorts.php'),
+                                    get_string('selectcohorts', 'local_profilecohort'));
+        }
+
+        return $tabs;
     }
 
     /**
