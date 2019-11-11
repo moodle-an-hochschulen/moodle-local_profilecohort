@@ -489,29 +489,19 @@ abstract class profilefields {
 
         $rules = [];
         $tablename = static::$tablename;
-        $sql = "SELECT  m.*, f.name, f.datatype, f.param1
+        $sql = "SELECT m.*, f.name, f.datatype, f.param1
                   FROM {{$tablename}} m
-                  JOIN {user_info_field} f ON f.id = m.fieldid
+                  LEFT JOIN {user_info_field} f ON f.id = m.fieldid
                  ORDER BY m.sortorder";
+
         foreach ($DB->get_recordset_sql($sql) as $ruledata) {
-            if ($rule = field_base::make_instance($ruledata, IGNORE_MISSING)) {
-                $rules[] = $rule;
+            if (isset(static::$defaultfields[$ruledata->fieldid])) {
+                $ruledata->name = static::$defaultfields[$ruledata->fieldid];
+                $ruledata->datatype = 'text';
+                $ruledata->param1 = '';
             }
-        }
 
-        $defaultfieldsids = implode(',', array_keys(static::$defaultfields));
-
-        $sql = "SELECT  m.*
-                  FROM {{$tablename}} m
-                  WHERE m.fieldid IN ({$defaultfieldsids})
-                 ORDER BY m.sortorder";
-
-        foreach ($DB->get_recordset_sql($sql) as $defaultruledata) {
-            $defaultruledata->name = static::$defaultfields[$defaultruledata->fieldid];
-            $defaultruledata->datatype = 'text';
-            $defaultruledata->param1 = '';
-
-            if ($rule = field_base::make_instance($defaultruledata, IGNORE_MISSING)) {
+            if ($rule = field_base::make_instance($ruledata, IGNORE_MISSING)) {
                 $rules[] = $rule;
             }
         }
