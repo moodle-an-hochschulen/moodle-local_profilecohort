@@ -300,9 +300,9 @@ class profilecohort extends profilefields {
 
         $fieldsql = [];
         foreach ($fieldids as $fieldid) {
-            if (isset(static::$default_fields[$fieldid])) {
-                $default_field_name = static::$default_fields[$fieldid];
-                $fieldsql[] = "(SELECT u.{$default_field_name}) AS field_{$fieldid}";
+            if (isset(static::$defaultfields[$fieldid])) {
+                $defaultfieldname = static::$defaultfields[$fieldid];
+                $fieldsql[] = "(SELECT u.{$defaultfieldname}) AS field_{$fieldid}";
             }
             else {
                 $fieldsql[] = "(SELECT data FROM {user_info_data} WHERE fieldid = {$fieldid} AND userid = u.id) AS field_{$fieldid}";
