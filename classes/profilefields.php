@@ -123,8 +123,7 @@ abstract class profilefields {
                     $field->name = static::$defaultfields[$addid];
                     $field->datatype = 'text';
                     $field->param1 = '';
-                }
-                else {
+                } else {
                     $field = $DB->get_record('user_info_field', array('id' => $addid), 'id AS fieldid, name, datatype, param1',
                                             MUST_EXIST);
                 }
@@ -397,11 +396,11 @@ abstract class profilefields {
         }
 
         if (!empty($defaultfieldids)) {
-            $userObj = $DB->get_record('user', array('id' => $userid));
+            $userobj = $DB->get_record('user', array('id' => $userid));
 
             foreach ($defaultfieldids as $defaultfieldid) {
                 $fieldname = static::$defaultfields[$defaultfieldid];
-                $fields[$defaultfieldid] = $userObj->$fieldname;
+                $fields[$defaultfieldid] = $userobj->$fieldname;
             }
         }
 
