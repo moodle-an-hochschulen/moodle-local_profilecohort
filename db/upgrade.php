@@ -59,5 +59,23 @@ function xmldb_local_profilecohort_upgrade($oldversion = 0) {
         upgrade_plugin_savepoint(true, 2016091601, 'local', 'profilecohort');
     }
 
+    if ($oldversion < 2022071201) {
+        // Fix any deleted users that were accidentally added to cohorts.
+        $sql = "
+            SELECT u.id
+            FROM {user} u
+            WHERE u.deleted = 1
+            AND EXISTS (
+                SELECT 1
+                FROM {cohort_members} chm
+                WHERE chm.userid = u.id
+            )";
+        $userids = $DB->get_fieldset_sql($sql);
+        $DB->delete_records_list('cohort_members', 'userid', $userids);
+
+        // Profilecohort savepoint reached.
+        upgrade_plugin_savepoint(true, 2022071201, 'local', 'profilecohort');
+    }
+
     return true;
 }
