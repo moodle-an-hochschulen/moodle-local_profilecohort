@@ -310,6 +310,7 @@ class profilecohort extends profilefields {
         }
         $sql = "SELECT $fieldsql u.id
                   FROM {user} u
+                 WHERE u.deleted = 0
                  ORDER BY u.id";
         $urs = $DB->get_recordset_sql($sql);
 
