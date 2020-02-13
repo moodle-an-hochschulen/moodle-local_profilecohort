@@ -4,7 +4,7 @@ moodle-local_profilecohort
 Changes
 -------
 
-### Unreleased
+### v3.8-r1
 
 * 2020-02-13 - Prepare compatibility for Moodle 3.8.
 
