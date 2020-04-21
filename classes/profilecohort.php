@@ -125,7 +125,7 @@ class profilecohort extends profilefields {
         foreach ($users as $user) {
             if ($user->cohortid != $lastcohortid) {
                 if ($lastcohortid) {
-                    $list .= $this->output_members_entry($lastcohortname, $cohortmembers);
+                    $list .= $this->output_members_entry($lastcohortname, $cohortmembers, $lastcohortid);
                 }
                 $cohortmembers = [];
                 $lastcohortid = $user->cohortid;
@@ -137,7 +137,7 @@ class profilecohort extends profilefields {
             }
         }
         if ($lastcohortid) {
-            $list .= $this->output_members_entry($lastcohortname, $cohortmembers);
+            $list .= $this->output_members_entry($lastcohortname, $cohortmembers, $lastcohortid);
         }
 
         $out .= html_writer::div($list, '', ['id' => 'profilecohort-cohortlist', 'role' => 'tablist',
@@ -150,13 +150,14 @@ class profilecohort extends profilefields {
      * Render a cohortlist entry for output_members().
      * @param string $cohortname
      * @param string[] $cohortmembers
+     * @param int $lastcohortid
      * @return string
      */
-    private function output_members_entry($cohortname, $cohortmembers) {
+    private function output_members_entry($cohortname, $cohortmembers, $lastcohortid) {
         $out = '';
 
-        // Create HTML element ID from cohortname.
-        $id = 'profilecohort-cohortlist-'.preg_replace('/\W+/', '', strtolower($cohortname));
+        // Create HTML element ID from the last cohortid.
+        $id = 'profilecohort-cohortlist-' . $lastcohortid;
 
         // Bootstrap collapse header.
         $out .= html_writer::start_div('card-header', ['id' => $id.'-heading', 'role' => 'tab']);
