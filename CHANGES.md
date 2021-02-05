@@ -4,7 +4,7 @@ moodle-local_profilecohort
 Changes
 -------
 
-### Unreleased
+### v3.10-r1
 
 * 2021-01-09 - Fix PHPUnit function declaration for Moodle 3.10.
 * 2021-01-09 - Prepare compatibility for Moodle 3.10.
