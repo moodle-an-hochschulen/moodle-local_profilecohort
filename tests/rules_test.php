@@ -61,7 +61,7 @@ class local_profilecohort_testcase extends advanced_testcase {
      * This method is called before a test is executed.
      *
      */
-    public function setUp() {
+    public function setUp(): void {
         global $DB;
 
         // Create some custom profile fields to work with.
