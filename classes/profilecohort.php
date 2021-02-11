@@ -354,9 +354,9 @@ class profilecohort extends profilefields {
         }
     }
 
-    // ------------------------------------------
-    // Admin form for editing mappings
-    // ------------------------------------------
+    /* ------------------------------------------
+       Admin form for editing mappings
+       ------------------------------------------ */
 
     /**
      * Process the form for editing which cohorts should be managed by this plugin.
