@@ -80,9 +80,9 @@ abstract class profilefields {
         return $PAGE->url;
     }
 
-    // ------------------------------------------
-    // Admin form for editing mappings
-    // ------------------------------------------
+    /* ------------------------------------------
+       Admin form for editing mappings
+       ------------------------------------------ */
 
     /**
      * Process the submitted rule editing form.
@@ -286,9 +286,9 @@ abstract class profilefields {
         // Nothing to do in the base class.
     }
 
-    // ------------------------------------------
-    // Get the mapped value for a user
-    // ------------------------------------------
+    /* ------------------------------------------
+       Get the mapped value for a user
+       ------------------------------------------ */
 
     /**
      * For the given user, load their profile fields then match them against the
@@ -370,9 +370,9 @@ abstract class profilefields {
         return $DB->get_records_select_menu('user_info_data', $select, $params, '', 'fieldid, data');
     }
 
-    // ------------------------------------------
-    // Internal support functions
-    // ------------------------------------------
+    /* ------------------------------------------
+       Internal support functions
+       ------------------------------------------ */
 
     /**
      * Get the list of custom profile fields for which rules could be added.
