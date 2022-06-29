@@ -26,8 +26,6 @@ namespace local_profilecohort\task;
 
 use local_profilecohort\profilecohort;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Class updated_cohorts
  * @package local_profilecohort

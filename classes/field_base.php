@@ -28,8 +28,6 @@ use html_writer;
 use MoodleQuickForm;
 use stdClass;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Class field_base
  * @package local_profilecohort

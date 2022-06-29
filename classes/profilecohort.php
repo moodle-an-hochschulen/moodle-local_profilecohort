@@ -26,8 +26,6 @@ namespace local_profilecohort;
 
 use html_writer;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Class profilecohort
  * @package local_profilecohort

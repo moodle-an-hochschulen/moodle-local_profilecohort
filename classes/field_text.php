@@ -26,8 +26,6 @@ namespace local_profilecohort;
 
 use MoodleQuickForm;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Class field_text
  * @package local_profilecohort
