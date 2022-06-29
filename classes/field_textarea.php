@@ -24,8 +24,6 @@
 
 namespace local_profilecohort;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Class field_textarea
  * @package local_profilecohort
