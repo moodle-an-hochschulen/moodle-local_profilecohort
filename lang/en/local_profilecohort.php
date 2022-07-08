@@ -24,6 +24,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['profilecohort:viewrules'] = 'View cohort rules.';
+$string['profilecohort:managerules'] = 'Add, change and delete cohort rules.';
+$string['profilecohort:seecohortmembers'] = 'See the users who are currently members of the cohorts.';
+$string['profilecohort:selectcohorts'] = 'Select cohorts to be managed.';
+
 $string['addintro'] = 'On this tab, you can add a new rule mapping a custom user profile field\'s value to a cohort the user will be added to.';
 $string['addrule'] = 'Add rule for custom user profile field ...';
 $string['addrules'] = 'Add new rule';
@@ -58,4 +63,5 @@ $string['updatecohorts'] = 'Update cohorts from custom user profile fields';
 $string['viewintro'] = 'On this tab, you define the rules mapping custom user profile fields to the cohorts the user will be added to.<br>
 The defined rules are processed in the order that they are displayed. However, a user matching multiple rules will be added to all the relevant cohorts.<br>
 Please note: When rules are changed, a background task will be scheduled to update all affected users - there will be a short delay (a few minutes, depending on the configuration of your scheduled tasks in Moodle and the cronjob on the Moodle server) before all user memberships in the cohorts are updated. Nevertheless, any user who logs in before the background task is finished will be updated immediately.';
-$string['viewrules'] = 'View / edit rules';
+$string['viewrules'] = 'View rules';
+$string['vieweditrules'] = 'View / edit rules';

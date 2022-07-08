@@ -73,7 +73,13 @@ class fields_form extends moodleform {
         foreach ($rules as $rule) {
             $rule->add_form_field($mform, $values, count($rules));
         }
-        $this->add_action_buttons();
+
+        $context = \context_system::instance();
+        $canmanagerules = has_capability('local/profilecohort:managerules', $context);
+
+        if ($canmanagerules) {
+            $this->add_action_buttons();
+        }
 
         $PAGE->requires->js_call_amd('local_profilecohort/reorder', 'init');
     }
