@@ -27,4 +27,9 @@ Manual tests
 ------------
 
 * There aren't any manual tests needed to upgrade this plugin.
-* However, it might be advisable to have a quick look at the admin setting pages of the plugin in the Moodle GUI as Moodle themes might influence the forms in this area.
+
+
+Visual checks
+-------------
+
+* It might be advisable to have a quick look at the admin setting pages of the plugin in the Moodle GUI as Moodle themes might influence the forms in this area.
