@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2022-07-10 - Add Capabilities section to README.md
+
 ### v3.10-r3
 
 * 2022-06-26 - Make codechecker happy again

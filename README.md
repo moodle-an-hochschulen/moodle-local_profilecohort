@@ -71,6 +71,12 @@ Once selected, you will not be able to manually update the members of these coho
 If you decide to stop managing a cohort with this plugin and deselect it here, all users who are currently a member of this cohort will keep being a member. Additionally, you will be able to manually update the members of this cohort again.
 
 
+Capabilities
+------------
+
+This plugin does not add any additional capabilities.
+
+
 How this plugin works
 ---------------------
 
