@@ -4,7 +4,7 @@ moodle-local_profilecohort
 Changes
 -------
 
-### Unreleased
+### v3.10-r4
 
 * 2022-07-10 - Add Visual checks section to UPGRADE.md
 * 2022-07-10 - Add Capabilities section to README.md
