@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2022-07-12 - Prepare compatibility for Moodle 4.0.
+
 ### v3.11-r4
 
 * 2022-08-05 - get_all_user_name_fields() is deprecated, solves #45
