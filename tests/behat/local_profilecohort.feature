@@ -1,4 +1,4 @@
-@local @local_profilecohort
+@local @local_profilecohort @javascript
 Feature: Edit rules based on profile fields
 
   Background:
@@ -27,7 +27,7 @@ Feature: Edit rules based on profile fields
 
   Scenario: Add, update and delete a checkbox field rule
     When I select "Checkbox field" from the "local_profilecohort_add" singleselect
-    And "Checkbox field" "text" should exist in the "form.mform" "css_element"
+    And "Checkbox field" "text" should exist in the ".localprofile-fieldwrapper" "css_element"
     And I should not see "Cohort not included"
     And I set the following fields to these values:
       | Match value                      | Yes      |
@@ -51,13 +51,13 @@ Feature: Edit rules based on profile fields
 
   Scenario: Add update and delete a menu field rule
     When I select "Menu field" from the "local_profilecohort_add" singleselect
-    And "Menu field" "text" should exist in the "form.mform" "css_element"
+    And "Menu field" "text" should exist in the ".localprofile-fieldwrapper" "css_element"
     And I set the following fields to these values:
       | Match value                      | Opt2     |
       | the user will be added to cohort | Cohort 1 |
     And I press "Save changes"
     And I navigate to "Users > Accounts > Profile field based cohort membership" in site administration
-    Then "Menu field" "text" should exist in the "form.mform" "css_element"
+    Then "Menu field" "text" should exist in the ".localprofile-fieldwrapper" "css_element"
     And the following fields match these values:
       | Match value                      | Opt2     |
       | the user will be added to cohort | Cohort 1 |
@@ -75,14 +75,14 @@ Feature: Edit rules based on profile fields
 
   Scenario: Add update and delete a text field rule
     When I select "Text field" from the "local_profilecohort_add" singleselect
-    And "Text field" "text" should exist in the "form.mform" "css_element"
+    And "Text field" "text" should exist in the ".localprofile-fieldwrapper" "css_element"
     And I set the following fields to these values:
       | Match value                      | testing  |
       | Match type                       | Matches  |
       | the user will be added to cohort | Cohort 1 |
     And I press "Save changes"
     And I navigate to "Users > Accounts > Profile field based cohort membership" in site administration
-    Then "Text field" "text" should exist in the "form.mform" "css_element"
+    Then "Text field" "text" should exist in the ".localprofile-fieldwrapper" "css_element"
     And the following fields match these values:
       | Match value                      | testing  |
       | Match type                       | Matches  |
