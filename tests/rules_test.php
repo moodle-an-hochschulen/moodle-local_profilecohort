@@ -77,6 +77,10 @@ class rules_test extends \advanced_testcase {
 
     /**
      * Test creating a range of new rules.
+     *
+     * This test does not test a particular class or function.
+     * It is adopted from block_html and does not have a coverage tag there either. Thus, we set coversNothing.
+     * @coversNothing
      */
     public function test_create_rules() {
         // Create a 'checkbox' rule.
@@ -150,6 +154,10 @@ class rules_test extends \advanced_testcase {
 
     /**
      * Test updating a rule.
+     *
+     * This test does not test a particular class or function.
+     * It is adopted from block_html and does not have a coverage tag there either. Thus, we set coversNothing.
+     * @coversNothing
      */
     public function test_update_rule() {
         // Create a 'text' rule.
@@ -191,6 +199,10 @@ class rules_test extends \advanced_testcase {
 
     /**
      * Test deleting a rule.
+     *
+     * This test does not test a particular class or function.
+     * It is adopted from block_html and does not have a coverage tag there either. Thus, we set coversNothing.
+     * @coversNothing
      */
     public function test_delete_rule() {
         // Create a 'text' rule.
@@ -225,6 +237,10 @@ class rules_test extends \advanced_testcase {
 
     /**
      * Test using 'update_from_form_data' to update rules.
+     *
+     * This test does not test a particular class or function.
+     * It is adopted from block_html and does not have a coverage tag there either. Thus, we set coversNothing.
+     * @coversNothing
      */
     public function test_update_from_form_data() {
         // Create a 'text' rule + reload.
@@ -315,6 +331,10 @@ class rules_test extends \advanced_testcase {
 
     /**
      * Test matching users based on checkbox profile fields.
+     *
+     * This test does not test a particular class or function.
+     * It is adopted from block_html and does not have a coverage tag there either. Thus, we set coversNothing.
+     * @coversNothing
      */
     public function test_match_checkbox() {
         global $DB;
@@ -355,6 +375,10 @@ class rules_test extends \advanced_testcase {
 
     /**
      * Test matching users based on menu profile fields.
+     *
+     * This test does not test a particular class or function.
+     * It is adopted from block_html and does not have a coverage tag there either. Thus, we set coversNothing.
+     * @coversNothing
      */
     public function test_match_menu() {
         global $DB;
@@ -395,6 +419,10 @@ class rules_test extends \advanced_testcase {
 
     /**
      * Test matching users based on text profile fields.
+     *
+     * This test does not test a particular class or function.
+     * It is adopted from block_html and does not have a coverage tag there either. Thus, we set coversNothing.
+     * @coversNothing
      */
     public function test_match_text() {
         global $DB;
@@ -477,6 +505,10 @@ class rules_test extends \advanced_testcase {
 
     /**
      * Test updating the cohort membership for all users.
+     *
+     * This test does not test a particular class or function.
+     * It is adopted from block_html and does not have a coverage tag there either. Thus, we set coversNothing.
+     * @coversNothing
      */
     public function test_update_all_cohort_memberships() {
         global $DB, $CFG;
@@ -535,6 +567,10 @@ class rules_test extends \advanced_testcase {
 
     /**
      * Test updating the cohort membership for a single user.
+     *
+     * This test does not test a particular class or function.
+     * It is adopted from block_html and does not have a coverage tag there either. Thus, we set coversNothing.
+     * @coversNothing
      */
     public function test_update_cohort_membership() {
         global $DB, $CFG;
@@ -591,6 +627,10 @@ class rules_test extends \advanced_testcase {
 
     /**
      * Test combining rules together using 'and'
+     *
+     * This test does not test a particular class or function.
+     * It is adopted from block_html and does not have a coverage tag there either. Thus, we set coversNothing.
+     * @coversNothing
      */
     public function test_and_rules() {
         global $DB;
@@ -691,6 +731,10 @@ class rules_test extends \advanced_testcase {
 
     /**
      * Test combining rules together using 'and' where the _last_ rule has the 'andnextrule' flag set
+     *
+     * This test does not test a particular class or function.
+     * It is adopted from block_html and does not have a coverage tag there either. Thus, we set coversNothing.
+     * @coversNothing
      */
     public function test_and_rules_ending_in_and() {
         global $DB;
