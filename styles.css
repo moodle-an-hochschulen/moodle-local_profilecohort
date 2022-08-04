@@ -1,6 +1,10 @@
 /* Style the rules and actions on the view/edit rules page. */
 .localprofile-rule-actions {
+    border-left: 1px solid #888;
     color: #888;
+    margin-left: 15px;
+    margin-top: 10px;
+    padding-left: 15px;
 }
 .localprofile-flash {
     animation-duration: 1s;
@@ -29,6 +33,9 @@
 }
 .localprofile-combined .localprofile-fieldwrapper + .localprofile-fieldwrapper .localprofile-value {
     display: none;
+}
+.localprofile-fieldwrapper {
+    margin-top: 30px;
 }
 .localprofile-fieldwrapper.todelete,
 .localprofile-fieldwrapper.todelete span,

@@ -340,33 +340,34 @@ abstract class field_base {
         $mform->setType("fieldid[$id]", PARAM_INT);
 
         $group = $this->add_form_field_internal($mform, $id);
-        $valuelabel = html_writer::span(get_string('selectvalue', 'local_profilecohort'), 'localprofile-value');
+        $valuelabel = html_writer::span(get_string('selectvalue', 'local_profilecohort'), 'localprofile-value pr-2');
         $group[] = $mform->createElement('static', "valuelabel[$id]", '', $valuelabel);
         $group[] = $mform->createElement('select', "value[$id]", get_string('selectvalue', 'local_profilecohort'), $values,
-                                         ['class' => 'localprofile-value']);
+                                         ['class' => 'localprofile-value pr-2']);
         $mform->setDefault("value[$id]", $this->value);
 
         $prefix = '';
         if ($this->id) {
-            $group[] = $mform->createElement('static', '', '', '<br><span class="localprofile-rule-actions">');
+            $actiongroup = array();
+            $actiongroup[] = $mform->createElement('static', '', '', '<br><div class="localprofile-rule-actions">');
             if ($rulecount > 1) {
                 $moveopts = range(1, $rulecount);
                 $moveopts = array_combine($moveopts, $moveopts);
-                $group[] = $mform->createElement('static', "movelabel[$id]", '', get_string('moveto', 'local_profilecohort'));
-                $group[] = $mform->createElement('select', "moveto[$id]", get_string('moveto', 'local_profilecohort'), $moveopts,
-                                                 ['class' => 'moveto']);
+                $actiongroup[] = $mform->createElement('static', "movelabel[$id]", '', get_string('moveto', 'local_profilecohort'));
+                $actiongroup[] = $mform->createElement('select', "moveto[$id]", get_string('moveto', 'local_profilecohort'),
+                        $moveopts, ['class' => 'moveto']);
                 $mform->setDefault("moveto[$id]", $this->formposition);
-                $group[] = $mform->createElement('static', '', '', '<br>');
+                $actiongroup[] = $mform->createElement('static', '', '', '<br>');
 
-                $group[] = $mform->createElement('advcheckbox', "andnextrule[$id]", '',
+                $actiongroup[] = $mform->createElement('advcheckbox', "andnextrule[$id]", '',
                                                  get_string('andnextrule', 'local_profilecohort'), ['class' => 'andnextrule']);
                 $mform->setDefault("andnextrule[$id]", $this->andnextrule);
-                $group[] = $mform->createElement('static', '', '', '<br>');
+                $actiongroup[] = $mform->createElement('static', '', '', '<br>');
             }
 
-            $group[] = $mform->createElement('advcheckbox', "delete[$id]", '', get_string('delete', 'local_profilecohort'),
+            $actiongroup[] = $mform->createElement('advcheckbox', "delete[$id]", '', get_string('delete', 'local_profilecohort'),
                                              ['class' => 'deleterule']);
-            $group[] = $mform->createElement('static', '', '', '</span>');
+            $actiongroup[] = $mform->createElement('static', '', '', '</div>');
 
             $prefix = '<span class="localprofile-number">'.$this->formposition.'</span>. ';
         }
@@ -374,6 +375,9 @@ abstract class field_base {
         $name = $prefix.get_string('iffield', 'local_profilecohort', format_string($this->name));
         $mform->addElement('html', '<div class="localprofile-fieldwrapper">');
         $mform->addGroup($group, "group-$id", $name, ' ', false);
+        if (isset($actiongroup)) {
+            $mform->addGroup($actiongroup, "actiongroup-$id", '', ' ', false);
+        }
         $mform->addElement('html', '</div>');
     }
 

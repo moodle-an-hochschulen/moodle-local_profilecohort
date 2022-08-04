@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2022-07-12 - Slightly improve the rule management GUI
 * 2022-07-12 - Fix Behat tests which broke with Moodle 4.0
 * 2022-07-12 - Make codechecker happy again
 * 2022-07-12 - Prepare compatibility for Moodle 4.0.

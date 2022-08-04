@@ -66,13 +66,14 @@ class fields_form extends moodleform {
         $mform->setType('add', PARAM_INT);
         $mform->addElement('hidden', 'action', null);
         $mform->setType('action', PARAM_ALPHA);
-        $mform->addElement('header', 'hiddenheading');
 
         $values = [null => get_string('choosedots')] + $this->get_values();
         $rules = $this->get_rules();
         foreach ($rules as $rule) {
             $rule->add_form_field($mform, $values, count($rules));
         }
+
+        $mform->addElement('html', '<div class="mt-3">&nbsp;</div>'); // This is just used to add some space above.
         $this->add_action_buttons();
 
         $PAGE->requires->js_call_amd('local_profilecohort/reorder', 'init');

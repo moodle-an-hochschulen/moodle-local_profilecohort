@@ -67,9 +67,11 @@ class field_menu extends field_base {
             $matchvalue = $this->matchtype;
         }
 
-        $label = $mform->createElement('static', "matchlabel[$id]", '', get_string('match_exact', 'local_profilecohort'));
+        $label = $mform->createElement('static', "matchlabel[$id]", '', get_string('match_exact', 'local_profilecohort').
+                '<span class="pr-2"></span>');
         $opts = [null => get_string('choosedots')] + $this->opts;
-        $sel = $mform->createElement('select', "matchvalue[$id]", get_string('matchvalue', 'local_profilecohort'), $opts);
+        $sel = $mform->createElement('select', "matchvalue[$id]", get_string('matchvalue', 'local_profilecohort'), $opts,
+                ['class' => 'pr-2']);
         $mform->setType("matchvalue[$id]", PARAM_TEXT);
         $mform->setDefault("matchvalue[$id]", $matchvalue);
         return [$label, $sel];
