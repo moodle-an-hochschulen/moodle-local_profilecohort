@@ -105,7 +105,9 @@ class profilecohort extends profilefields {
                                  get_string('invisiblecohortsnote', 'local_profilecohort'),
                                  array('id' => 'intro', 'class' => 'box generalbox'));
 
-        $namefields = get_all_user_name_fields(true, 'u');
+        $namefields = \core_user\fields::get_name_fields();
+        $namefields = preg_filter('/^/', 'u.', $namefields);
+        $namefields = implode(',', $namefields);
         $sql = "
           SELECT c.id AS cohortid, c.name AS cohortname, u.id, {$namefields}
             FROM {cohort} c
