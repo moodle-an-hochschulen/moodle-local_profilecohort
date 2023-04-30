@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2023-04-30 - Improvement: In the cohort members list, compose the cohort's HTML element ID from the cohort id - thanks to Steven McCullagh.
+
 ### v4.1-r1
 
 * 2023-01-21 - Prepare compatibility for Moodle 4.1.
