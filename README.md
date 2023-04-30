@@ -1,7 +1,7 @@
 moodle-local_profilecohort
 ==========================
 
-[![Moodle Plugin CI](https://github.com/moodle-an-hochschulen/moodle-local_profilecohort/workflows/Moodle%20Plugin%20CI/badge.svg?branch=master)](https://github.com/moodle-an-hochschulen/moodle-local_profilecohort/actions?query=workflow%3A%22Moodle+Plugin+CI%22+branch%3Amaster)
+[![Moodle Plugin CI](https://github.com/moodle-an-hochschulen/moodle-local_profilecohort/workflows/Moodle%20Plugin%20CI/badge.svg?branch=MOODLE_401_STABLE)](https://github.com/moodle-an-hochschulen/moodle-local_profilecohort/actions?query=workflow%3A%22Moodle+Plugin+CI%22+branch%3AMOODLE_401_STABLE)
 
 Moodle plugin which lets admins manage cohort memberships based on users' custom profile fields
 
