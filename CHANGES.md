@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2023-04-30 - Improvement: In the cohort members list, use a real Bootstrap accordion and show the number of members.
 * 2023-04-30 - Improvement: Do not add deleted users to cohorts anymore and remove deleted users from cohorts - thanks to Davo Smith.
 * 2023-04-30 - Improvement: In the cohort members list, compose the cohort's HTML element ID from the cohort id - thanks to Steven McCullagh.
 * 2022-11-28 - Updated Moodle Plugin CI to latest upstream recommendations
