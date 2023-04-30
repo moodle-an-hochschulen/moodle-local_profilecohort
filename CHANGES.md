@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2023-04-30 - Improvement: In the cohort members list, compose the cohort's HTML element ID from the cohort id - thanks to Steven McCullagh.
 * 2022-11-28 - Updated Moodle Plugin CI to latest upstream recommendations
 
 ### v4.0-r1
