@@ -4,7 +4,7 @@ moodle-local_profilecohort
 Changes
 -------
 
-### Unreleased
+### v4.1-r2
 
 * 2023-04-30 - Improvement: In the cohort members list, use a real Bootstrap accordion and show the number of members.
 * 2023-04-30 - Improvement: Do not add deleted users to cohorts anymore and remove deleted users from cohorts - thanks to Davo Smith.
