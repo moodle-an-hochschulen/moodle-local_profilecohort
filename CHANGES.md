@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2023-04-30 - Tests: Updated Moodle Plugin CI to use PHP 8.1 and Postgres 13 from Moodle 4.1 on.
+
 ### v4.1-r2
 
 * 2023-04-30 - Improvement: In the cohort members list, use a real Bootstrap accordion and show the number of members.
