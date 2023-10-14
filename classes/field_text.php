@@ -65,7 +65,7 @@ class field_text extends field_base {
         self::MATCH_EXACT, self::MATCH_CONTAINS,
         self::MATCH_NOTEXACT, self::MATCH_NOTCONTAINS,
         self::MATCH_ISDEFINED, self::MATCH_NOTDEFINED,
-        self::MATCH_EMPTY, self::MATCH_NOTEMPTY
+        self::MATCH_EMPTY, self::MATCH_NOTEMPTY,
     ];
 
     /**
@@ -143,7 +143,7 @@ class field_text extends field_base {
         $errors = [];
         if (!in_array($formdata['matchtype'][$id], [
                 self::MATCH_ISDEFINED, self::MATCH_NOTDEFINED,
-                self::MATCH_EMPTY, self::MATCH_NOTEMPTY
+                self::MATCH_EMPTY, self::MATCH_NOTEMPTY,
         ])) {
             if (empty($formdata['matchvalue'][$id])) {
                 $errors["matchvalue[$id]"] = get_string('required');

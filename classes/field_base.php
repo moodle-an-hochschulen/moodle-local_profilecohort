@@ -249,7 +249,7 @@ abstract class field_base {
         if (!$this->id) {
             return;
         }
-        $DB->delete_records($tablename, array('id' => $this->id));
+        $DB->delete_records($tablename, ['id' => $this->id]);
         $this->id = null;
     }
 
@@ -348,7 +348,7 @@ abstract class field_base {
 
         $prefix = '';
         if ($this->id) {
-            $actiongroup = array();
+            $actiongroup = [];
             $actiongroup[] = $mform->createElement('static', '', '', '<br><div class="localprofile-rule-actions">');
             if ($rulecount > 1) {
                 $moveopts = range(1, $rulecount);

@@ -209,14 +209,14 @@ class rules_test extends \advanced_testcase {
         $ruledata = (object) [
             'fieldid' => $this->fieldids['textfield'], 'datatype' => 'text',
             'matchtype' => field_text::MATCH_EXACT,
-            'matchvalue' => 'testing', 'value' => $this->cohortids[0]
+            'matchvalue' => 'testing', 'value' => $this->cohortids[0],
         ];
         $rule = field_base::make_instance($ruledata);
         $rule->save(self::TABLENAME);
         // Create a 'menu' rule.
         $ruledata2 = (object) [
             'fieldid' => $this->fieldids['menufield'], 'datatype' => 'menu',
-            'matchvalue' => 'Opt 2', 'value' => $this->cohortids[1]
+            'matchvalue' => 'Opt 2', 'value' => $this->cohortids[1],
         ];
         $rule = field_base::make_instance($ruledata2);
         $rule->save(self::TABLENAME);
@@ -353,7 +353,7 @@ class rules_test extends \advanced_testcase {
         // Create a 'checkbox' rule.
         $ruledata = (object) [
             'fieldid' => $this->fieldids['checkboxfield'], 'datatype' => 'checkbox',
-            'matchvalue' => 1, 'value' => $this->cohortids[0]
+            'matchvalue' => 1, 'value' => $this->cohortids[0],
         ];
         $rule = field_base::make_instance($ruledata);
         $rule->save(self::TABLENAME);
@@ -397,7 +397,7 @@ class rules_test extends \advanced_testcase {
         // Create a 'menu' rule.
         $ruledata = (object) [
             'fieldid' => $this->fieldids['menufield'], 'datatype' => 'menu',
-            'matchvalue' => 'Opt 2', 'value' => $this->cohortids[0]
+            'matchvalue' => 'Opt 2', 'value' => $this->cohortids[0],
         ];
         $rule = field_base::make_instance($ruledata);
         $rule->save(self::TABLENAME);
@@ -446,7 +446,7 @@ class rules_test extends \advanced_testcase {
         $ruledata = (object) [
             'fieldid' => $this->fieldids['textfield'], 'datatype' => 'text',
             'matchtype' => field_text::MATCH_EXACT,
-            'matchvalue' => 'Another test', 'value' => $this->cohortids[0]
+            'matchvalue' => 'Another test', 'value' => $this->cohortids[0],
         ];
         $rule = field_base::make_instance($ruledata);
         $rule->save(self::TABLENAME);
@@ -528,13 +528,13 @@ class rules_test extends \advanced_testcase {
         // the other matching 'Opt 2' to 'cohorts[1]'.
         $ruledata1 = (object) [
             'fieldid' => $this->fieldids['menufield'], 'datatype' => 'menu',
-            'matchvalue' => 'Opt 1', 'value' => $this->cohortids[0]
+            'matchvalue' => 'Opt 1', 'value' => $this->cohortids[0],
         ];
         $rule1 = field_base::make_instance($ruledata1);
         $rule1->save(self::TABLENAME);
         $ruledata2 = (object) [
             'fieldid' => $this->fieldids['menufield'], 'datatype' => 'menu',
-            'matchvalue' => 'Opt 2', 'value' => $this->cohortids[1]
+            'matchvalue' => 'Opt 2', 'value' => $this->cohortids[1],
         ];
         $rule2 = field_base::make_instance($ruledata2);
         $rule2->save(self::TABLENAME);
@@ -590,13 +590,13 @@ class rules_test extends \advanced_testcase {
         // the other matching 'Opt 2' to 'cohorts[1]'.
         $ruledata1 = (object)[
             'fieldid' => $this->fieldids['menufield'], 'datatype' => 'menu',
-            'matchvalue' => 'Opt 1', 'value' => $this->cohortids[0]
+            'matchvalue' => 'Opt 1', 'value' => $this->cohortids[0],
         ];
         $rule1 = field_base::make_instance($ruledata1);
         $rule1->save(self::TABLENAME);
         $ruledata2 = (object)[
             'fieldid' => $this->fieldids['menufield'], 'datatype' => 'menu',
-            'matchvalue' => 'Opt 2', 'value' => $this->cohortids[1]
+            'matchvalue' => 'Opt 2', 'value' => $this->cohortids[1],
         ];
         $rule2 = field_base::make_instance($ruledata2);
         $rule2->save(self::TABLENAME);
@@ -668,28 +668,28 @@ class rules_test extends \advanced_testcase {
         // As 'menufield' ==  'Opt 1' => cohort 0 AND next rule must match.
         $ruledata1 = (object)[
             'fieldid' => $this->fieldids['menufield'], 'datatype' => 'menu',
-            'matchvalue' => 'Opt 1', 'value' => $this->cohortids[0], 'andnextrule' => 1
+            'matchvalue' => 'Opt 1', 'value' => $this->cohortids[0], 'andnextrule' => 1,
         ];
         $rule1 = field_base::make_instance($ruledata1);
         $rule1->save(self::TABLENAME);
         // As 'checkboxfield' == 0 => cohort 1 AND next rule must match.
         $ruledata2 = (object)[
             'fieldid' => $this->fieldids['checkboxfield'], 'datatype' => 'checkbox',
-            'matchvalue' => '0', 'value' => $this->cohortids[1], 'andnextrule' => 1
+            'matchvalue' => '0', 'value' => $this->cohortids[1], 'andnextrule' => 1,
         ];
         $rule2 = field_base::make_instance($ruledata2);
         $rule2->save(self::TABLENAME);
         // As 'textfield' == 'Fred' => cohort 2.
         $ruledata3 = (object)[
             'fieldid' => $this->fieldids['textfield'], 'datatype' => 'text',
-            'matchvalue' => 'Fred', 'value' => $this->cohortids[2], 'andnextrule' => 0
+            'matchvalue' => 'Fred', 'value' => $this->cohortids[2], 'andnextrule' => 0,
         ];
         $rule3 = field_base::make_instance($ruledata3);
         $rule3->save(self::TABLENAME);
         // As 'textfield' == 'Fred' => cohort 3 - this rule should match on its own.
         $ruledata4 = (object)[
             'fieldid' => $this->fieldids['textfield'], 'datatype' => 'text',
-            'matchvalue' => 'Fred', 'value' => $this->cohortids[3], 'andnextrule' => 0
+            'matchvalue' => 'Fred', 'value' => $this->cohortids[3], 'andnextrule' => 0,
         ];
         $rule4 = field_base::make_instance($ruledata4);
         $rule4->save(self::TABLENAME);
@@ -759,14 +759,14 @@ class rules_test extends \advanced_testcase {
         // As 'menufield' ==  'Opt 1' => cohort 0 AND next rule must match.
         $ruledata1 = (object)[
             'fieldid' => $this->fieldids['menufield'], 'datatype' => 'menu',
-            'matchvalue' => 'Opt 1', 'value' => $this->cohortids[0], 'andnextrule' => 1
+            'matchvalue' => 'Opt 1', 'value' => $this->cohortids[0], 'andnextrule' => 1,
         ];
         $rule1 = field_base::make_instance($ruledata1);
         $rule1->save(self::TABLENAME);
         // As 'checkboxfield' == 0 => cohort 1 AND next rule must match.
         $ruledata2 = (object)[
             'fieldid' => $this->fieldids['checkboxfield'], 'datatype' => 'checkbox',
-            'matchvalue' => '0', 'value' => $this->cohortids[1], 'andnextrule' => 1
+            'matchvalue' => '0', 'value' => $this->cohortids[1], 'andnextrule' => 1,
         ];
         $rule2 = field_base::make_instance($ruledata2);
         $rule2->save(self::TABLENAME);

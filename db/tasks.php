@@ -33,5 +33,5 @@ $tasks = [
         'day' => '*',
         'dayofweek' => '*',
         'month' => '*',
-    ]
+    ],
 ];

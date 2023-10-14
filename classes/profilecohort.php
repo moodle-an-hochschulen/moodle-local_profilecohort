@@ -86,7 +86,7 @@ class profilecohort extends profilefields {
             new \tabobject('members', new \moodle_url($this->get_index_url(), ['action' => 'members']),
                            get_string('members', 'local_profilecohort')),
             new \tabobject('cohorts', new \moodle_url('/local/profilecohort/cohorts.php'),
-                           get_string('selectcohorts', 'local_profilecohort'))
+                           get_string('selectcohorts', 'local_profilecohort')),
         ];
     }
 
@@ -103,7 +103,7 @@ class profilecohort extends profilefields {
 
         $out .= \html_writer::tag('div', get_string('membersintro', 'local_profilecohort').'<br/>'.
                                  get_string('invisiblecohortsnote', 'local_profilecohort'),
-                                 array('id' => 'intro', 'class' => 'box generalbox'));
+                                 ['id' => 'intro', 'class' => 'box generalbox']);
 
         $namefields = \core_user\fields::get_name_fields();
         $namefields = preg_filter('/^/', 'u.', $namefields);
@@ -162,7 +162,7 @@ class profilecohort extends profilefields {
         $out .= html_writer::start_div('card-header', ['id' => $id.'-heading']);
         $out .= html_writer::start_tag('h2', ['class' => 'mb-0']);
         $out .= html_writer::start_tag('button', ['class' => 'btn btn-link btn-block text-left pl-0', 'type' => 'button',
-                'data-toggle' => 'collapse', 'data-target' => '#'.$id, 'aria-expanded' => 'false', 'aria-controls' => $id]);
+                'data-toggle' => 'collapse', 'data-target' => '#'.$id, 'aria-expanded' => 'false', 'aria-controls' => $id, ]);
         $out .= format_string($cohortname);
         if ($cohortmembers) {
             $out .= html_writer::tag('span', get_string('countusers', 'local_profilecohort', count($cohortmembers)),
@@ -190,7 +190,7 @@ class profilecohort extends profilefields {
         }
 
         $out .= html_writer::start_div('collapse', ['id' => $id, 'aria-labelledby' => $id.'-heading',
-                'data-parent' => '#profilecohort-cohortlist']);
+                'data-parent' => '#profilecohort-cohortlist', ]);
         $out .= html_writer::div($content, 'card-body');
         $out .= html_writer::end_div();
 

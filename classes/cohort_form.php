@@ -45,13 +45,13 @@ class cohort_form extends \moodleform {
 
         $mform->addElement('html', \html_writer::tag('div', get_string('cohortsintro', 'local_profilecohort').'<br />'.
                                                      get_string('invisiblecohortsnote', 'local_profilecohort'),
-                                                     array('id' => 'intro', 'class' => 'box generalbox')));
+                                                     ['id' => 'intro', 'class' => 'box generalbox']));
 
         if (!$cohorts) {
             $cohorturl = new \moodle_url('/cohort/index.php');
             $link = \html_writer::link($cohorturl, get_string('cohorts', 'core_cohort'));
             $mform->addElement('html', \html_writer::tag('div', get_string('nocohorts', 'local_profilecohort', $link),
-                                                         array('class' => 'alert alert-warning')));
+                                                         ['class' => 'alert alert-warning']));
         } else {
             foreach ($cohorts as $cohort) {
                 $mform->addElement('advcheckbox', "cohort[$cohort->id]", null, format_string($cohort->name));

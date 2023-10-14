@@ -105,7 +105,7 @@ abstract class profilefields {
         if ($this->action == 'add') {
             // Add a new, empty, rule to the end of the list, if requested.
             if ($addid = optional_param('add', null, PARAM_INT)) {
-                $field = $DB->get_record('user_info_field', array('id' => $addid), 'id AS fieldid, name, datatype, param1',
+                $field = $DB->get_record('user_info_field', ['id' => $addid], 'id AS fieldid, name, datatype, param1',
                                          MUST_EXIST);
                 if ($rule = field_base::make_instance($field)) {
                     $rules[] = $rule;
@@ -116,7 +116,7 @@ abstract class profilefields {
         // Instantiate the form.
         $custom = [
             'rules' => $rules,
-            'values' => $this->get_possible_values()
+            'values' => $this->get_possible_values(),
         ];
         $this->form = new fields_form(null, $custom);
         $toform = ['action' => $this->action];
@@ -207,11 +207,11 @@ abstract class profilefields {
         if ($this->action == 'view') {
             $out .= \html_writer::tag('div', get_string('viewintro', 'local_profilecohort').'<br />'.
                                      get_string('invisiblecohortsnote', 'local_profilecohort'),
-                                     array('id' => 'intro', 'class' => 'box generalbox'));
+                                     ['id' => 'intro', 'class' => 'box generalbox']);
         } else if ($this->action == 'add') {
             $out .= \html_writer::tag('div', get_string('addintro', 'local_profilecohort').
                                      '<br />'.get_string('invisiblecohortsnote', 'local_profilecohort'),
-                                     array('id' => 'intro', 'class' => 'box generalbox'));
+                                     ['id' => 'intro', 'class' => 'box generalbox']);
         }
 
         if (!$this->get_possible_fields()) {
