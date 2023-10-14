@@ -4,7 +4,7 @@ moodle-local_profilecohort
 Changes
 -------
 
-### Unreleased
+### v4.1-r3
 
 * 2023-10-14 - Add automated release to moodle.org/plugins
 * 2023-10-14 - Make codechecker happy again
