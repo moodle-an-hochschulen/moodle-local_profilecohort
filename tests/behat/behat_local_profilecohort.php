@@ -47,7 +47,7 @@ class behat_local_profilecohort extends behat_base {
             'datatype',
         ];
         $optional = [
-            'param1' => ''
+            'param1' => '',
         ];
 
         $data = $table->getHash();

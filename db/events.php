@@ -27,18 +27,18 @@ defined('MOODLE_INTERNAL') || die();
 $observers = [
     [
         'eventname' => '\core\event\user_loggedin',
-        'callback' => '\local_profilecohort\profilecohort::set_cohorts_from_profile'
+        'callback' => '\local_profilecohort\profilecohort::set_cohorts_from_profile',
     ],
     [
         'eventname' => '\core\event\user_loggedinas',
-        'callback' => '\local_profilecohort\profilecohort::set_cohorts_from_profile_loginas'
+        'callback' => '\local_profilecohort\profilecohort::set_cohorts_from_profile_loginas',
     ],
     [
         'eventname' => '\core\event\user_created',
-        'callback' => '\local_profilecohort\profilecohort::set_cohorts_from_profile_created'
+        'callback' => '\local_profilecohort\profilecohort::set_cohorts_from_profile_created',
     ],
     [
         'eventname' => '\core\event\user_updated',
-        'callback' => '\local_profilecohort\profilecohort::set_cohorts_from_profile_updated'
-    ]
+        'callback' => '\local_profilecohort\profilecohort::set_cohorts_from_profile_updated',
+    ],
 ];
