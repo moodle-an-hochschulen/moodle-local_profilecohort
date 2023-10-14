@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2023-10-10 - Updated Moodle Plugin CI to latest upstream recommendations
+
 ### v4.0-r2
 
 * 2023-04-30 - Improvement: In the cohort members list, use a real Bootstrap accordion and show the number of members.
