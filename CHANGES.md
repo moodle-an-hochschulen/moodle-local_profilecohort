@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2023-09-01 - Prepare compatibility for Moodle 4.2.
+
 ### v4.1-r3
 
 * 2023-10-14 - Add automated release to moodle.org/plugins
