@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2024-08-11 - Updated Moodle Plugin CI to latest upstream recommendations
+
 ### v4.1-r3
 
 * 2023-10-14 - Add automated release to moodle.org/plugins
