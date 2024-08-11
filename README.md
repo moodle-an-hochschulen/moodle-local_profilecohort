@@ -77,6 +77,17 @@ Capabilities
 This plugin does not add any additional capabilities.
 
 
+Scheduled Tasks
+---------------
+
+This plugin also introduces these additional scheduled tasks:
+
+### \local_profilecohort\task\update_cohorts
+
+This task updates the cohort memberships based on the configured ruleset (see below for details).\
+By default, the task is enabled and runs every five minutes.
+
+
 How this plugin works
 ---------------------
 
