@@ -202,7 +202,7 @@ class profilecohort extends profilefields {
      * @param \core\event\base|null $event (optional)
      * @param int $userid (optional) mostly used by testing
      */
-    public static function set_cohorts_from_profile(\core\event\base $event = null, $userid = null) {
+    public static function set_cohorts_from_profile(?\core\event\base $event = null, $userid = null) {
         global $USER, $DB, $CFG;
         require_once($CFG->dirroot.'/cohort/lib.php');
 
@@ -239,7 +239,7 @@ class profilecohort extends profilefields {
      * @param \core\event\base|null $event (optional)
      * @param int $userid (optional) mostly used by testing; overrides possible value from event
      */
-    public static function set_cohorts_from_profile_loginas(\core\event\base $event = null, $userid = null) {
+    public static function set_cohorts_from_profile_loginas(?\core\event\base $event = null, $userid = null) {
         global $USER;
 
         if ($event && $event->relateduserid && !$userid) {
@@ -258,7 +258,7 @@ class profilecohort extends profilefields {
      * @param \core\event\base|null $event (optional)
      * @param int $userid (optional) mostly used by testing; overrides possible value from event
      */
-    public static function set_cohorts_from_profile_created(\core\event\base $event = null, $userid = null) {
+    public static function set_cohorts_from_profile_created(?\core\event\base $event = null, $userid = null) {
         if ($event && $event->objectid && !$userid) {
             // We have received an event, and caller has not asked for specific user id.
             $userid = $event->objectid;
@@ -272,7 +272,7 @@ class profilecohort extends profilefields {
      * @param \core\event\base|null $event (optional)
      * @param int $userid (optional) mostly used by testing; overrides possible value from event
      */
-    public static function set_cohorts_from_profile_updated(\core\event\base $event = null, $userid = null) {
+    public static function set_cohorts_from_profile_updated(?\core\event\base $event = null, $userid = null) {
         if ($event && $event->objectid && !$userid) {
             // We have received an event, and caller has not asked for specific user id.
             $userid = $event->objectid;
