@@ -40,6 +40,5 @@ $manager = new profilecohort();
 $manager->process_cohort_form();
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading($title);
 echo $manager->output_cohort_form();
 echo $OUTPUT->footer();
