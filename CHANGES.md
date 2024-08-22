@@ -4,7 +4,7 @@ moodle-local_profilecohort
 Changes
 -------
 
-### Unreleased
+### v4.1-r5
 
 * 2024-08-20 - Remove duplicate header on overview page.
 
