@@ -166,10 +166,10 @@ class profilecohort extends profilefields {
         $out .= format_string($cohortname);
         if ($cohortmembers) {
             $out .= html_writer::tag('span', get_string('countusers', 'local_profilecohort', count($cohortmembers)),
-                    ['class' => 'badge badge-pill badge-primary ml-2']);
+                    ['class' => 'badge bg-primary text-light ml-2']);
         } else {
             $out .= html_writer::tag('span', get_string('countnousers', 'local_profilecohort'),
-                    ['class' => 'badge badge-pill badge-secondary ml-2']);
+                    ['class' => 'badge bg-secondary text-dark ml-2']);
         }
         $out .= html_writer::end_tag('button');
         $out .= html_writer::end_tag('h2');
