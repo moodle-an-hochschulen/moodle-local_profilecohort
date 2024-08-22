@@ -9,7 +9,7 @@ Moodle plugin which lets admins manage cohort memberships based on users' custom
 Requirements
 ------------
 
-This plugin requires Moodle 4.3+
+This plugin requires Moodle 4.4+
 
 
 Motivation for this plugin
