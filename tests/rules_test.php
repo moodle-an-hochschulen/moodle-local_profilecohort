@@ -73,6 +73,9 @@ final class rules_test extends \advanced_testcase {
         $this->cohortids[] = $this->getDataGenerator()->create_cohort(['component' => 'local_profilecohort'])->id;
 
         $this->resetAfterTest();
+
+        // Call parent setup.
+        parent::setUp();
     }
 
     /**
