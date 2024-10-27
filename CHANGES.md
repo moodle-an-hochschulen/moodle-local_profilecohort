@@ -4,7 +4,7 @@ moodle-local_profilecohort
 Changes
 -------
 
-### Unreleased
+### v4.3-r4
 
 * 2024-10-27 - Tests: Call parent setup() function when instantiating PHPUnit tests.
 
