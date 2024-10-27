@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2024-10-27 - Tests: Call parent setup() function when instantiating PHPUnit tests.
+
 ### v4.1-r5
 
 * 2024-08-20 - Remove duplicate header on overview page.
