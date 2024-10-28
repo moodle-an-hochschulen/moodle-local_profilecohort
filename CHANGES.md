@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2024-10-14 - Upgrade: Adopt changes from MDL-82183 and use new \core\output\tabtree class.
 * 2024-10-14 - Upgrade: Adopt changes from MDL-82183 and use new \core\output\tabobject class.
 * 2024-10-14 - Upgrade: Adopt changes from MDL-82183 and use new \core\output\single_select class.
 * 2024-10-07 - Prepare compatibility for Moodle 4.5.
