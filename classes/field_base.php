@@ -340,10 +340,10 @@ abstract class field_base {
         $mform->setType("fieldid[$id]", PARAM_INT);
 
         $group = $this->add_form_field_internal($mform, $id);
-        $valuelabel = html_writer::span(get_string('selectvalue', 'local_profilecohort'), 'localprofile-value pr-2');
+        $valuelabel = html_writer::span(get_string('selectvalue', 'local_profilecohort'), 'localprofile-value pe-2');
         $group[] = $mform->createElement('static', "valuelabel[$id]", '', $valuelabel);
         $group[] = $mform->createElement('select', "value[$id]", get_string('selectvalue', 'local_profilecohort'), $values,
-                                         ['class' => 'localprofile-value pr-2']);
+                                         ['class' => 'localprofile-value pe-2']);
         $mform->setDefault("value[$id]", $this->value);
 
         $prefix = '';

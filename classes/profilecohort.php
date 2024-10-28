@@ -161,15 +161,15 @@ class profilecohort extends profilefields {
         // Bootstrap collapse header.
         $out .= html_writer::start_div('card-header', ['id' => $id.'-heading']);
         $out .= html_writer::start_tag('h2', ['class' => 'mb-0']);
-        $out .= html_writer::start_tag('button', ['class' => 'btn btn-link btn-block text-left pl-0', 'type' => 'button',
+        $out .= html_writer::start_tag('button', ['class' => 'btn btn-link btn-block text-start ps-0', 'type' => 'button',
                 'data-toggle' => 'collapse', 'data-target' => '#'.$id, 'aria-expanded' => 'false', 'aria-controls' => $id, ]);
         $out .= format_string($cohortname);
         if ($cohortmembers) {
             $out .= html_writer::tag('span', get_string('countusers', 'local_profilecohort', count($cohortmembers)),
-                    ['class' => 'badge bg-primary text-light ml-2']);
+                    ['class' => 'badge bg-primary text-light ms-2']);
         } else {
             $out .= html_writer::tag('span', get_string('countnousers', 'local_profilecohort'),
-                    ['class' => 'badge bg-secondary text-dark ml-2']);
+                    ['class' => 'badge bg-secondary text-dark ms-2']);
         }
         $out .= html_writer::end_tag('button');
         $out .= html_writer::end_tag('h2');
@@ -180,7 +180,7 @@ class profilecohort extends profilefields {
             $content = '';
             foreach ($cohortmembers as $cohortmember) {
                 $content .= html_writer::start_tag('li');
-                $content .= html_writer::tag('i', '', ['class' => 'fa fa-user pr-2']);
+                $content .= html_writer::tag('i', '', ['class' => 'fa fa-user pe-2']);
                 $content .= $cohortmember;
                 $content .= html_writer::end_tag('li');
             }

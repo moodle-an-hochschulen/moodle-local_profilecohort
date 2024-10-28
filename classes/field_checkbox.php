@@ -53,9 +53,9 @@ class field_checkbox extends field_base {
         ];
 
         $label = $mform->createElement('static', "matchlabel[$id]", '', get_string('match_exact', 'local_profilecohort').
-                '<span class="pr-2"></span>');
+                '<span class="pe-2"></span>');
         $sel = $mform->createElement('select', "matchvalue[$id]", get_string('matchvalue', 'local_profilecohort'), $opts,
-                ['class' => 'pr-2']);
+                ['class' => 'pe-2']);
         $mform->setDefault("matchvalue[$id]", $matchvalue);
         return [$label, $sel];
     }
