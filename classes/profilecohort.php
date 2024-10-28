@@ -24,7 +24,7 @@
 
 namespace local_profilecohort;
 
-use html_writer;
+use core\output\html_writer;
 
 /**
  * Class profilecohort
@@ -101,7 +101,7 @@ class profilecohort extends profilefields {
         $tabs = $this->get_tabs();
         $out .= $OUTPUT->render($tabs);
 
-        $out .= \html_writer::tag('div', get_string('membersintro', 'local_profilecohort').'<br/>'.
+        $out .= html_writer::tag('div', get_string('membersintro', 'local_profilecohort').'<br/>'.
                                  get_string('invisiblecohortsnote', 'local_profilecohort'),
                                  ['id' => 'intro', 'class' => 'box generalbox']);
 

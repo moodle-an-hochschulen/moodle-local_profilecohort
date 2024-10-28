@@ -24,6 +24,8 @@
 
 namespace local_profilecohort;
 
+use core\output\html_writer;
+
 defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->libdir.'/formslib.php');
@@ -43,14 +45,14 @@ class cohort_form extends \moodleform {
         $mform = $this->_form;
         $cohorts = $this->_customdata['cohorts'];
 
-        $mform->addElement('html', \html_writer::tag('div', get_string('cohortsintro', 'local_profilecohort').'<br />'.
+        $mform->addElement('html', html_writer::tag('div', get_string('cohortsintro', 'local_profilecohort').'<br />'.
                                                      get_string('invisiblecohortsnote', 'local_profilecohort'),
                                                      ['id' => 'intro', 'class' => 'box generalbox']));
 
         if (!$cohorts) {
             $cohorturl = new \core\url('/cohort/index.php');
-            $link = \html_writer::link($cohorturl, get_string('cohorts', 'core_cohort'));
-            $mform->addElement('html', \html_writer::tag('div', get_string('nocohorts', 'local_profilecohort', $link),
+            $link = html_writer::link($cohorturl, get_string('cohorts', 'core_cohort'));
+            $mform->addElement('html', html_writer::tag('div', get_string('nocohorts', 'local_profilecohort', $link),
                                                          ['class' => 'alert alert-warning']));
         } else {
             foreach ($cohorts as $cohort) {
