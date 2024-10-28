@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2024-10-14 - Upgrade: Adopt changes from MDL-81920 and use new \core\lang_string class.
 * 2024-10-14 - Upgrade: Adopt changes from MDL-82183 and use new \core\output\tabtree class.
 * 2024-10-14 - Upgrade: Adopt changes from MDL-82183 and use new \core\output\tabobject class.
 * 2024-10-14 - Upgrade: Adopt changes from MDL-82183 and use new \core\output\single_select class.
