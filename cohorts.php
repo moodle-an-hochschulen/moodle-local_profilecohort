@@ -29,7 +29,7 @@ require_once($CFG->libdir.'/adminlib.php');
 
 global $PAGE, $CFG, $OUTPUT;
 
-$url = new moodle_url('/local/profilecohort/cohorts.php');
+$url = new \core\url('/local/profilecohort/cohorts.php');
 admin_externalpage_setup('local_profilecohort', '', null, $url);
 
 $title = get_string('pluginname', 'local_profilecohort');

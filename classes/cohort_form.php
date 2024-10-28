@@ -48,7 +48,7 @@ class cohort_form extends \moodleform {
                                                      ['id' => 'intro', 'class' => 'box generalbox']));
 
         if (!$cohorts) {
-            $cohorturl = new \moodle_url('/cohort/index.php');
+            $cohorturl = new \core\url('/cohort/index.php');
             $link = \html_writer::link($cohorturl, get_string('cohorts', 'core_cohort'));
             $mform->addElement('html', \html_writer::tag('div', get_string('nocohorts', 'local_profilecohort', $link),
                                                          ['class' => 'alert alert-warning']));

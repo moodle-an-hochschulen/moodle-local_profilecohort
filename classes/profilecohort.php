@@ -41,10 +41,10 @@ class profilecohort extends profilefields {
 
     /**
      * Get the URL of the main page for this plugin.
-     * @return \moodle_url
+     * @return \core\url
      */
     protected function get_index_url() {
-        return new \moodle_url('/local/profilecohort/index.php');
+        return new \core\url('/local/profilecohort/index.php');
     }
 
     /**
@@ -53,7 +53,7 @@ class profilecohort extends profilefields {
     public function process_form() {
         if (!$this->get_possible_values()) {
             // If there are no cohorts selected, go to the form for selecting cohorts.
-            $cohorturl = new \moodle_url('/local/profilecohort/cohorts.php');
+            $cohorturl = new \core\url('/local/profilecohort/cohorts.php');
             redirect($cohorturl);
         }
         if ($this->action != 'members') {
@@ -83,9 +83,9 @@ class profilecohort extends profilefields {
      */
     protected function extra_tabs() {
         return [
-            new \core\output\tabobject('members', new \moodle_url($this->get_index_url(), ['action' => 'members']),
+            new \core\output\tabobject('members', new \core\url($this->get_index_url(), ['action' => 'members']),
                            get_string('members', 'local_profilecohort')),
-            new \core\output\tabobject('cohorts', new \moodle_url('/local/profilecohort/cohorts.php'),
+            new \core\output\tabobject('cohorts', new \core\url('/local/profilecohort/cohorts.php'),
                            get_string('selectcohorts', 'local_profilecohort')),
         ];
     }
@@ -132,7 +132,7 @@ class profilecohort extends profilefields {
                 $lastcohortname = $user->cohortname;
             }
             if ($user->id) {
-                $userurl = new \moodle_url('/user/view.php', ['id' => $user->id]);
+                $userurl = new \core\url('/user/view.php', ['id' => $user->id]);
                 $cohortmembers[] = html_writer::link($userurl, fullname($user));
             }
         }
@@ -388,7 +388,7 @@ class profilecohort extends profilefields {
         $custom = ['cohorts' => $allcohorts];
         $this->form = new cohort_form(null, $custom);
 
-        $redir = new \moodle_url('/local/profilecohort/index.php');
+        $redir = new \core\url('/local/profilecohort/index.php');
         if ($this->form->is_cancelled()) {
             redirect($redir);
         }

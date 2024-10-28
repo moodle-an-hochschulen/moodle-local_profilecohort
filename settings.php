@@ -26,6 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 if ($hassiteconfig) {
     $settingspage = new admin_externalpage('local_profilecohort', new \core\lang_string('pluginname', 'local_profilecohort'),
-                                           new moodle_url('/local/profilecohort/index.php'), 'moodle/site:config');
+                                           new \core\url('/local/profilecohort/index.php'), 'moodle/site:config');
     $ADMIN->add('accounts', $settingspage);
 }
