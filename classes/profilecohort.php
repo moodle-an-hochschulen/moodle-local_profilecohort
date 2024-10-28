@@ -79,13 +79,13 @@ class profilecohort extends profilefields {
 
     /**
      * Allow subclasses to define extra tabs to be included at the top of the page.
-     * @return \tabobject[]
+     * @return \core\output\tabobject[]
      */
     protected function extra_tabs() {
         return [
-            new \tabobject('members', new \moodle_url($this->get_index_url(), ['action' => 'members']),
+            new \core\output\tabobject('members', new \moodle_url($this->get_index_url(), ['action' => 'members']),
                            get_string('members', 'local_profilecohort')),
-            new \tabobject('cohorts', new \moodle_url('/local/profilecohort/cohorts.php'),
+            new \core\output\tabobject('cohorts', new \moodle_url('/local/profilecohort/cohorts.php'),
                            get_string('selectcohorts', 'local_profilecohort')),
         ];
     }
