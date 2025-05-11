@@ -159,10 +159,9 @@ class profilecohort extends profilefields {
         $id = 'profilecohort-cohortlist-' . $lastcohortid;
 
         // Bootstrap collapse header.
-        $out .= html_writer::start_div('card-header', ['id' => $id.'-heading']);
-        $out .= html_writer::start_tag('h2', ['class' => 'mb-0']);
-        $out .= html_writer::start_tag('button', ['class' => 'btn btn-link btn-block text-start ps-0', 'type' => 'button',
-                'data-toggle' => 'collapse', 'data-target' => '#'.$id, 'aria-expanded' => 'false', 'aria-controls' => $id, ]);
+        $out .= html_writer::start_tag('h2', ['class' => 'accordion-header', 'id' => $id.'-heading']);
+        $out .= html_writer::start_tag('button', ['class' => 'accordion-button collapsed', 'type' => 'button',
+                'data-bs-toggle' => 'collapse', 'data-bs-target' => '#'.$id, 'aria-expanded' => 'false', 'aria-controls' => $id, ]);
         $out .= format_string($cohortname);
         if ($cohortmembers) {
             $out .= html_writer::tag('span', get_string('countusers', 'local_profilecohort', count($cohortmembers)),
@@ -173,7 +172,6 @@ class profilecohort extends profilefields {
         }
         $out .= html_writer::end_tag('button');
         $out .= html_writer::end_tag('h2');
-        $out .= html_writer::end_div();
 
         // Bootstrap collapse content.
         if ($cohortmembers) {
@@ -189,12 +187,12 @@ class profilecohort extends profilefields {
             $content = get_string('nousers', 'local_profilecohort');
         }
 
-        $out .= html_writer::start_div('collapse', ['id' => $id, 'aria-labelledby' => $id.'-heading',
-                'data-parent' => '#profilecohort-cohortlist', ]);
-        $out .= html_writer::div($content, 'card-body');
+        $out .= html_writer::start_div('accordion-collapse collapse', ['id' => $id, 'aria-labelledby' => $id.'-heading',
+                'data-bs-parent' => '#profilecohort-cohortlist', ]);
+        $out .= html_writer::div($content, 'accordion-body');
         $out .= html_writer::end_div();
 
-        return html_writer::div($out, 'card');
+        return html_writer::div($out, 'accordion-item');
     }
 
     /**
