@@ -4,7 +4,7 @@ moodle-local_profilecohort
 Changes
 -------
 
-### Unreleased
+### v5.0-r1
 
 * 2025-04-14 - Upgrade: Update Bootstrap accordion to Bootstrap 5.0 on "cohort members" page
 * 2025-04-14 - Prepare compatibility for Moodle 5.0.
