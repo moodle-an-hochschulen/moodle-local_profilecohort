@@ -22,6 +22,14 @@ Now, larger or fragmented Moodle installations may have the need to manage a lar
 On the other hand these large or fragmented Moodle installations might already have some custom user profile fields which can be leveraged to decide which cohort(s) a user should be a member of. This plugin implements a simple solution to manage cohort memberships based on a users' custom profile field.
 
 
+State of the plugin
+-------------------
+
+This plugin is considered feature-complete.
+
+It will be maintained for the time being, but will not receive any substantial improvements or new features anymore. Please consider the more versatile plugin [tool_dynamic_cohorts](https://moodle.org/plugins/tool_dynamic_cohorts) by Catalyst IT as an alternative.
+
+
 Installation
 ------------
 
