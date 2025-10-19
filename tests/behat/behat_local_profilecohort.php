@@ -24,7 +24,7 @@
 
 use Behat\Gherkin\Node\TableNode;
 
-require_once(__DIR__.'/../../../../lib/behat/behat_base.php');
+require_once(__DIR__ . '/../../../../lib/behat/behat_base.php');
 
 /**
  * Class behat_local_profilecohort
@@ -56,7 +56,7 @@ class behat_local_profilecohort extends behat_base {
         // Check required fields are present.
         foreach ($required as $reqname) {
             if (!isset($firstrow[$reqname])) {
-                throw new Exception('Custom profile fields require the field '.$reqname.' to be set');
+                throw new Exception('Custom profile fields require the field ' . $reqname . ' to be set');
             }
         }
 
@@ -72,7 +72,7 @@ class behat_local_profilecohort extends behat_base {
             $ins = array_merge($optional, $sharedinfo);
             foreach ($row as $fieldname => $value) {
                 if (!in_array($fieldname, $required) && !array_key_exists($fieldname, $optional)) {
-                    throw new Exception('Invalid field '.$fieldname.' in custom profile field');
+                    throw new Exception('Invalid field ' . $fieldname . ' in custom profile field');
                 }
                 if ($fieldname == 'param1' && $row['datatype'] == 'menu') {
                     // It is difficult to include multi-line params, so replace commas with newlines for menu options.

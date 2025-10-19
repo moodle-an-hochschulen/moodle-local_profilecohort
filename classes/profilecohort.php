@@ -83,10 +83,16 @@ class profilecohort extends profilefields {
      */
     protected function extra_tabs() {
         return [
-            new \core\output\tabobject('members', new \core\url($this->get_index_url(), ['action' => 'members']),
-                           get_string('members', 'local_profilecohort')),
-            new \core\output\tabobject('cohorts', new \core\url('/local/profilecohort/cohorts.php'),
-                           get_string('selectcohorts', 'local_profilecohort')),
+            new \core\output\tabobject(
+                'members',
+                new \core\url($this->get_index_url(), ['action' => 'members']),
+                get_string('members', 'local_profilecohort')
+            ),
+            new \core\output\tabobject(
+                'cohorts',
+                new \core\url('/local/profilecohort/cohorts.php'),
+                get_string('selectcohorts', 'local_profilecohort')
+            ),
         ];
     }
 
@@ -101,9 +107,12 @@ class profilecohort extends profilefields {
         $tabs = $this->get_tabs();
         $out .= $OUTPUT->render($tabs);
 
-        $out .= html_writer::tag('div', get_string('membersintro', 'local_profilecohort').'<br/>'.
+        $out .= html_writer::tag(
+            'div',
+            get_string('membersintro', 'local_profilecohort') . '<br/>' .
                                  get_string('invisiblecohortsnote', 'local_profilecohort'),
-                                 ['id' => 'intro', 'class' => 'box generalbox']);
+            ['id' => 'intro', 'class' => 'box generalbox']
+        );
 
         $namefields = \core_user\fields::get_name_fields();
         $namefields = preg_filter('/^/', 'u.', $namefields);
@@ -159,17 +168,23 @@ class profilecohort extends profilefields {
         $id = 'profilecohort-cohortlist-' . $lastcohortid;
 
         // Bootstrap collapse header.
-        $out .= html_writer::start_div('card-header', ['id' => $id.'-heading']);
+        $out .= html_writer::start_div('card-header', ['id' => $id . '-heading']);
         $out .= html_writer::start_tag('h2', ['class' => 'mb-0']);
         $out .= html_writer::start_tag('button', ['class' => 'btn btn-link btn-block text-start ps-0', 'type' => 'button',
-                'data-toggle' => 'collapse', 'data-target' => '#'.$id, 'aria-expanded' => 'false', 'aria-controls' => $id, ]);
+                'data-toggle' => 'collapse', 'data-target' => '#' . $id, 'aria-expanded' => 'false', 'aria-controls' => $id, ]);
         $out .= format_string($cohortname);
         if ($cohortmembers) {
-            $out .= html_writer::tag('span', get_string('countusers', 'local_profilecohort', count($cohortmembers)),
-                    ['class' => 'badge bg-primary text-light ms-2']);
+            $out .= html_writer::tag(
+                'span',
+                get_string('countusers', 'local_profilecohort', count($cohortmembers)),
+                ['class' => 'badge bg-primary text-light ms-2']
+            );
         } else {
-            $out .= html_writer::tag('span', get_string('countnousers', 'local_profilecohort'),
-                    ['class' => 'badge bg-secondary text-dark ms-2']);
+            $out .= html_writer::tag(
+                'span',
+                get_string('countnousers', 'local_profilecohort'),
+                ['class' => 'badge bg-secondary text-dark ms-2']
+            );
         }
         $out .= html_writer::end_tag('button');
         $out .= html_writer::end_tag('h2');
@@ -189,7 +204,7 @@ class profilecohort extends profilefields {
             $content = get_string('nousers', 'local_profilecohort');
         }
 
-        $out .= html_writer::start_div('collapse', ['id' => $id, 'aria-labelledby' => $id.'-heading',
+        $out .= html_writer::start_div('collapse', ['id' => $id, 'aria-labelledby' => $id . '-heading',
                 'data-parent' => '#profilecohort-cohortlist', ]);
         $out .= html_writer::div($content, 'card-body');
         $out .= html_writer::end_div();
@@ -204,7 +219,7 @@ class profilecohort extends profilefields {
      */
     public static function set_cohorts_from_profile(?\core\event\base $event = null, $userid = null) {
         global $USER, $DB, $CFG;
-        require_once($CFG->dirroot.'/cohort/lib.php');
+        require_once($CFG->dirroot . '/cohort/lib.php');
 
         if ($event) {
             $userid = $event->userid;
@@ -218,7 +233,7 @@ class profilecohort extends profilefields {
             return; // No cohorts handled by this plugin => nothing to do.
         }
 
-        list($csql, $params) = $DB->get_in_or_equal($allowedcohortids, SQL_PARAMS_NAMED);
+        [$csql, $params] = $DB->get_in_or_equal($allowedcohortids, SQL_PARAMS_NAMED);
         $params['userid'] = $userid;
         $select = "userid = :userid AND cohortid $csql";
         $oldcohortids = $DB->get_fieldset_select('cohort_members', 'cohortid', $select, $params);
@@ -303,7 +318,7 @@ class profilecohort extends profilefields {
      */
     public function update_all_cohorts_from_rules() {
         global $DB, $CFG;
-        require_once($CFG->dirroot.'/cohort/lib.php');
+        require_once($CFG->dirroot . '/cohort/lib.php');
 
         // Create a recordset to load the relevant user profile fields for all users.
         $fieldids = [];
@@ -318,7 +333,7 @@ class profilecohort extends profilefields {
             $fieldsql[] = "(SELECT data FROM {user_info_data} WHERE fieldid = {$fieldid} AND userid = u.id) AS field_{$fieldid}";
         }
         if ($fieldsql) {
-            $fieldsql = implode(', ', $fieldsql).', ';
+            $fieldsql = implode(', ', $fieldsql) . ', ';
         } else {
             $fieldsql = '';
         }
