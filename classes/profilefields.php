@@ -105,8 +105,12 @@ abstract class profilefields {
         if ($this->action == 'add') {
             // Add a new, empty, rule to the end of the list, if requested.
             if ($addid = optional_param('add', null, PARAM_INT)) {
-                $field = $DB->get_record('user_info_field', ['id' => $addid], 'id AS fieldid, name, datatype, param1',
-                                         MUST_EXIST);
+                $field = $DB->get_record(
+                    'user_info_field',
+                    ['id' => $addid],
+                    'id AS fieldid, name, datatype, param1',
+                    MUST_EXIST
+                );
                 if ($rule = field_base::make_instance($field)) {
                     $rules[] = $rule;
                 }
@@ -159,7 +163,7 @@ abstract class profilefields {
 
         $changed = false;
         foreach ($rules as $rule) {
-            list($dir, $position) = $rule->get_new_position($formdata);
+            [$dir, $position] = $rule->get_new_position($formdata);
             if ($dir == 0) {
                 $unchanged[$position][] = $rule;
             } else if ($dir < 0) {
@@ -205,20 +209,28 @@ abstract class profilefields {
         $out .= $OUTPUT->render($tabs);
 
         if ($this->action == 'view') {
-            $out .= html_writer::tag('div', get_string('viewintro', 'local_profilecohort').'<br />'.
+            $out .= html_writer::tag(
+                'div',
+                get_string('viewintro', 'local_profilecohort') . '<br />' .
                                      get_string('invisiblecohortsnote', 'local_profilecohort'),
-                                     ['id' => 'intro', 'class' => 'box generalbox']);
+                ['id' => 'intro', 'class' => 'box generalbox']
+            );
         } else if ($this->action == 'add') {
-            $out .= html_writer::tag('div', get_string('addintro', 'local_profilecohort').
-                                     '<br />'.get_string('invisiblecohortsnote', 'local_profilecohort'),
-                                     ['id' => 'intro', 'class' => 'box generalbox']);
+            $out .= html_writer::tag(
+                'div',
+                get_string('addintro', 'local_profilecohort') .
+                                     '<br />' . get_string('invisiblecohortsnote', 'local_profilecohort'),
+                ['id' => 'intro', 'class' => 'box generalbox']
+            );
         }
 
         if (!$this->get_possible_fields()) {
             $profilefieldsurl = new \core\url('/user/profile/index.php');
             $link = html_writer::link($profilefieldsurl, get_string('profilefields', 'core_admin'));
-            $notification = new \core\output\notification(get_string('nofields', 'local_profilecohort', $link),
-                                                          \core\output\notification::NOTIFY_ERROR);
+            $notification = new \core\output\notification(
+                get_string('nofields', 'local_profilecohort', $link),
+                \core\output\notification::NOTIFY_ERROR
+            );
             $notification->set_show_closebutton(false);
             $out .= $OUTPUT->render($notification);
             return $out;
@@ -245,10 +257,16 @@ abstract class profilefields {
      */
     protected function get_tabs() {
         $tabs = [];
-        $tabs[] = new \core\output\tabobject('view', new \core\url($this->get_index_url(), ['action' => 'view']),
-                                 get_string('viewrules', 'local_profilecohort'));
-        $tabs[] = new \core\output\tabobject('add', new \core\url($this->get_index_url(), ['action' => 'add']),
-                                 get_string('addrules', 'local_profilecohort'));
+        $tabs[] = new \core\output\tabobject(
+            'view',
+            new \core\url($this->get_index_url(), ['action' => 'view']),
+            get_string('viewrules', 'local_profilecohort')
+        );
+        $tabs[] = new \core\output\tabobject(
+            'add',
+            new \core\url($this->get_index_url(), ['action' => 'add']),
+            get_string('addrules', 'local_profilecohort')
+        );
         $tabs = array_merge($tabs, $this->extra_tabs());
 
         $tabtree = new \core\output\tabtree($tabs, $this->action);
@@ -264,8 +282,13 @@ abstract class profilefields {
         global $OUTPUT, $PAGE;
         $opts = $this->get_possible_fields();
         $opts = array_map('format_string', $opts);
-        $select = new \core\output\single_select($PAGE->url, 'add', $opts, '',
-                [null => get_string('addrule', 'local_profilecohort')]);
+        $select = new \core\output\single_select(
+            $PAGE->url,
+            'add',
+            $opts,
+            '',
+            [null => get_string('addrule', 'local_profilecohort')]
+        );
         $select->attributes['id'] = 'local_profilecohort_add';
         return $OUTPUT->render($select);
     }
@@ -363,7 +386,7 @@ abstract class profilefields {
         foreach ($rules as $rule) {
             $fieldids[] = $rule->fieldid;
         }
-        list($fsql, $params) = $DB->get_in_or_equal($fieldids, SQL_PARAMS_NAMED);
+        [$fsql, $params] = $DB->get_in_or_equal($fieldids, SQL_PARAMS_NAMED);
         $params['userid'] = $userid;
         $select = "fieldid $fsql AND userid = :userid";
         return $DB->get_records_select_menu('user_info_data', $select, $params, '', 'fieldid, data');

@@ -25,7 +25,7 @@
 use local_profilecohort\profilecohort;
 
 require(__DIR__ . '/../../config.php');
-require_once($CFG->libdir.'/adminlib.php');
+require_once($CFG->libdir . '/adminlib.php');
 
 global $PAGE, $CFG, $OUTPUT;
 

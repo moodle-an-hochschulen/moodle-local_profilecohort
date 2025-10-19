@@ -28,7 +28,7 @@ use moodleform;
 
 defined('MOODLE_INTERNAL') || die();
 global $CFG;
-require_once($CFG->libdir.'/formslib.php');
+require_once($CFG->libdir . '/formslib.php');
 
 /**
  * Class fields_form
@@ -37,7 +37,6 @@ require_once($CFG->libdir.'/formslib.php');
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class fields_form extends moodleform {
-
     /**
      * Return the current list of rules.
      * @return field_base[]
