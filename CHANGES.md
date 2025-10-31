@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2025-10-26 - Prepare compatibility for Moodle 5.1.
+
 ### v5.0-r3
 
 * 2025-10-31 - Improvement: Get rid of a deprecation warning on PHP 8.2 and upwards, resolves #66
