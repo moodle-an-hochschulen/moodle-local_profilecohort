@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2025-10-31 - Improvement: Get rid of a deprecation warning on PHP 8.2 and upwards, resolves #66
+
 ### v5.0-r2
 
 * 2025-10-15 - Make codechecker happy again

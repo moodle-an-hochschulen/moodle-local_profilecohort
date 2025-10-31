@@ -86,7 +86,7 @@ class field_text extends field_base {
      */
     protected function matches_internal($value) {
         $value = strtolower(trim(strip_tags($value)));
-        $matchvalue = strtolower(trim($this->matchvalue));
+        $matchvalue = strtolower(trim($this->matchvalue ?? ''));
         switch ($this->matchtype) {
             case self::MATCH_NOTEXACT:
                 return ($value != $matchvalue);
