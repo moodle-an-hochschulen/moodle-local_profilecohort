@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2026-10-19 - Improvement: Replace hardcoded color values with Bootstrap CSS variables in preparation for the 5.3 color mode.
+
 ### v5.1-r1
 
 * 2025-10-26 - Prepare compatibility for Moodle 5.1.

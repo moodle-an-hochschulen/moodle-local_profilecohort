@@ -1,7 +1,7 @@
 /* Style the rules and actions on the view/edit rules page. */
 .localprofile-rule-actions {
-    border-left: 1px solid #888;
-    color: #888;
+    border-left: 1px solid var(--bs-gray-500);
+    color: var(--bs-gray-500);
     margin-left: 15px;
     margin-top: 10px;
     padding-left: 15px;
@@ -16,18 +16,18 @@
         background-color: inherit;
     }
     25% {
-        background-color: #468847;
+        background-color: var(--bs-success);
     }
     50% {
-        background-color: #468847;
+        background-color: var(--bs-success);
     }
     to {
         background-color: inherit;
     }
 }
 .localprofile-combined {
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
+    background-color: var(--bs-tertiary-bg);
+    border: 1px solid var(--bs-border-color);
     margin: 5px;
     padding: 20px;
 }
@@ -44,11 +44,11 @@
 .localprofile-fieldwrapper.todelete label,
 .localprofile-fieldwrapper.todelete select,
 .localprofile-fieldwrapper.todelete input {
-    color: #c38a8a;
+    color: color-mix(in srgb, var(--bs-danger) 50%, var(--bs-gray-500));
     text-decoration: line-through solid currentColor;
 }
 .localprofile-fieldwrapper.todelete label.deleterule {
-    color: #888;
+    color: var(--bs-gray-500);
     text-decoration: none;
 }
 
