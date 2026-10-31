@@ -145,6 +145,7 @@ class profilecohort extends profilefields {
                 $cohortmembers[] = html_writer::link($userurl, fullname($user));
             }
         }
+        $users->close();
         if ($lastcohortid) {
             $list .= $this->output_members_entry($lastcohortname, $cohortmembers, $lastcohortid);
         }
@@ -382,6 +383,8 @@ class profilecohort extends profilefields {
                 cohort_remove_member($removecohortid, $userrec->id);
             }
         }
+        $urs->close();
+        $crs->close();
     }
 
     /* ------------------------------------------

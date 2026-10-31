@@ -466,11 +466,13 @@ abstract class profilefields {
                   FROM {{$tablename}} m
                   JOIN {user_info_field} f ON f.id = m.fieldid
                  ORDER BY m.sortorder";
-        foreach ($DB->get_recordset_sql($sql) as $ruledata) {
+        $rs = $DB->get_recordset_sql($sql);
+        foreach ($rs as $ruledata) {
             if ($rule = field_base::make_instance($ruledata, IGNORE_MISSING)) {
                 $rules[] = $rule;
             }
         }
+        $rs->close();
 
         static::remove_invalid_rules($rules);
 

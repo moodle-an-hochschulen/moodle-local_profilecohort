@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2026-10-31 - Improvement: Close database recordsets explicitly after use.
+
 ### v5.0-r4
 
 * 2026-10-19 - Improvement: Replace hardcoded color values with Bootstrap CSS variables in preparation for the 5.3 color mode.
