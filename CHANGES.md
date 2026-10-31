@@ -4,6 +4,10 @@ moodle-local_profilecohort
 Changes
 -------
 
+### Unreleased
+
+* 2026-10-31 - Improvement: Close database recordsets explicitly after use.
+
 ### v4.5-r3
 
 * 2025-10-31 - Improvement: Get rid of a deprecation warning on PHP 8.2 and upwards, resolves #66
