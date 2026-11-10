@@ -4,7 +4,7 @@ moodle-local_profilecohort
 Changes
 -------
 
-### Unreleased
+### v5.3-r2
 
 * 2026-10-31 - Improvement: Close database recordsets explicitly after use.
 
