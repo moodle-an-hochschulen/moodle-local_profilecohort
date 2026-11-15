@@ -132,9 +132,11 @@ abstract class profilefields {
         }
 
         // Instantiate the form.
+        // The display names of the possible values are used as option labels and the select element does not escape them,
+        // so they are formatted here. This is done only for the form, as applying the rules just needs the values themselves.
         $custom = [
             'rules' => $rules,
-            'values' => $possiblevalues,
+            'values' => array_map('format_string', $possiblevalues),
             'unavailablevalues' => $unavailablevalues,
         ];
         $this->form = new fields_form(null, $custom);
