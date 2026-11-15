@@ -799,6 +799,120 @@ final class rules_test extends \advanced_testcase {
         $this->assertFalse(cohort_is_member($this->cohortids[2], $user2->id));
         $this->assertFalse(cohort_is_member($this->cohortids[3], $user2->id));
     }
+
+    /**
+     * Test that rules which map onto an invalid cohort are skipped without breaking up sets of AND-combined rules.
+     *
+     * @covers \local_profilecohort\profilefields::get_mapped_value
+     * @covers \local_profilecohort\profilecohort::is_valid_value
+     * @covers \local_profilecohort\profilecohort::set_cohorts_from_profile
+     * @covers \local_profilecohort\profilecohort::update_all_cohorts_from_rules
+     */
+    public function test_invalid_cohort_rules(): void {
+        global $DB, $CFG;
+        require_once($CFG->dirroot . '/cohort/lib.php');
+
+        // Set up two users with 'menufield' set to 'Opt 1' and 'textfield' set to 'Fred'.
+        $user1 = $this->getDataGenerator()->create_user();
+        $user2 = $this->getDataGenerator()->create_user();
+        foreach ([$user1, $user2] as $user) {
+            $ins = (object)['userid' => $user->id, 'fieldid' => $this->fieldids['menufield'], 'data' => 'Opt 1'];
+            $DB->insert_record('user_info_data', $ins);
+            $ins = (object)['userid' => $user->id, 'fieldid' => $this->fieldids['textfield'], 'data' => 'Fred'];
+            $DB->insert_record('user_info_data', $ins);
+        }
+
+        // Create a cohort which is not managed by this plugin (anymore).
+        $invalidcohort = $this->getDataGenerator()->create_cohort();
+
+        // As 'textfield' == 'Fred' => the invalid cohort.
+        $ruledata1 = (object)[
+            'fieldid' => $this->fieldids['textfield'], 'datatype' => 'text',
+            'matchtype' => field_text::MATCH_EXACT,
+            'matchvalue' => 'Fred', 'value' => $invalidcohort->id,
+        ];
+        $rule1 = field_base::make_instance($ruledata1);
+        $rule1->save(self::TABLENAME);
+
+        // The user only matches the rule with the invalid cohort, so no cohort is mapped.
+        $this->assertEquals([], profilecohort::get_mapped_value($user1->id, true));
+
+        // As 'menufield' == 'Opt 1' => the invalid cohort AND next rule must match.
+        $ruledata2 = (object)[
+            'fieldid' => $this->fieldids['menufield'], 'datatype' => 'menu',
+            'matchvalue' => 'Opt 1', 'value' => $invalidcohort->id, 'andnextrule' => 1,
+        ];
+        $rule2 = field_base::make_instance($ruledata2);
+        $rule2->save(self::TABLENAME);
+        // As 'textfield' == 'Fred' => cohort 1 - this is the final rule for this ruleset.
+        // Its cohort is never used, as the cohort of the first rule of the ruleset counts.
+        $ruledata3 = (object)[
+            'fieldid' => $this->fieldids['textfield'], 'datatype' => 'text',
+            'matchtype' => field_text::MATCH_EXACT,
+            'matchvalue' => 'Fred', 'value' => $this->cohortids[1], 'andnextrule' => 0,
+        ];
+        $rule3 = field_base::make_instance($ruledata3);
+        $rule3->save(self::TABLENAME);
+
+        // The user matches rule 1 and the ruleset of rule 2 + 3, but both map onto the invalid cohort.
+        $this->assertEquals([], profilecohort::get_mapped_value($user1->id, true));
+
+        // As 'menufield' == 'Opt 1' => cohort 0 AND next rule must match.
+        $ruledata4 = (object)[
+            'fieldid' => $this->fieldids['menufield'], 'datatype' => 'menu',
+            'matchvalue' => 'Opt 1', 'value' => $this->cohortids[0], 'andnextrule' => 1,
+        ];
+        $rule4 = field_base::make_instance($ruledata4);
+        $rule4->save(self::TABLENAME);
+        // As 'textfield' == 'George' => the invalid cohort - this is the final rule for this ruleset.
+        // The user does not match it, so the ruleset must not match, even if the cohort of this rule is invalid.
+        $ruledata5 = (object)[
+            'fieldid' => $this->fieldids['textfield'], 'datatype' => 'text',
+            'matchtype' => field_text::MATCH_EXACT,
+            'matchvalue' => 'George', 'value' => $invalidcohort->id, 'andnextrule' => 0,
+        ];
+        $rule5 = field_base::make_instance($ruledata5);
+        $rule5->save(self::TABLENAME);
+        // As 'textfield' == 'Fred' => cohort 3 - this rule should match on its own.
+        $ruledata6 = (object)[
+            'fieldid' => $this->fieldids['textfield'], 'datatype' => 'text',
+            'matchtype' => field_text::MATCH_EXACT,
+            'matchvalue' => 'Fred', 'value' => $this->cohortids[3],
+        ];
+        $rule6 = field_base::make_instance($ruledata6);
+        $rule6->save(self::TABLENAME);
+
+        // The rules with the invalid cohort are skipped, the ruleset of rule 4 + 5 does not match
+        // and is not combined with rule 6, and the later matching rule 6 is applied.
+        $this->assertEquals([$this->cohortids[3]], profilecohort::get_mapped_value($user1->id, true));
+
+        // The rules with the invalid cohort are still not offered for editing, but they are not deleted either.
+        $rules = test_profilecohort::test_load_rules();
+        $this->assertCount(3, $rules);
+        $this->assertEquals(6, $DB->count_records(self::TABLENAME));
+
+        // Update the cohorts of the first user from the rules.
+        profilecohort::set_cohorts_from_profile(null, $user1->id);
+
+        // Check the cohorts have been updated, as expected.
+        $this->assertFalse(cohort_is_member($this->cohortids[0], $user1->id));
+        $this->assertFalse(cohort_is_member($this->cohortids[1], $user1->id));
+        $this->assertTrue(cohort_is_member($this->cohortids[3], $user1->id));
+        $this->assertFalse(cohort_is_member($invalidcohort->id, $user1->id));
+        $this->assertFalse(cohort_is_member($this->cohortids[3], $user2->id));
+
+        // Execute all rules, to check cohort membership is updated in the same way for all users.
+        $manager = new profilecohort();
+        $manager->update_all_cohorts_from_rules();
+
+        // Check the cohorts have been updated, as expected.
+        foreach ([$user1, $user2] as $user) {
+            $this->assertFalse(cohort_is_member($this->cohortids[0], $user->id));
+            $this->assertFalse(cohort_is_member($this->cohortids[1], $user->id));
+            $this->assertTrue(cohort_is_member($this->cohortids[3], $user->id));
+            $this->assertFalse(cohort_is_member($invalidcohort->id, $user->id));
+        }
+    }
 }
 
 /**
