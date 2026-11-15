@@ -913,6 +913,68 @@ final class rules_test extends \advanced_testcase {
             $this->assertFalse(cohort_is_member($invalidcohort->id, $user->id));
         }
     }
+
+    /**
+     * Test that selecting and deselecting the cohorts to be managed by the plugin goes through the core cohort API.
+     *
+     * @covers \local_profilecohort\profilecohort::process_cohort_form
+     */
+    public function test_process_cohort_form(): void {
+        global $DB;
+
+        $this->setAdminUser();
+
+        // Create a cohort which is not managed by this plugin yet.
+        $newcohort = $this->getDataGenerator()->create_cohort();
+
+        // Set the modification time of all cohorts to the past.
+        $past = time() - DAYSECS;
+        $DB->set_field('cohort', 'timemodified', $past);
+
+        // Submit the form: Select the new cohort, deselect the first managed cohort and leave the other ones untouched.
+        cohort_form::mock_submit(['cohort' => [
+            $newcohort->id => 1,
+            $this->cohortids[0] => 0,
+            $this->cohortids[1] => 1,
+            $this->cohortids[2] => 1,
+            $this->cohortids[3] => 1,
+        ]]);
+
+        // Process the form and catch the events.
+        // The form processing ends with a redirect which is not possible in a unit test and thus throws an exception.
+        $sink = $this->redirectEvents();
+        $manager = new profilecohort();
+        try {
+            $manager->process_cohort_form();
+            $this->fail('The form processing should have ended with a redirect.');
+        } catch (\core\exception\moodle_exception $e) {
+            $this->assertEquals('redirecterrordetected', $e->errorcode);
+        }
+        $events = array_filter($sink->get_events(), function ($event) {
+            return $event instanceof \core\event\cohort_updated;
+        });
+        $sink->close();
+
+        // Check that the cohort_updated event has been triggered for the two changed cohorts only.
+        $updatedids = array_map(function ($event) {
+            return $event->objectid;
+        }, $events);
+        $this->assertEqualsCanonicalizing([$newcohort->id, $this->cohortids[0]], $updatedids);
+
+        // Check that the component and the modification time of the changed cohorts have been updated.
+        $record = $DB->get_record('cohort', ['id' => $newcohort->id]);
+        $this->assertEquals('local_profilecohort', $record->component);
+        $this->assertGreaterThan($past, $record->timemodified);
+        $this->assertEquals($newcohort->name, $record->name);
+        $record = $DB->get_record('cohort', ['id' => $this->cohortids[0]]);
+        $this->assertSame('', $record->component);
+        $this->assertGreaterThan($past, $record->timemodified);
+
+        // Check that the untouched cohorts have not been updated.
+        $record = $DB->get_record('cohort', ['id' => $this->cohortids[1]]);
+        $this->assertEquals('local_profilecohort', $record->component);
+        $this->assertEquals($past, $record->timemodified);
+    }
 }
 
 /**
