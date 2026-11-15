@@ -54,6 +54,14 @@ class fields_form extends moodleform {
     }
 
     /**
+     * Return the flagged labels of the values which rules map onto, but which are not available (anymore).
+     * @return string[]
+     */
+    private function get_unavailable_values() {
+        return $this->_customdata['unavailablevalues'] ?? [];
+    }
+
+    /**
      * Form definition. Abstract method - always override!
      */
     protected function definition() {
@@ -67,9 +75,10 @@ class fields_form extends moodleform {
         $mform->setType('action', PARAM_ALPHA);
 
         $values = [null => get_string('choosedots')] + $this->get_values();
+        $unavailablevalues = $this->get_unavailable_values();
         $rules = $this->get_rules();
         foreach ($rules as $rule) {
-            $rule->add_form_field($mform, $values, count($rules));
+            $rule->add_form_field($mform, $values, count($rules), $unavailablevalues);
         }
 
         $mform->addElement('html', '<div class="mt-3">&nbsp;</div>'); // This is just used to add some space above.

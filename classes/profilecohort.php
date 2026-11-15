@@ -317,6 +317,27 @@ class profilecohort extends profilefields {
     }
 
     /**
+     * Get the display name of a cohort which rules map onto, but which is not available (anymore).
+     * This is the name of the cohort if it still exists (but is not managed by the plugin anymore),
+     * otherwise the stored cohort ID.
+     *
+     * @param string $value the id of the cohort
+     * @return string
+     */
+    protected static function get_unavailable_value_name($value) {
+        global $DB;
+
+        $name = $DB->get_field('cohort', 'name', ['id' => $value]);
+        if ($name === false) {
+            return parent::get_unavailable_value_name($value);
+        }
+
+        // The cohort is not managed by the plugin anymore, so its name can be changed by any cohort manager
+        // and has to be formatted before it is used as option label, as the select element does not escape it.
+        return format_string($name);
+    }
+
+    /**
      * Check if the given cohort is (still) a cohort that fields can be mapped onto.
      * While the rules are being applied, this uses the already loaded list of cohorts
      * instead of loading the list of cohorts again for each matching rule.
@@ -346,10 +367,10 @@ class profilecohort extends profilefields {
         require_once($CFG->dirroot . '/cohort/lib.php');
 
         // Create a recordset to load the relevant user profile fields for all users.
-        // Load the rules without removing the invalid ones up-front.
+        // The rules which map onto an invalid value are not removed up-front.
         // The mapped values are validated lazily in get_value_from_rules(), only for the rules which really match.
         $fieldids = [];
-        $rules = self::load_rules(false);
+        $rules = self::load_rules();
         foreach ($rules as $rule) {
             $fieldids[] = (int)$rule->fieldid;
         }
