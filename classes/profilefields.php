@@ -324,7 +324,9 @@ abstract class profilefields {
     public static function get_mapped_value($userid, $matchall = false) {
         $ret = $matchall ? [] : null;
 
-        if (!$rules = self::load_rules()) {
+        // Load the rules without removing the invalid ones up-front.
+        // The mapped values are validated lazily in get_value_from_rules(), only for the rules which really match.
+        if (!$rules = self::load_rules(false)) {
             return $ret;
         }
         $fields = self::load_profile_fields($rules, $userid);
@@ -336,6 +338,8 @@ abstract class profilefields {
     /**
      * Apply the rules to the fields to get the value(s).
      * Takes into account 'andnextvalue' settings.
+     * A matching rule (or set of AND-combined rules) is skipped if the value it maps onto is not valid (anymore),
+     * so that a later rule can still match.
      *
      * @param field_base[] $rules
      * @param string[] $fields fieldid => fieldvalue
@@ -357,7 +361,7 @@ abstract class profilefields {
                     // Do not exit inner loop early, because we must skip all remaining AND-combined rules.
                 }
             }
-            if ($value) {
+            if ($value && static::is_valid_value($value)) {
                 if ($matchall) {
                     $ret[] = $value;
                 } else {
@@ -443,6 +447,18 @@ abstract class profilefields {
     }
 
     /**
+     * Check if the given value is (still) a value that fields can be mapped onto.
+     * Derived classes should override this function if a single value can be checked
+     * cheaper than by loading the full list of possible values.
+     *
+     * @param string $value
+     * @return bool
+     */
+    protected static function is_valid_value($value) {
+        return array_key_exists($value, static::load_possible_values());
+    }
+
+    /**
      * Get all the profile field rules for the site.
      * @return field_base[]
      */
@@ -455,9 +471,11 @@ abstract class profilefields {
 
     /**
      * Load all the profile field rules for the site.
+     * @param bool $removeinvalid (optional) set to false to keep the rules which map onto an invalid value,
+     *                            the caller is then responsible for validating the values itself
      * @return field_base[]
      */
-    protected static function load_rules() {
+    protected static function load_rules($removeinvalid = true) {
         global $DB;
 
         $rules = [];
@@ -474,7 +492,9 @@ abstract class profilefields {
         }
         $rs->close();
 
-        static::remove_invalid_rules($rules);
+        if ($removeinvalid) {
+            static::remove_invalid_rules($rules);
+        }
 
         return $rules;
     }
