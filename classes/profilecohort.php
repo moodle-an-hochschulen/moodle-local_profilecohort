@@ -39,6 +39,9 @@ class profilecohort extends profilefields {
     /** @var string[] the list of available actions */
     protected static $actions = ['view', 'add', 'members'];
 
+    /** @var int[]|null the ids of the cohorts managed by this plugin, only set while the rules are being applied */
+    protected static $allowedcohortids = null;
+
     /**
      * Get the URL of the main page for this plugin.
      * @return \core\url
@@ -238,7 +241,14 @@ class profilecohort extends profilefields {
         $params['userid'] = $userid;
         $select = "userid = :userid AND cohortid $csql";
         $oldcohortids = $DB->get_fieldset_select('cohort_members', 'cohortid', $select, $params);
-        $newcohortids = self::get_mapped_value($userid, true);
+
+        // Provide the already loaded list of cohorts for validating the mapped values of the matching rules.
+        self::$allowedcohortids = $allowedcohortids;
+        try {
+            $newcohortids = self::get_mapped_value($userid, true);
+        } finally {
+            self::$allowedcohortids = null;
+        }
 
         $addcohortids = array_diff($newcohortids, $oldcohortids);
         $removecohortids = array_diff($oldcohortids, $newcohortids);
@@ -308,6 +318,21 @@ class profilecohort extends profilefields {
     }
 
     /**
+     * Check if the given cohort is (still) a cohort that fields can be mapped onto.
+     * While the rules are being applied, this uses the already loaded list of cohorts
+     * instead of loading the list of cohorts again for each matching rule.
+     *
+     * @param string $value the id of the cohort
+     * @return bool
+     */
+    protected static function is_valid_value($value) {
+        if (self::$allowedcohortids === null) {
+            return parent::is_valid_value($value);
+        }
+        return in_array($value, self::$allowedcohortids);
+    }
+
+    /**
      * Schedule an update of all user cohorts.
      */
     protected function apply_all_rules() {
@@ -322,8 +347,10 @@ class profilecohort extends profilefields {
         require_once($CFG->dirroot . '/cohort/lib.php');
 
         // Create a recordset to load the relevant user profile fields for all users.
+        // Load the rules without removing the invalid ones up-front.
+        // The mapped values are validated lazily in get_value_from_rules(), only for the rules which really match.
         $fieldids = [];
-        $rules = $this->get_rules();
+        $rules = self::load_rules(false);
         foreach ($rules as $rule) {
             $fieldids[] = (int)$rule->fieldid;
         }
@@ -371,7 +398,13 @@ class profilecohort extends profilefields {
                 $fieldname = "field_{$fieldid}";
                 $fields[$fieldid] = $userrec->$fieldname;
             }
-            $newcohortids = self::get_value_from_rules($rules, $fields, true);
+            // Provide the already loaded list of cohorts for validating the mapped values of the matching rules.
+            self::$allowedcohortids = $allowedcohortids;
+            try {
+                $newcohortids = self::get_value_from_rules($rules, $fields, true);
+            } finally {
+                self::$allowedcohortids = null;
+            }
 
             // See if the cohorts list has changed for this user and apply the additions / removals, as needed.
             $newcohortids = array_unique($newcohortids);
