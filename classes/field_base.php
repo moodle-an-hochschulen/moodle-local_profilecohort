@@ -333,11 +333,21 @@ abstract class field_base {
      * @param MoodleQuickForm $mform
      * @param array $values the full list of values this could be mapped onto
      * @param int $rulecount
+     * @param string[] $unavailablevalues the flagged labels of the values which rules map onto,
+     *                                    but which are not available (anymore) ($value => $displayname)
      */
-    public function add_form_field(MoodleQuickForm $mform, $values, $rulecount) {
+    public function add_form_field(MoodleQuickForm $mform, $values, $rulecount, $unavailablevalues = []) {
         $id = $this->get_form_id();
         $mform->addElement('hidden', "fieldid[$id]", $this->fieldid);
         $mform->setType("fieldid[$id]", PARAM_INT);
+
+        // If this rule maps onto a value which is not available (anymore), add this value as a flagged option.
+        // Otherwise, the select would silently fall back to another value and the rule would be changed on the next save.
+        if (!empty($this->value) && !array_key_exists($this->value, $values)) {
+            // Use the label which was provided by the manager class, otherwise fall back to the stored value.
+            $values[$this->value] = $unavailablevalues[$this->value] ??
+                    get_string('valuenotavailable', 'local_profilecohort', s($this->value));
+        }
 
         $group = $this->add_form_field_internal($mform, $id);
         $valuelabel = html_writer::span(get_string('selectvalue', 'local_profilecohort'), 'localprofile-value pe-2');

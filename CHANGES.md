@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2026-11-15 - Improvement: Show rules which map onto a cohort that is not available (anymore) in the rule editing form, flagged as not available, instead of hiding them. This way, the form shows exactly the rules which are evaluated when the rules are applied and such rules can be reviewed, changed or deleted.
 * 2026-11-15 - Improvement: Release the cohorts which are managed by the plugin when the plugin is uninstalled, so that they can be edited, deleted and filled manually again.
 * 2026-11-15 - Improvement: Use the core cohort API when a cohort is selected or deselected to be managed by the plugin, so that the cohort updated event is triggered and the modification time of the cohort is updated.
 * 2026-11-14 - Improvement: Rules which map onto a cohort that is not managed by the plugin anymore do not break up sets of AND-combined rules anymore.\
