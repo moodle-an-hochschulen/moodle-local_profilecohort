@@ -428,12 +428,13 @@ class profilecohort extends profilefields {
      * Process the form for editing which cohorts should be managed by this plugin.
      */
     public function process_cohort_form() {
-        global $DB;
+        global $CFG, $DB;
+        require_once($CFG->dirroot . '/cohort/lib.php');
 
         $this->action = 'cohorts';
 
         $select = "(component = '' OR component = 'local_profilecohort')";
-        $allcohorts = $DB->get_records_select('cohort', $select, [], 'name', 'id, name, component');
+        $allcohorts = $DB->get_records_select('cohort', $select, [], 'name', 'id, name, component, contextid');
 
         $custom = ['cohorts' => $allcohorts];
         $this->form = new cohort_form(null, $custom);
@@ -448,13 +449,24 @@ class profilecohort extends profilefields {
                 if ($formdata->cohort[$cohort->id]) {
                     if ($cohort->component != 'local_profilecohort') {
                         // Cohort selected - start managing this cohort.
-                        $DB->set_field('cohort', 'component', 'local_profilecohort', ['id' => $cohort->id]);
+                        // Use the core API (and pass only the fields which are needed) to make sure
+                        // that the cohort_updated event is triggered and timemodified is updated.
+                        cohort_update_cohort((object) [
+                            'id' => $cohort->id,
+                            'contextid' => $cohort->contextid,
+                            'component' => 'local_profilecohort',
+                        ]);
                         $changed = true;
                     }
                 } else {
                     if ($cohort->component == 'local_profilecohort') {
                         // Cohort deselected - stop managing this cohort.
-                        $DB->set_field('cohort', 'component', '', ['id' => $cohort->id]);
+                        // Use the core API here as well.
+                        cohort_update_cohort((object) [
+                            'id' => $cohort->id,
+                            'contextid' => $cohort->contextid,
+                            'component' => '',
+                        ]);
                         $changed = true;
                     }
                 }
