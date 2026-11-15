@@ -886,10 +886,18 @@ final class rules_test extends \advanced_testcase {
         // and is not combined with rule 6, and the later matching rule 6 is applied.
         $this->assertEquals([$this->cohortids[3]], profilecohort::get_mapped_value($user1->id, true));
 
-        // The rules with the invalid cohort are still not offered for editing, but they are not deleted either.
+        // The rules with the invalid cohort are still offered for editing,
+        // so that the rule editing form shows the same rulesets which are evaluated when the rules are applied.
         $rules = test_profilecohort::test_load_rules();
-        $this->assertCount(3, $rules);
-        $this->assertEquals(6, $DB->count_records(self::TABLENAME));
+        $this->assertCount(6, $rules);
+        $this->assertEquals($invalidcohort->id, $rules[0]->value);
+        $this->assertEquals($invalidcohort->id, $rules[1]->value);
+        $this->assertTrue($rules[1]->should_and_next_field());
+        $this->assertEquals($this->cohortids[1], $rules[2]->value);
+        $this->assertEquals($this->cohortids[0], $rules[3]->value);
+        $this->assertTrue($rules[3]->should_and_next_field());
+        $this->assertEquals($invalidcohort->id, $rules[4]->value);
+        $this->assertEquals($this->cohortids[3], $rules[5]->value);
 
         // Update the cohorts of the first user from the rules.
         profilecohort::set_cohorts_from_profile(null, $user1->id);
