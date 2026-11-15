@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2026-11-15 - Improvement: Use the core cohort API when a cohort is selected or deselected to be managed by the plugin, so that the cohort updated event is triggered and the modification time of the cohort is updated.
 * 2026-11-14 - Improvement: Rules which map onto a cohort that is not managed by the plugin anymore do not break up sets of AND-combined rules anymore.\
                Please note: This changes how rules which map onto a cohort that is not managed by the plugin (anymore) are handled within sets of AND-combined rules. Up to now, such a rule was removed before the rules were evaluated, which broke up the set and let the remaining rules match in an unintended way. From now on, the set is kept together and is skipped as a whole if the cohort of its first rule is not managed by the plugin. As a result, users may be removed from or added to the cohorts managed by the plugin on their next login or when the cohort memberships are updated for all users. If you have rules which map onto cohorts that have been deleted or are not managed by the plugin anymore, please review them.
 
