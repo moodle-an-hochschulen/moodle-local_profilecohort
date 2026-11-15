@@ -83,4 +83,49 @@ class behat_local_profilecohort extends behat_base {
             $DB->insert_record('user_info_field', (object) $ins);
         }
     }
+
+    /**
+     * Create the rules requested directly in the database.
+     * This allows to create rules which can't be created in the rule editing form,
+     * for example rules which map onto a cohort that is not available (anymore).
+     * @Given /^the following rules exist \(local_profilecohort\):$/
+     * @param TableNode $table
+     * @throws Exception
+     */
+    public function the_following_rules_exist(TableNode $table) {
+        global $DB;
+
+        $required = [
+            'field',
+            'cohort',
+        ];
+        $optional = [
+            'matchtype' => null,
+            'matchvalue' => null,
+            'andnextrule' => 0,
+        ];
+
+        // Create each rule, appended to the end of the list of existing rules.
+        $sortorder = intval($DB->get_field('local_profilecohort', 'MAX(sortorder)', [])) + 1;
+        foreach ($table->getHash() as $row) {
+            foreach ($required as $reqname) {
+                if (!isset($row[$reqname])) {
+                    throw new Exception('Rules require the field ' . $reqname . ' to be set');
+                }
+            }
+            foreach ($row as $fieldname => $value) {
+                if (!in_array($fieldname, $required) && !array_key_exists($fieldname, $optional)) {
+                    throw new Exception('Invalid field ' . $fieldname . ' in rule');
+                }
+            }
+
+            $ins = array_merge($optional, $row);
+            $ins['fieldid'] = $DB->get_field('user_info_field', 'id', ['shortname' => $row['field']], MUST_EXIST);
+            // The cohort is given by its idnumber and is stored as the value which the rule maps onto.
+            $ins['value'] = $DB->get_field('cohort', 'id', ['idnumber' => $row['cohort']], MUST_EXIST);
+            $ins['sortorder'] = $sortorder++;
+            unset($ins['field'], $ins['cohort']);
+            $DB->insert_record('local_profilecohort', (object) $ins);
+        }
+    }
 }

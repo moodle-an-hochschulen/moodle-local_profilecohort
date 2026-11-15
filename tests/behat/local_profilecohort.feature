@@ -100,3 +100,27 @@ Feature: Edit rules based on profile fields
     And I set the field "Delete this rule" to "1"
     And I press "Save changes"
     And "Text field" "text" should not exist in the "form.mform" "css_element"
+
+  Scenario: Show, keep and replace a rule which maps onto a cohort that is not available
+    Given the following rules exist (local_profilecohort):
+      | field     | matchtype | matchvalue | cohort |
+      | textfield | exact     | testing    | cnot   |
+    When I navigate to "Users > Accounts > Profile field based cohort membership" in site administration
+    Then "Text field" "text" should exist in the ".localprofile-fieldwrapper" "css_element"
+    And the following fields match these values:
+      | Match value                      | testing                             |
+      | Match type                       | Matches                             |
+      | the user will be added to cohort | Cohort not included (not available) |
+    And I set the field "Match value" to "testing again"
+    And I press "Save changes"
+    And I navigate to "Users > Accounts > Profile field based cohort membership" in site administration
+    And the following fields match these values:
+      | Match value                      | testing again                       |
+      | the user will be added to cohort | Cohort not included (not available) |
+    And I set the field "the user will be added to cohort" to "Cohort 1"
+    And I press "Save changes"
+    And I navigate to "Users > Accounts > Profile field based cohort membership" in site administration
+    And the following fields match these values:
+      | Match value                      | testing again |
+      | the user will be added to cohort | Cohort 1      |
+    And "Cohort not included" "text" should not exist in the "form.mform" "css_element"
