@@ -39,6 +39,9 @@ class profilecohort extends profilefields {
     /** @var string[] the list of available actions */
     protected static $actions = ['view', 'add', 'members'];
 
+    /** @var int[]|null the ids of the cohorts managed by this plugin, only set while the rules are being applied */
+    protected static $allowedcohortids = null;
+
     /**
      * Get the URL of the main page for this plugin.
      * @return \core\url
@@ -237,7 +240,14 @@ class profilecohort extends profilefields {
         $params['userid'] = $userid;
         $select = "userid = :userid AND cohortid $csql";
         $oldcohortids = $DB->get_fieldset_select('cohort_members', 'cohortid', $select, $params);
-        $newcohortids = self::get_mapped_value($userid, true);
+
+        // Provide the already loaded list of cohorts for validating the mapped values of the matching rules.
+        self::$allowedcohortids = $allowedcohortids;
+        try {
+            $newcohortids = self::get_mapped_value($userid, true);
+        } finally {
+            self::$allowedcohortids = null;
+        }
 
         $addcohortids = array_diff($newcohortids, $oldcohortids);
         $removecohortids = array_diff($oldcohortids, $newcohortids);
@@ -307,6 +317,42 @@ class profilecohort extends profilefields {
     }
 
     /**
+     * Get the display name of a cohort which rules map onto, but which is not available (anymore).
+     * This is the name of the cohort if it still exists (but is not managed by the plugin anymore),
+     * otherwise the stored cohort ID.
+     *
+     * @param string $value the id of the cohort
+     * @return string
+     */
+    protected static function get_unavailable_value_name($value) {
+        global $DB;
+
+        $name = $DB->get_field('cohort', 'name', ['id' => $value]);
+        if ($name === false) {
+            return parent::get_unavailable_value_name($value);
+        }
+
+        // The cohort is not managed by the plugin anymore, so its name can be changed by any cohort manager
+        // and has to be formatted before it is used as option label, as the select element does not escape it.
+        return format_string($name);
+    }
+
+    /**
+     * Check if the given cohort is (still) a cohort that fields can be mapped onto.
+     * While the rules are being applied, this uses the already loaded list of cohorts
+     * instead of loading the list of cohorts again for each matching rule.
+     *
+     * @param string $value the id of the cohort
+     * @return bool
+     */
+    protected static function is_valid_value($value) {
+        if (self::$allowedcohortids === null) {
+            return parent::is_valid_value($value);
+        }
+        return in_array($value, self::$allowedcohortids);
+    }
+
+    /**
      * Schedule an update of all user cohorts.
      */
     protected function apply_all_rules() {
@@ -321,8 +367,10 @@ class profilecohort extends profilefields {
         require_once($CFG->dirroot . '/cohort/lib.php');
 
         // Create a recordset to load the relevant user profile fields for all users.
+        // The rules which map onto an invalid value are not removed up-front.
+        // The mapped values are validated lazily in get_value_from_rules(), only for the rules which really match.
         $fieldids = [];
-        $rules = $this->get_rules();
+        $rules = self::load_rules();
         foreach ($rules as $rule) {
             $fieldids[] = (int)$rule->fieldid;
         }
@@ -370,7 +418,13 @@ class profilecohort extends profilefields {
                 $fieldname = "field_{$fieldid}";
                 $fields[$fieldid] = $userrec->$fieldname;
             }
-            $newcohortids = self::get_value_from_rules($rules, $fields, true);
+            // Provide the already loaded list of cohorts for validating the mapped values of the matching rules.
+            self::$allowedcohortids = $allowedcohortids;
+            try {
+                $newcohortids = self::get_value_from_rules($rules, $fields, true);
+            } finally {
+                self::$allowedcohortids = null;
+            }
 
             // See if the cohorts list has changed for this user and apply the additions / removals, as needed.
             $newcohortids = array_unique($newcohortids);
@@ -395,12 +449,13 @@ class profilecohort extends profilefields {
      * Process the form for editing which cohorts should be managed by this plugin.
      */
     public function process_cohort_form() {
-        global $DB;
+        global $CFG, $DB;
+        require_once($CFG->dirroot . '/cohort/lib.php');
 
         $this->action = 'cohorts';
 
         $select = "(component = '' OR component = 'local_profilecohort')";
-        $allcohorts = $DB->get_records_select('cohort', $select, [], 'name', 'id, name, component');
+        $allcohorts = $DB->get_records_select('cohort', $select, [], 'name', 'id, name, component, contextid');
 
         $custom = ['cohorts' => $allcohorts];
         $this->form = new cohort_form(null, $custom);
@@ -415,13 +470,24 @@ class profilecohort extends profilefields {
                 if ($formdata->cohort[$cohort->id]) {
                     if ($cohort->component != 'local_profilecohort') {
                         // Cohort selected - start managing this cohort.
-                        $DB->set_field('cohort', 'component', 'local_profilecohort', ['id' => $cohort->id]);
+                        // Use the core API (and pass only the fields which are needed) to make sure
+                        // that the cohort_updated event is triggered and timemodified is updated.
+                        cohort_update_cohort((object) [
+                            'id' => $cohort->id,
+                            'contextid' => $cohort->contextid,
+                            'component' => 'local_profilecohort',
+                        ]);
                         $changed = true;
                     }
                 } else {
                     if ($cohort->component == 'local_profilecohort') {
                         // Cohort deselected - stop managing this cohort.
-                        $DB->set_field('cohort', 'component', '', ['id' => $cohort->id]);
+                        // Use the core API here as well.
+                        cohort_update_cohort((object) [
+                            'id' => $cohort->id,
+                            'contextid' => $cohort->contextid,
+                            'component' => '',
+                        ]);
                         $changed = true;
                     }
                 }

@@ -117,10 +117,27 @@ abstract class profilefields {
             }
         }
 
+        // Collect the flagged labels of the values which rules map onto, but which are not available (anymore).
+        $possiblevalues = $this->get_possible_values();
+        $unavailablevalues = [];
+        foreach ($rules as $rule) {
+            $value = $rule->value;
+            if (!empty($value) && !array_key_exists($value, $possiblevalues) && !array_key_exists($value, $unavailablevalues)) {
+                $unavailablevalues[$value] = get_string(
+                    'valuenotavailable',
+                    'local_profilecohort',
+                    static::get_unavailable_value_name($value)
+                );
+            }
+        }
+
         // Instantiate the form.
+        // The display names of the possible values are used as option labels and the select element does not escape them,
+        // so they are formatted here. This is done only for the form, as applying the rules just needs the values themselves.
         $custom = [
             'rules' => $rules,
-            'values' => $this->get_possible_values(),
+            'values' => array_map('format_string', $possiblevalues),
+            'unavailablevalues' => $unavailablevalues,
         ];
         $this->form = new fields_form(null, $custom);
         $toform = ['action' => $this->action];
@@ -324,6 +341,8 @@ abstract class profilefields {
     public static function get_mapped_value($userid, $matchall = false) {
         $ret = $matchall ? [] : null;
 
+        // The rules which map onto an invalid value are not removed up-front.
+        // The mapped values are validated lazily in get_value_from_rules(), only for the rules which really match.
         if (!$rules = self::load_rules()) {
             return $ret;
         }
@@ -336,6 +355,8 @@ abstract class profilefields {
     /**
      * Apply the rules to the fields to get the value(s).
      * Takes into account 'andnextvalue' settings.
+     * A matching rule (or set of AND-combined rules) is skipped if the value it maps onto is not valid (anymore),
+     * so that a later rule can still match.
      *
      * @param field_base[] $rules
      * @param string[] $fields fieldid => fieldvalue
@@ -357,7 +378,7 @@ abstract class profilefields {
                     // Do not exit inner loop early, because we must skip all remaining AND-combined rules.
                 }
             }
-            if ($value) {
+            if ($value && static::is_valid_value($value)) {
                 if ($matchall) {
                     $ret[] = $value;
                 } else {
@@ -443,6 +464,30 @@ abstract class profilefields {
     }
 
     /**
+     * Get the display name of a value which rules map onto, but which is not available (anymore).
+     * The display name is used as option label in the rule editing form and must be safe for output.
+     * Derived classes should override this function if they can provide a better name than the stored value.
+     *
+     * @param string $value
+     * @return string
+     */
+    protected static function get_unavailable_value_name($value) {
+        return s($value);
+    }
+
+    /**
+     * Check if the given value is (still) a value that fields can be mapped onto.
+     * Derived classes should override this function if a single value can be checked
+     * cheaper than by loading the full list of possible values.
+     *
+     * @param string $value
+     * @return bool
+     */
+    protected static function is_valid_value($value) {
+        return array_key_exists($value, static::load_possible_values());
+    }
+
+    /**
      * Get all the profile field rules for the site.
      * @return field_base[]
      */
@@ -455,6 +500,9 @@ abstract class profilefields {
 
     /**
      * Load all the profile field rules for the site.
+     * This includes the rules which map onto a value that is not valid (anymore), so that the rule editing form
+     * shows exactly the same list of rules (and sets of AND-combined rules) which is evaluated when the rules are applied.
+     * The values are validated in get_value_from_rules() and flagged in field_base::add_form_field().
      * @return field_base[]
      */
     protected static function load_rules() {
@@ -474,22 +522,6 @@ abstract class profilefields {
         }
         $rs->close();
 
-        static::remove_invalid_rules($rules);
-
         return $rules;
-    }
-
-    /**
-     * Check the rules are valid.
-     * @param field_base[] $rules
-     */
-    protected static function remove_invalid_rules(&$rules) {
-        $possible = static::load_possible_values();
-        foreach ($rules as $idx => $rule) {
-            if (!array_key_exists($rule->value, $possible)) {
-                // Remove the invalid rule from the list, but do not delete it (as it may become valid again later).
-                unset($rules[$idx]);
-            }
-        }
     }
 }
