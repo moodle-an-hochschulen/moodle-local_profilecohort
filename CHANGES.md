@@ -4,7 +4,7 @@ moodle-local_profilecohort
 Changes
 -------
 
-### Unreleased
+### v4.5-r5
 
 * 2026-11-15 - Bugfix: Format the cohort names before they are shown as options in the rule editing form, so that HTML in a cohort name is not output unescaped.
 * 2026-11-15 - Improvement: Show rules which map onto a cohort that is not available (anymore) in the rule editing form, flagged as not available, instead of hiding them. This way, the form shows exactly the rules which are evaluated when the rules are applied and such rules can be reviewed, changed or deleted.
